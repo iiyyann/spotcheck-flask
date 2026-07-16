@@ -68,6 +68,7 @@ nilai default.
 | `FLASK_ENV` | `development` | `development` atau `production`. |
 | `MODEL_PATH` | `app/ml/model_final_best.keras` | Lokasi berkas model. |
 | `MAX_CONTENT_LENGTH` | `8388608` (8 MB) | Batas ukuran upload. |
+| `EAGER_LOAD_MODEL` | `1` | `1` = muat model saat startup. **Wajib `0`** di server yang mem-fork (Passenger/cPanel) — lihat catatan fork di bagian Deployment. |
 
 ---
 
@@ -108,7 +109,10 @@ Home & Scan, Eczema, Tinea, dan About Model.
 | Dataset | 2.020 citra bersih (1.037 eczema / 983 tinea) |
 | Performa | akurasi 83,2% · ROC-AUC 89,7% pada test set |
 
-Model dimuat **sekali** saat startup (`create_app()`), bukan per request.
+Model dimuat **sekali** lalu dipakai ulang untuk setiap request — tidak pernah
+dimuat per request. Waktu pemuatannya bergantung `EAGER_LOAD_MODEL`: saat startup
+(default) atau saat request pertama. Lihat *Catatan penting: TensorFlow dan fork()*
+di bagian Deployment.
 
 ### Preprocessing — harus sama persis dengan training
 
@@ -154,99 +158,122 @@ Citra diproses di memori untuk prediksi dan **tidak disimpan** ke disk.
 
 ## Deployment
 
-Aplikasi dikemas sebagai image Docker yang menjalankan **gunicorn**. Target yang
-disarankan adalah **Render** — gratis, tanpa kartu kredit, dan mendukung Docker.
+Aplikasi ini **sudah ter-deploy** dan dapat diakses publik di:
+
+**http://spotcheck.my.id** — ArenHost, Business Hosting Advance (cPanel), Rp25.000/bulan
+
+Deployment memakai fitur **Setup Python App** (Phusion Passenger) di cPanel.
+`Dockerfile` yang tersedia di repositori ini dipakai untuk platform berbasis
+kontainer dan tidak dipakai di shared hosting.
 
 ### Kebutuhan sumber daya (hasil pengukuran)
 
 | | |
 |---|---|
-| RAM saat berjalan | **~303 MB** per worker (TensorFlow + model), stabil setelah puluhan prediksi |
-| TensorFlow di disk | ~1,3 GB — hidup di dalam image Docker, bukan di kuota disk host |
-| Ukuran image | ~1,5–2 GB (batas Render: 10 GB) |
-| Waktu prediksi | ~67 ms pada CPU desktop |
+| RAM saat berjalan | **~303 MB** per proses (TensorFlow + model), stabil setelah puluhan prediksi |
+| TensorFlow di disk | ~1,3 GB — total dependensi ~1,5 GB |
+| Berkas model | 8,7 MB |
+| Waktu prediksi | ~67 ms (CPU desktop) · **~0,5 detik** (server produksi) |
+| RAM tersedia di host | 4 GB (dikonfirmasi ArenHost) |
 
-Karena itu `Dockerfile` memakai **1 worker** secara default (`WEB_CONCURRENCY=1`):
-dua worker butuh ~600 MB dan tidak akan muat di host 512 MB. Di host bermemori
-lega, naikkan lewat environment variable `WEB_CONCURRENCY`.
+Angka RAM inilah yang menentukan kelayakan sebuah host, bukan ukuran disk.
+TensorFlow besar di disk (1,3 GB) tetapi hanya memakai ~303 MB memori saat
+berjalan — dua hal yang sering tertukar saat memilih hosting.
 
-Port dibaca dari environment variable `PORT` (default 7860), sehingga image yang
-sama jalan di Render (yang menyuntikkan `PORT` sendiri) maupun platform lain
-tanpa perlu mengubah `Dockerfile`.
+### Langkah deployment di cPanel
 
-### Deploy ke Render (gratis)
+1. **Setup Python App → Create Application**
 
-Render menarik kode dari repositori Git, jadi proyek perlu ada di GitHub dulu.
+   | Kolom | Nilai |
+   |---|---|
+   | Python version | `3.12.13` (samakan dengan versi pengembangan) |
+   | Application root | `spotcheck` |
+   | Application URL | `spotcheck.my.id` (path dikosongkan) |
+   | Application startup file | `passenger_wsgi.py` |
+   | Application Entry point | `application` |
 
-**1. Buat repositori kosong** di https://github.com/new
+2. **Ambil kode lewat Terminal cPanel.** cPanel sudah membuat
+   `passenger_wsgi.py` contoh di folder aplikasi, sehingga `git clone` menolak
+   menulis ke folder yang tidak kosong. Karena itu clone lewat folder sementara:
 
-- *Repository name*: `spotcheck-flask`
-- **Jangan** centang "Add a README file" — repo harus kosong
+   ```bash
+   cd ~
+   git clone https://github.com/iiyyann/spotcheck-flask.git spotcheck-tmp
+   cp -rf spotcheck-tmp/. spotcheck/
+   rm -rf spotcheck-tmp
+   ```
 
-**2. Hubungkan dan push** dari folder proyek:
+3. **Pasang dependensi.** Pada halaman Setup Python App, bagian *Configuration
+   files*, tambahkan `requirements.txt` lalu klik **Run Pip Install**
+   (~5–15 menit; TensorFlow 1,3 GB).
 
-```powershell
-git remote add origin https://github.com/USERNAME/spotcheck-flask.git
-git branch -M main
-git push -u origin main
+   > cPanel mungkin menampilkan error *"check availability of application has
+   > failed ... content type"*. Itu **gangguan kosmetik**: pemeriksaan kesehatan
+   > cPanel mengeluh karena respons aplikasi berubah menjadi
+   > `text/html; charset=utf-8`. Instalasinya sendiri tetap berjalan — verifikasi
+   > dengan `pip list`.
+
+4. **Tambahkan environment variable** `SECRET_KEY` → **SAVE** → **RESTART**.
+
+5. **Verifikasi** dari terminal, di dalam virtualenv:
+
+   ```bash
+   source /home/spotchec/virtualenv/spotcheck/3.12/bin/activate && cd ~/spotcheck
+   python -c "from app.ml import inference; inference.load_model('app/ml/model_final_best.keras'); print(inference.predict('app/static/img/tinea.jpg'))"
+   ```
+
+### Memperbarui aplikasi setelah ada perubahan
+
+```bash
+# di komputer lokal
+pytest && git add -A && git commit -m "..." && git push
+
+# di Terminal cPanel
+cd ~/spotcheck && git pull
 ```
 
-**3. Buat Web Service** di https://dashboard.render.com/create?type=web
+Lalu klik **RESTART** di Setup Python App. **Restart wajib** — Passenger menahan
+aplikasi lama di memori, sehingga tanpa restart kode baru tidak pernah dijalankan.
 
-- Hubungkan akun GitHub, lalu pilih repo `spotcheck-flask`
-- *Language*: **Docker** (terdeteksi otomatis dari `Dockerfile`)
-- *Instance Type*: **Free**
-- Sisanya biarkan default — port dan perintah start sudah diatur `Dockerfile`
+### Catatan penting: TensorFlow dan fork()
 
-**4. Tambahkan environment variable** sebelum menekan Create:
+Passenger memuat aplikasi di proses induk lalu **mem-fork** proses pekerja.
+TensorFlow **tidak aman terhadap fork**: model yang dimuat sebelum fork akan
+membuat `model.predict()` **menggantung selamanya** di proses anak — tanpa pesan
+error, dan tanpa gejala lain (route dan validasi tetap berjalan normal).
 
-| Key | Value |
+Karena itu `passenger_wsgi.py` menyetel `EAGER_LOAD_MODEL=0`, sehingga model
+dimuat saat request pertama, di dalam proses pekerja, setelah fork. Konsekuensinya
+request pertama pada proses baru butuh ~8–20 detik; sesudah itu ~0,5 detik.
+
+Alasan yang sama membuat `Dockerfile` tidak memakai `--preload` gunicorn: setiap
+worker memuat modelnya sendiri.
+
+### Sebelum sesi demo atau pengujian
+
+Buka situs dan lakukan **satu prediksi** beberapa menit sebelum sesi dimulai.
+Passenger mematikan proses yang lama menganggur; pengunjung pertama sesudahnya
+harus menunggu model dimuat ulang.
+
+### Alternatif yang dipertimbangkan
+
+| Platform | Status |
 |---|---|
-| `SECRET_KEY` | hasil `python -c "import secrets; print(secrets.token_hex(32))"` |
+| **Hugging Face Spaces** | Docker Space kini butuh langganan **PRO** — tidak lagi gratis |
+| **Render** | Free tier (512 MB) muat untuk aplikasi ini, tetapi **meminta kartu kredit** |
+| **Google Cloud Run / Fly.io** | Wajib kartu kredit |
+| **ArenHost (dipilih)** | Rp25.000/bulan, bayar transfer/QRIS, RAM 4 GB |
 
-**5. Klik Create Web Service.** Build pertama makan waktu ~5–15 menit karena
-mengunduh dan memasang TensorFlow; ikuti prosesnya di tab **Logs**. Setelah
-statusnya **Live**, aplikasi bisa diakses siapa pun lewat URL `.onrender.com`.
+`Dockerfile` tetap dipertahankan agar aplikasi bisa dipindahkan ke platform
+kontainer mana pun tanpa perubahan kode: port dibaca dari `PORT`
+(default 7860), jumlah worker dari `WEB_CONCURRENCY` (default 1, ~303 MB).
 
-### Batasan free tier Render yang perlu diketahui
-
-- **512 MB RAM · 0,1 CPU** — cukup untuk aplikasi ini (~303 MB), tapi prediksi
-  jadi ~0,5–2 detik, bukan 67 ms.
-- **Tidur setelah 15 menit** tanpa pengunjung. Kunjungan berikutnya menunggu
-  ~1 menit sampai container bangun dan TensorFlow selesai dimuat. Untuk demo
-  atau sidang: buka URL-nya beberapa menit sebelum mulai.
-- **750 jam/bulan** waktu instance.
-
-### Menguji image di lokal (opsional, butuh Docker)
+### Menguji image Docker di lokal (opsional)
 
 ```powershell
 docker build -t spotcheck .
 docker run --rm -p 7860:7860 -e SECRET_KEY=uji-lokal spotcheck
 ```
-
-Lalu buka http://127.0.0.1:7860.
-
-### Alternatif: Hugging Face Spaces (kini butuh langganan PRO)
-
-Hugging Face memindahkan Docker Space ke belakang paywall: *"Static Spaces are
-free for everyone, but hosting Gradio and Docker Spaces on free cpu-basic
-requires a PRO subscription."* Bila berlangganan PRO (2 vCPU · 16 GB RAM,
-jauh lebih responsif), `Dockerfile` ini jalan tanpa perubahan — tambahkan
-frontmatter berikut di baris paling atas `README.md`:
-
-```yaml
----
-title: SpotCheck
-emoji: 🔍
-colorFrom: green
-colorTo: blue
-sdk: docker
-app_port: 7860
-pinned: false
----
-```
-
----
 
 ## Catatan pengembangan
 
