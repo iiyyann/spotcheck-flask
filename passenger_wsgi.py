@@ -35,6 +35,13 @@ os.environ.setdefault("TF_NUM_INTEROP_THREADS", "1")
 
 os.environ.setdefault("FLASK_ENV", "production")
 
+# Jangan muat model saat startup. Passenger memuat aplikasi di proses induk lalu
+# mem-fork proses pekerja, sedangkan TensorFlow tidak aman terhadap fork: model
+# yang dimuat sebelum fork membuat model.predict() menggantung selamanya di
+# proses anak. Dengan ini, model dimuat saat request pertama — di dalam proses
+# pekerja — sehingga aman. Konsekuensinya request pertama butuh ~8 detik.
+os.environ.setdefault("EAGER_LOAD_MODEL", "0")
+
 from app import create_app  # noqa: E402
 
 # Nama `application` wajib — inilah yang dicari Passenger.

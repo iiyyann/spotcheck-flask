@@ -30,11 +30,19 @@ def create_app(config_name=None):
     app.register_blueprint(main_bp)
 
     _warn_on_default_secret(app)
+    _setup_model(app)
+
+    return app
+
+
+def _setup_model(app):
+    """Beritahu lokasi model, dan muat sekarang bila memang diinginkan."""
+    from app.ml import inference
+
+    inference.configure(app.config["MODEL_PATH"])
 
     if app.config["EAGER_LOAD_MODEL"]:
         _load_model(app)
-
-    return app
 
 
 def _warn_on_default_secret(app):
@@ -62,4 +70,4 @@ def _load_model(app):
     from app.ml import inference
 
     logging.getLogger(__name__).info("Memuat model dari %s", app.config["MODEL_PATH"])
-    inference.load_model(app.config["MODEL_PATH"])
+    inference.load_model()

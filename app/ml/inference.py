@@ -25,15 +25,37 @@ THRESHOLD = 0.5
 # untuk setiap request.
 _model = None
 
+# Path model diingat terpisah agar model bisa dimuat belakangan (lazy), yaitu
+# saat request pertama. Lihat catatan tentang fork di load_model().
+_model_path = None
 
-def load_model(model_path):
+
+def configure(model_path):
+    """Ingat lokasi model tanpa memuatnya.
+
+    Dipakai create_app() supaya pemuatan model bisa ditunda sampai request
+    pertama pada server yang melakukan fork (lihat load_model()).
+    """
+    global _model_path
+    _model_path = str(model_path) if model_path else None
+
+
+def load_model(model_path=None):
     """Muat model Keras sekali dan simpan di level modul.
 
-    Dipanggil dari create_app() saat startup, bukan saat request pertama, agar
-    request pertama tidak menanggung waktu muat model.
+    PENTING soal fork: TensorFlow tidak aman terhadap fork(). Bila TF sudah
+    diimpor dan model sudah dimuat di proses induk, lalu server menggandakan
+    diri (fork) untuk membuat proses pekerja — seperti yang dilakukan Phusion
+    Passenger di cPanel — maka proses anak mewarisi runtime TF tanpa thread
+    internalnya. Akibatnya model.predict() MENGGANTUNG tanpa pesan error.
+
+    Karena itu di lingkungan yang mem-fork, model harus dimuat di dalam proses
+    pekerja (lewat get_model() saat request pertama), bukan saat startup.
+    Setel EAGER_LOAD_MODEL=0 untuk perilaku itu.
 
     Args:
-        model_path: Path ke berkas .keras.
+        model_path: Path ke berkas .keras. Bila None, memakai path yang sudah
+            disetel lewat configure().
 
     Returns:
         Model Keras yang sudah dimuat.
@@ -41,18 +63,22 @@ def load_model(model_path):
     Raises:
         FileNotFoundError: Bila berkas model tidak ada di path tersebut.
     """
-    global _model
+    global _model, _model_path
+    if model_path is not None:
+        _model_path = str(model_path)
+
     if _model is None:
-        path = Path(model_path) if model_path else None
+        path = Path(_model_path) if _model_path else None
         if path is None or not path.is_file():
             raise FileNotFoundError(
-                f"Berkas model tidak ditemukan: {model_path!r}. "
+                f"Berkas model tidak ditemukan: {_model_path!r}. "
                 "Periksa MODEL_PATH di .env atau keberadaan "
                 "app/ml/model_final_best.keras."
             )
 
         # Impor TensorFlow ditunda sampai di sini supaya proses impor modul
-        # tetap ringan (TF butuh beberapa detik untuk diimpor).
+        # tetap ringan (TF butuh beberapa detik untuk diimpor) dan agar TF tidak
+        # ikut terbawa fork bila pemuatannya sengaja ditunda.
         import tensorflow as tf
 
         _model = tf.keras.models.load_model(path)
@@ -60,13 +86,18 @@ def load_model(model_path):
 
 
 def get_model():
-    """Kembalikan model yang sudah dimuat.
+    """Kembalikan model, memuatnya lebih dulu bila belum dimuat.
 
     Raises:
-        RuntimeError: Bila load_model() belum pernah dipanggil.
+        RuntimeError: Bila configure() maupun load_model() belum pernah dipanggil.
     """
     if _model is None:
-        raise RuntimeError("Model belum dimuat. Panggil load_model() lebih dulu.")
+        if not _model_path:
+            raise RuntimeError(
+                "Model belum dikonfigurasi. Panggil configure() atau load_model() "
+                "lebih dulu."
+            )
+        return load_model()
     return _model
 
 

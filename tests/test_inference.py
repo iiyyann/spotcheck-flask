@@ -187,9 +187,9 @@ def test_predict_classifies_reference_photos(app, eczema_photo, tinea_photo):
 
 def test_load_model_with_missing_file_raises_clear_error(tmp_path):
     """Path model yang salah harus memberi FileNotFoundError yang jelas."""
-    # Model disimpan di level modul dan dipakai bersama seluruh sesi uji, jadi
-    # nilainya wajib dikembalikan agar uji lain tidak ikut kehilangan model.
-    model_asli = inference._model
+    # Model dan path-nya disimpan di level modul dan dipakai bersama seluruh
+    # sesi uji, jadi keduanya wajib dikembalikan agar uji lain tidak terganggu.
+    model_asli, path_asli = inference._model, inference._model_path
     inference._model = None
     try:
         with pytest.raises(FileNotFoundError, match="tidak ditemukan"):
@@ -197,14 +197,33 @@ def test_load_model_with_missing_file_raises_clear_error(tmp_path):
         with pytest.raises(FileNotFoundError):
             inference.load_model("")   # meniru MODEL_PATH kosong di .env
     finally:
-        inference._model = model_asli
+        inference._model, inference._model_path = model_asli, path_asli
 
 
-def test_get_model_before_loading_raises():
-    model_asli = inference._model
+def test_get_model_without_configure_raises():
+    """Tanpa configure() maupun load_model(), get_model() harus menolak."""
+    model_asli, path_asli = inference._model, inference._model_path
     inference._model = None
+    inference._model_path = None
     try:
         with pytest.raises(RuntimeError):
             inference.get_model()
     finally:
-        inference._model = model_asli
+        inference._model, inference._model_path = model_asli, path_asli
+
+
+def test_get_model_loads_lazily_when_only_configured():
+    """Bila baru dikonfigurasi, get_model() memuat model sendiri (lazy).
+
+    Perilaku ini yang dipakai di Passenger/cPanel: model sengaja tidak dimuat
+    saat startup agar tidak terbawa fork, lalu dimuat saat request pertama.
+    """
+    from tests.conftest import PROJECT_ROOT
+
+    model_asli, path_asli = inference._model, inference._model_path
+    inference._model = None
+    inference.configure(PROJECT_ROOT / "app" / "ml" / "model_final_best.keras")
+    try:
+        assert inference.get_model() is not None
+    finally:
+        inference._model, inference._model_path = model_asli, path_asli

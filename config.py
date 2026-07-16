@@ -47,7 +47,13 @@ class Config:
     ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
 
     # Muat model saat startup (bukan saat request pertama).
-    EAGER_LOAD_MODEL = True
+    #
+    # WAJIB dimatikan (EAGER_LOAD_MODEL=0) pada server yang memuat aplikasi di
+    # proses induk lalu mem-fork proses pekerja — misalnya Phusion Passenger di
+    # cPanel. TensorFlow tidak aman terhadap fork: model yang dimuat sebelum
+    # fork akan membuat model.predict() menggantung di proses anak.
+    # Lihat catatan lengkapnya di app/ml/inference.py:load_model().
+    EAGER_LOAD_MODEL = _env("EAGER_LOAD_MODEL", "1") not in ("0", "false", "False")
 
 
 class DevConfig(Config):
