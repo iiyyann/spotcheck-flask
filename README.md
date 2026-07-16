@@ -1,23 +1,8 @@
----
-title: SpotCheck
-emoji: 🔍
-colorFrom: green
-colorTo: blue
-sdk: docker
-app_port: 7860
-pinned: false
----
-
 # SpotCheck
 
 Aplikasi web klasifikasi citra kulit: membedakan **eczema** dan **tinea**
 (kurap) dari satu foto, sekaligus menyajikan halaman edukasi untuk kedua
 kondisi tersebut.
-
-<!-- Blok YAML di atas adalah konfigurasi Hugging Face Spaces (wajib ada di
-     README.md sebuah Space). Di GitHub blok itu tampil sebagai tabel kecil;
-     abaikan saja. Jangan dihapus bila aplikasi di-deploy ke Spaces. -->
-
 
 Aplikasi ini adalah deliverable web dari Proyek Ilmiah / skripsi. Modelnya
 berupa CNN residual yang dilatih dari nol dan sudah selesai lebih dulu;
@@ -170,12 +155,67 @@ Citra diproses di memori untuk prediksi dan **tidak disimpan** ke disk.
 ## Deployment
 
 Aplikasi dikemas sebagai image Docker yang menjalankan **gunicorn**. Target yang
-disarankan adalah **Hugging Face Spaces (Docker Space)** — gratis, ramah beban
-kerja ML, dan memorinya lega (TensorFlow + model butuh beberapa ratus MB saat
-dimuat).
+disarankan adalah **Render** — gratis, tanpa kartu kredit, dan mendukung Docker.
 
-`Dockerfile` sudah disiapkan untuk Spaces: melayani di **port 7860** dan berjalan
-sebagai user non-root ber-UID 1000, sesuai yang diharapkan platform itu.
+### Kebutuhan sumber daya (hasil pengukuran)
+
+| | |
+|---|---|
+| RAM saat berjalan | **~303 MB** per worker (TensorFlow + model), stabil setelah puluhan prediksi |
+| TensorFlow di disk | ~1,3 GB — hidup di dalam image Docker, bukan di kuota disk host |
+| Ukuran image | ~1,5–2 GB (batas Render: 10 GB) |
+| Waktu prediksi | ~67 ms pada CPU desktop |
+
+Karena itu `Dockerfile` memakai **1 worker** secara default (`WEB_CONCURRENCY=1`):
+dua worker butuh ~600 MB dan tidak akan muat di host 512 MB. Di host bermemori
+lega, naikkan lewat environment variable `WEB_CONCURRENCY`.
+
+Port dibaca dari environment variable `PORT` (default 7860), sehingga image yang
+sama jalan di Render (yang menyuntikkan `PORT` sendiri) maupun platform lain
+tanpa perlu mengubah `Dockerfile`.
+
+### Deploy ke Render (gratis)
+
+Render menarik kode dari repositori Git, jadi proyek perlu ada di GitHub dulu.
+
+**1. Buat repositori kosong** di https://github.com/new
+
+- *Repository name*: `spotcheck-flask`
+- **Jangan** centang "Add a README file" — repo harus kosong
+
+**2. Hubungkan dan push** dari folder proyek:
+
+```powershell
+git remote add origin https://github.com/USERNAME/spotcheck-flask.git
+git branch -M main
+git push -u origin main
+```
+
+**3. Buat Web Service** di https://dashboard.render.com/create?type=web
+
+- Hubungkan akun GitHub, lalu pilih repo `spotcheck-flask`
+- *Language*: **Docker** (terdeteksi otomatis dari `Dockerfile`)
+- *Instance Type*: **Free**
+- Sisanya biarkan default — port dan perintah start sudah diatur `Dockerfile`
+
+**4. Tambahkan environment variable** sebelum menekan Create:
+
+| Key | Value |
+|---|---|
+| `SECRET_KEY` | hasil `python -c "import secrets; print(secrets.token_hex(32))"` |
+
+**5. Klik Create Web Service.** Build pertama makan waktu ~5–15 menit karena
+mengunduh dan memasang TensorFlow; ikuti prosesnya di tab **Logs**. Setelah
+statusnya **Live**, aplikasi bisa diakses siapa pun lewat URL `.onrender.com`.
+
+### Batasan free tier Render yang perlu diketahui
+
+- **512 MB RAM · 0,1 CPU** — cukup untuk aplikasi ini (~303 MB), tapi prediksi
+  jadi ~0,5–2 detik, bukan 67 ms.
+- **Tidur setelah 15 menit** tanpa pengunjung. Kunjungan berikutnya menunggu
+  ~1 menit sampai container bangun dan TensorFlow selesai dimuat. Untuk demo
+  atau sidang: buka URL-nya beberapa menit sebelum mulai.
+- **750 jam/bulan** waktu instance.
 
 ### Menguji image di lokal (opsional, butuh Docker)
 
@@ -186,71 +226,25 @@ docker run --rm -p 7860:7860 -e SECRET_KEY=uji-lokal spotcheck
 
 Lalu buka http://127.0.0.1:7860.
 
-### Deploy ke Hugging Face Spaces
+### Alternatif: Hugging Face Spaces (kini butuh langganan PRO)
 
-Frontmatter Spaces sudah tertanam di bagian atas README ini, jadi tidak ada yang
-perlu digabungkan manual.
+Hugging Face memindahkan Docker Space ke belakang paywall: *"Static Spaces are
+free for everyone, but hosting Gradio and Docker Spaces on free cpu-basic
+requires a PRO subscription."* Bila berlangganan PRO (2 vCPU · 16 GB RAM,
+jauh lebih responsif), `Dockerfile` ini jalan tanpa perubahan — tambahkan
+frontmatter berikut di baris paling atas `README.md`:
 
-**1. Buat Space** di https://huggingface.co/new-space
-
-- *Space name*: `spotcheck` (bebas)
-- *License*: `mit` (bebas)
-- *SDK*: **Docker** → template **Blank**
-- *Hardware*: **CPU basic · free**
-- *Visibility*: Public
-
-**2. Clone repo Space** ke folder mana pun di luar folder proyek:
-
-```powershell
-cd $HOME\Documents
-git clone https://huggingface.co/spaces/USERNAME/spotcheck spotcheck-space
+```yaml
+---
+title: SpotCheck
+emoji: 🔍
+colorFrom: green
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+---
 ```
-
-Bila diminta login, pakai username Hugging Face dan **Access Token** sebagai
-password — buat token di https://huggingface.co/settings/tokens dengan peran
-*write*.
-
-**3. Salin berkas proyek** ke folder Space. Perintah berikut menyalin semuanya
-kecuali yang tidak boleh ikut (`venv/` yang berukuran ratusan MB, `.env` yang
-berisi kunci rahasia, cache Python, dan folder `.git` milik Space):
-
-```powershell
-robocopy "$HOME\Proyek PI\SpotCheck-Flask" "$HOME\Documents\spotcheck-space" /E `
-  /XD venv .git __pycache__ .pytest_cache .vscode .idea `
-  /XF .env
-```
-
-> `robocopy` menghasilkan exit code 1 saat berhasil menyalin — itu **normal**,
-> bukan error.
-
-**4. Set `SECRET_KEY`** di halaman Space: *Settings → Variables and secrets →
-New secret*.
-
-- Name: `SECRET_KEY`
-- Value: hasil dari `python -c "import secrets; print(secrets.token_hex(32))"`
-
-**5. Push:**
-
-```powershell
-cd $HOME\Documents\spotcheck-space
-git add .
-git commit -m "Deploy SpotCheck"
-git push
-```
-
-**6. Tunggu build.** Space otomatis mem-build image lalu menjalankannya. Build
-pertama makan waktu beberapa menit karena mengunduh TensorFlow; ikuti di tab
-**Logs** pada halaman Space. Setelah statusnya *Running*, aplikasi bisa diakses
-siapa pun lewat URL Space tersebut.
-
-Berkas model berukuran 8,7 MB sehingga **tidak** memerlukan Git LFS (ambang
-batas Hugging Face adalah 10 MB).
-
-### Alternatif: Render
-
-`Dockerfile` yang sama bisa dipakai di Render (*New → Web Service → Docker*).
-Ubah port pada `--bind` dan `EXPOSE` menjadi `10000`, atau baca dari environment
-variable `PORT` yang disediakan Render.
 
 ---
 
