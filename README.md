@@ -160,7 +160,11 @@ Citra diproses di memori untuk prediksi dan **tidak disimpan** ke disk.
 
 Aplikasi ini **sudah ter-deploy** dan dapat diakses publik di:
 
-**http://spotcheck.my.id** — ArenHost, Business Hosting Advance (cPanel), Rp25.000/bulan
+**https://spotcheck.my.id** — ArenHost, Business Hosting Advance (cPanel), Rp25.000/bulan
+
+Sertifikat SSL diterbitkan Let's Encrypt lewat AutoSSL cPanel dan diperpanjang
+otomatis. *Force HTTPS Redirect* aktif, sehingga kunjungan `http://` dialihkan
+ke `https://`.
 
 Deployment memakai fitur **Setup Python App** (Phusion Passenger) di cPanel.
 `Dockerfile` yang tersedia di repositori ini dipakai untuk platform berbasis
@@ -221,6 +225,24 @@ berjalan — dua hal yang sering tertukar saat memilih hosting.
    source /home/spotchec/virtualenv/spotcheck/3.12/bin/activate && cd ~/spotcheck
    python -c "from app.ml import inference; inference.load_model('app/ml/model_final_best.keras'); print(inference.predict('app/static/img/tinea.jpg'))"
    ```
+
+### SSL / HTTPS
+
+AutoSSL berjalan terjadwal dan menerbitkan sertifikat Let's Encrypt secara
+otomatis, **asalkan DNS domain sudah mengarah ke server**. Bila AutoSSL sempat
+berjalan sebelum DNS propagasi, statusnya akan tertulis:
+
+> `"spotcheck.my.id" is unmanaged. Verify this domain's registration and
+> authoritative nameserver configuration.`
+
+Itu bukan kegagalan permanen — cukup tunggu jadwal AutoSSL berikutnya setelah DNS
+benar, atau minta support menjalankannya ulang. Statusnya dapat dilihat di
+**SSL/TLS Certificates → Status**.
+
+Setelah sertifikat terbit (status berubah dari *Self-signed* menjadi *AutoSSL
+Domain Validated*), nyalakan **Force HTTPS Redirect** di cPanel → **Domains**.
+Jangan dinyalakan sebelum sertifikat terbit: pengunjung akan dipaksa ke HTTPS
+yang sertifikatnya masih self-signed dan melihat peringatan keamanan.
 
 ### Memperbarui aplikasi setelah ada perubahan
 
