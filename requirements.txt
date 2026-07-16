@@ -1,0 +1,14 @@
+# Versi TensorFlow disamakan dengan yang dipakai saat training (notebook: 2.20.0)
+# agar file model_final_best.keras dimuat tanpa masalah kompatibilitas Keras.
+# Varian -cpu dipakai karena inferensi tidak butuh GPU dan image deploy jadi kecil.
+tensorflow-cpu==2.20.0
+
+Flask==3.1.2
+Pillow==11.3.0
+python-dotenv==1.1.1
+
+# Ikut versi hasil resolusi tensorflow-cpu 2.20.0, dipin agar build reproducible.
+numpy==2.5.1
+
+# Server WSGI untuk produksi (tidak dipakai saat development).
+gunicorn==23.0.0

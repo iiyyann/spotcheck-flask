@@ -1,0 +1,605 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- ============ HOME & SCAN ============ -->
+<section class="page active" id="page-home">
+  <div class="hero">
+    <div>
+      <span class="eyebrow">Eczema vs Tinea · CNN Classifier</span>
+      <h1>Not sure what's on your skin? <em>Scan it.</em></h1>
+      <p class="lead">Upload a photo and SpotCheck's deep-learning model gives you a quick read on whether it looks more like <b>eczema</b> or <b>tinea</b> — then helps you learn what each one means.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="document.getElementById('dz').scrollIntoView({block:'center'})">Upload a photo</button>
+        <button class="btn btn-ghost" onclick="go('about')">How the model works</button>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-head">
+        <span style="font-weight:600;">Skin scan</span>
+        <span class="pill" id="scanPill">Model ready</span>
+      </div>
+      <input type="file" id="fileInput" accept="image/jpeg,image/png" hidden />
+      <div class="dropzone" id="dz">
+        <img class="dz-preview" id="dzPreview" alt="" hidden />
+        <div class="reticle">
+          <div class="corner c1"></div><div class="corner c2"></div>
+          <div class="corner c3"></div><div class="corner c4"></div>
+          <div class="crosshair"></div>
+        </div>
+        <div class="dz-title" id="dzTitle">Drop a skin photo here</div>
+        <div class="dz-sub" id="dzSub">or <span class="browse">browse a file</span> · one image · JPG or PNG</div>
+        <div class="dz-hint">Click to scan another photo</div>
+      </div>
+
+      <button type="button" class="btn btn-ghost dz-again" id="scanAgain" hidden>↺ Scan another photo</button>
+
+      <div class="scan-error" id="scanError" hidden></div>
+
+      <div class="result" id="result">
+        <div class="result-top">
+          <span class="result-verdict" id="verdict">Looks like Eczema</span>
+          <span class="chip chip-eczema" id="confChip">85% confidence</span>
+        </div>
+        <div class="bar-row">
+          <span class="lab">Eczema</span>
+          <span class="bar-track"><span class="bar-fill" id="barE" style="width:0;background:var(--eczema);"></span></span>
+          <span class="val" id="valE">0%</span>
+        </div>
+        <div class="bar-row">
+          <span class="lab">Tinea</span>
+          <span class="bar-track"><span class="bar-fill" id="barT" style="width:0;background:var(--tinea);"></span></span>
+          <span class="val" id="valT">0%</span>
+        </div>
+        <div class="disclaimer">
+          <span class="ic">i</span>
+          <p><b>This is not a medical diagnosis.</b> SpotCheck is a supportive tool, not a doctor. See a dermatologist or healthcare provider to confirm any skin condition and get treatment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="block">
+    <div class="block-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Three steps, a few seconds</h2>
+      <p>Everything runs on a single convolutional neural network trained to tell these two look-alike conditions apart.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="num">STEP 01</span><h3>Upload</h3><p>Add a clear, well-lit photo of the affected skin. The image never leaves the model's own pipeline.</p></div>
+      <div class="step"><span class="num">STEP 02</span><h3>Analyze</h3><p>The image is resized and normalized, then the CNN reads its visual patterns and scores each class.</p></div>
+      <div class="step"><span class="num">STEP 03</span><h3>Learn</h3><p>You get a confidence read for eczema vs tinea, plus a jump into plain-language education on each.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <span class="eyebrow">Learn more</span>
+      <h2>Understand both conditions</h2>
+      <p>They share redness, itch and scaling — which is exactly why they're so easy to confuse. Here's what sets them apart.</p>
+    </div>
+    <div class="learn-split">
+      <div class="learn-card ecz" onclick="go('eczema')">
+        <span class="chip chip-eczema">Not contagious</span>
+        <h3 style="margin-top:12px;">Eczema</h3>
+        <p>A chronic condition that leaves skin dry, itchy and inflamed when its barrier is disrupted by triggers.</p>
+        <span class="go">Read the guide →</span>
+      </div>
+      <div class="learn-card tin" onclick="go('tinea')">
+        <span class="chip chip-tinea">Contagious · fungal</span>
+        <h3 style="margin-top:12px;">Tinea (Ringworm)</h3>
+        <p>A common fungal infection named for its ring-shaped, scaly-bordered rash — treatable with antifungals.</p>
+        <span class="go">Read the guide →</span>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ============ ECZEMA ============ -->
+<section class="page" id="page-eczema">
+  <div class="article-hero">
+    <span class="chip chip-eczema">Chronic · Not contagious</span>
+    <h1>Eczema</h1>
+    <p>A condition that makes skin dry, itchy and bumpy by weakening its barrier function. Eczema is a type of dermatitis — a group of conditions that cause skin inflammation.</p>
+    <div class="glance">
+      <div class="g"><b>31M+</b><span>Americans affected</span></div>
+      <div class="g"><b>6 types</b><span>including atopic dermatitis</span></div>
+      <div class="g"><b>Any age</b><span>often starts in childhood</span></div>
+      <div class="g"><b>No cure</b><span>but very manageable</span></div>
+    </div>
+  </div>
+
+  <div class="article-layout">
+    <div>
+      <div class="toolbar">
+        <span class="t-title">Education · 8 sections</span>
+        <button class="expand-all" data-scope="eczema" onclick="toggleAll('eczema',this)">Collapse all</button>
+      </div>
+      <div class="accordion" id="acc-eczema">
+
+        <div class="acc open" id="ecz-overview">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">01</span><h3>Overview</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>What is eczema?</h4>
+            <p>Eczema is a condition that causes your skin to become dry, itchy and bumpy. It weakens your skin's barrier function, which helps your skin retain moisture and protects your body from outside elements. Eczema is a type of dermatitis, a group of conditions that cause skin inflammation.</p>
+            <h4>What are the types of eczema?</h4>
+            <p>Each type has unique triggers that can affect your skin's barrier function:</p>
+            <ul><li>Atopic dermatitis</li><li>Contact dermatitis</li><li>Dyshidrotic eczema</li><li>Neurodermatitis</li><li>Nummular eczema</li><li>Seborrheic dermatitis</li></ul>
+            <p>It's possible to have more than one type of eczema at the same time.</p>
+            <figure class="med-figure">
+              <img src="{{ url_for('static', filename='img/eczema.jpg') }}" alt="Eczema rash on a forearm — red, blotchy, inflamed patches" />
+              <figcaption><b>What eczema can look like.</b> Red to pink, blotchy, inflamed patches with dry, irritated skin — here across the forearm. Appearance varies by skin tone and body area.</figcaption>
+            </figure>
+            <h4>Who does eczema affect?</h4>
+            <p>Eczema can affect anyone at any age. Symptoms usually appear during childhood and last into adulthood. Your risk is higher with a family history or diagnosis of dermatitis, allergies, hay fever or asthma.</p>
+            <h4>How common is eczema?</h4>
+            <p>Eczema is common and affects more than 31 million Americans. Infants are prone to it — 10% to 20% will have it — but nearly half of infants diagnosed outgrow it or improve significantly as they get older.</p>
+          </div></div>
+        </div>
+
+        <div class="acc" id="ecz-symptoms">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">02</span><h3>Symptoms and Causes</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>What are the symptoms of eczema?</h4>
+            <ul><li>Dry skin</li><li>Itchy skin</li><li>Skin rash</li><li>Bumps on your skin</li><li>Thick, leathery patches of skin</li><li>Flaky, scaly or crusty skin</li><li>Swelling</li></ul>
+            <h4>What does an eczema rash look like?</h4>
+            <p>Eczema can look different on each person. On darker skin tones a rash can be purple, brown or gray; on lighter skin tones it can look pink, red or purple.</p>
+            <h4>Where do symptoms appear?</h4>
+            <p>Symptoms can appear anywhere. The most common spots are the hands, neck, elbows, ankles, knees, feet, face (especially cheeks), in and around the ears, and lips. Less commonly, it can appear on the nipples, breasts, vulva and penis.</p>
+            <h4>Does eczema hurt?</h4>
+            <p>Eczema doesn't usually cause pain. Scratching can break the skin and create a painful sore. Some types, like contact dermatitis, cause a burning sensation and discomfort.</p>
+            <h4>What causes eczema?</h4>
+            <p><span class="qa">Your immune system:</span> it overreacts to small irritants or allergens, treating them as invaders and creating inflammation, which causes symptoms.</p>
+            <p><span class="qa">Your genes:</span> risk is higher with a family history of eczema, dermatitis, asthma, hay fever or allergies, or a genetic mutation affecting the skin barrier.</p>
+            <p><span class="qa">Your environment:</span> smoke, air pollutants, harsh soaps, wool, some skin-care products and low humidity can all irritate skin; heat and high humidity worsen itch.</p>
+            <p><span class="qa">Emotional triggers:</span> high stress, anxiety or depression can bring on more frequent flare-ups.</p>
+            <h4>What triggers a flare-up?</h4>
+            <p>Triggers differ per person, but common ones include dry weather, certain fabrics, makeup or skin-care products, smoke and pollutants, soaps and detergents, stress, and touching something you're allergic to.</p>
+            <h4>Do certain foods trigger eczema?</h4>
+            <p>The link is unclear. If you have a food allergy (common ones: peanuts, dairy, eggs), that food may worsen symptoms. If you don't have a food allergy, no foods will cause or worsen your eczema.</p>
+            <h4>Is it autoimmune? Is it contagious?</h4>
+            <p>Eczema can make the immune system overreact but isn't classified as autoimmune. It is <b>not contagious</b> — you can't spread it through contact.</p>
+          </div></div>
+        </div>
+
+        <div class="acc" id="ecz-diagnosis">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">03</span><h3>Diagnosis and Tests</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>How is eczema diagnosed?</h4>
+            <p>A healthcare provider diagnoses eczema after a physical exam of your skin. Most people are diagnosed as children, but it can happen at any age. Because symptoms resemble other conditions, tests may be used to rule those out and confirm the diagnosis, such as an allergy test, blood tests, or a skin biopsy to distinguish one type of dermatitis from another.</p>
+            <h4>Questions a provider might ask</h4>
+            <ul>
+              <li>Where do you have symptoms on your body?</li>
+              <li>Did you use any products to treat your skin?</li>
+              <li>Do you have conditions like allergies or asthma?</li>
+              <li>Is there a history of eczema in your family?</li>
+              <li>How long have you had symptoms?</li>
+              <li>Do you take hot showers?</li>
+              <li>Does anything make symptoms worse (certain soaps or detergents)?</li>
+              <li>Do symptoms affect your sleep or daily activities?</li>
+            </ul>
+            <h4>Who diagnoses eczema?</h4>
+            <p>A primary care provider may refer you to a dermatologist — a specialist in skin conditions — to diagnose and treat your eczema.</p>
+          </div></div>
+        </div>
+
+        <div class="acc" id="ecz-treatment">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">04</span><h3>Management and Treatment</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>How do I get rid of eczema?</h4>
+            <p>Treatment is unique to you and your triggers. It may include:</p>
+            <ul>
+              <li>Using gentle, sensitive-skin moisturizers throughout the day; apply when skin is damp after a bath or shower</li>
+              <li>Topical medications such as topical steroids, as advised by your provider</li>
+              <li>Oral medications like anti-inflammatories, antihistamines or corticosteroids to reduce itch and swelling</li>
+              <li>Immunosuppressant drugs to help regulate the immune system</li>
+              <li>Light therapy to improve the skin's appearance</li>
+              <li>Avoiding triggers that cause flare-ups</li>
+            </ul>
+            <h4>How do you treat childhood eczema?</h4>
+            <ul>
+              <li>Give short, warm baths instead of long, hot ones</li>
+              <li>Moisturize several times daily (for infants, with each diaper change helps a lot)</li>
+              <li>Keep room temperature and humidity steady</li>
+              <li>Dress your child in cotton; avoid wool, silk and synthetics like polyester</li>
+              <li>Use sensitive-skin or unscented laundry detergent</li>
+              <li>Help them avoid rubbing or scratching</li>
+            </ul>
+            <h4>What type of moisturizer treats eczema?</h4>
+            <p>Choose products that are hypoallergenic, fragrance- and dye-free; gentle or for sensitive skin; contain petroleum jelly or mineral oil; are free of preservatives or stabilizers; and include lipids and ceramides to improve the barrier. It may take trial and error to find the right one.</p>
+            <h4>How do I manage symptoms?</h4>
+            <p>You may not control genetic causes, but you can influence your environment and stress. Figure out what triggers or worsens your eczema and avoid it. The goal is to reduce itching and discomfort and prevent infection and further flare-ups.</p>
+            <h4>How soon will I feel better?</h4>
+            <p>It can take several weeks for skin to clear completely. Prescribed medications speed things up. If symptoms worsen or don't clear after a few weeks, contact your provider.</p>
+            <h4>Are there complications?</h4>
+            <p><span class="qa">Weeping eczema</span> causes fluid-filled blisters. <span class="qa">Infected eczema</span> occurs when bacteria, fungus or a virus breaks through the skin. Warning signs include fever and chills, clear-to-yellow fluid leaking from blisters, and pain and swelling.</p>
+          </div></div>
+        </div>
+
+        <div class="acc" id="ecz-outlook">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">05</span><h3>Outlook / Prognosis</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>What can I expect?</h4>
+            <p>Eczema and other dermatitis aren't harmful to the rest of your body and the condition isn't deadly. Nearly half of children with eczema outgrow it or improve by puberty; others have some form of it throughout life. For adults, it can be well managed with a good skin-care routine.</p>
+            <h4>How long does eczema last?</h4>
+            <p>Eczema can be lifelong — starting in infancy and continuing into adulthood. You can manage symptoms with at-home remedies, over-the-counter medications and prescriptions.</p>
+            <h4>Is there a cure?</h4>
+            <p>No. There are effective treatments, but none eliminate symptoms 100% of the time. Eczema is chronic — it can go away and come back unexpectedly — and treatments are very effective at reducing itchy, dry skin.</p>
+          </div></div>
+        </div>
+
+        <div class="acc" id="ecz-prevention">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">06</span><h3>Prevention</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>How can I prevent flare-ups?</h4>
+            <ul>
+              <li>Moisturize regularly, sealing in moisture right after a bath or shower</li>
+              <li>Bathe or shower with warm, not hot, water</li>
+              <li>Stay hydrated — aim for at least eight glasses of water a day</li>
+              <li>Wear loose cotton and natural materials; wash new clothing first; avoid wool and synthetics</li>
+              <li>Manage stress and emotional triggers; seek professional support if needed</li>
+              <li>Use a humidifier if dry air dries your skin</li>
+              <li>Avoid irritants and allergens</li>
+            </ul>
+          </div></div>
+        </div>
+
+        <div class="acc" id="ecz-living">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">07</span><h3>Living With</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>How do I take care of myself?</h4>
+            <p>Living with eczema can be challenging. Times when it disappears are called "remission"; times when symptoms appear or worsen are "flare-ups." The goal of treatment is to prevent flare-ups — avoid triggers, moisturize, take your medicine and follow your provider's instructions.</p>
+            <h4>When should I see my provider?</h4>
+            <ul>
+              <li>You experience symptoms of eczema</li>
+              <li>Symptoms get worse after treatment</li>
+              <li>Symptoms don't go away a few weeks after treatment</li>
+              <li>You get an infection, have a fever or experience severe pain</li>
+            </ul>
+            <h4>Questions to ask your provider</h4>
+            <ul>
+              <li>If it isn't eczema, what other skin condition might it be?</li>
+              <li>Is there a specific moisturizer brand you recommend?</li>
+              <li>Are there side effects to the treatment?</li>
+              <li>How often should I see a dermatologist?</li>
+              <li>What soaps, lotions or makeup should I avoid?</li>
+              <li>How can I care for my skin at home?</li>
+            </ul>
+          </div></div>
+        </div>
+
+        <div class="acc" id="ecz-faq">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">08</span><h3>Additional Common Questions</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>Does the weather make eczema worse?</h4>
+            <p>Yes. Certain temperatures and weather patterns can affect your skin. Low humidity (dry air) in winter can dry it out, while humidity from high heat makes you sweat, which can make itchiness worse.</p>
+            <div class="src-note">Educational content adapted from <a href="https://my.clevelandclinic.org/health/diseases/9998-eczema" target="_blank" rel="noopener">Cleveland Clinic — Eczema</a>. For information only; not a substitute for professional medical advice.</div>
+          </div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <aside class="quicknav" id="qn-eczema">
+      <div class="qn-label">On this page</div>
+      <a href="#ecz-overview" class="active">Overview</a>
+      <a href="#ecz-symptoms">Symptoms and Causes</a>
+      <a href="#ecz-diagnosis">Diagnosis and Tests</a>
+      <a href="#ecz-treatment">Management and Treatment</a>
+      <a href="#ecz-outlook">Outlook / Prognosis</a>
+      <a href="#ecz-prevention">Prevention</a>
+      <a href="#ecz-living">Living With</a>
+      <a href="#ecz-faq">Common Questions</a>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ TINEA ============ -->
+<section class="page" id="page-tinea">
+  <div class="article-hero">
+    <span class="chip chip-tinea">Fungal · Contagious</span>
+    <h1>Tinea (Ringworm)</h1>
+    <p>A fungus — not a worm — causes ringworm. It's a common, contagious skin infection named for the red, itchy, ring-shaped plaque it forms, and it's treated with antifungal medication.</p>
+    <div class="glance">
+      <div class="g"><b>20–25%</b><span>of people at any time</span></div>
+      <div class="g"><b>4–14 days</b><span>to show after contact</span></div>
+      <div class="g"><b>Antifungals</b><span>OTC or prescription</span></div>
+      <div class="g"><b>Ring-shaped</b><span>raised, scaly border</span></div>
+    </div>
+  </div>
+
+  <div class="article-layout">
+    <div>
+      <div class="toolbar">
+        <span class="t-title">Education · 8 sections</span>
+        <button class="expand-all" data-scope="tinea" onclick="toggleAll('tinea',this)">Collapse all</button>
+      </div>
+      <div class="accordion" id="acc-tinea">
+
+        <div class="acc open" id="tin-overview">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">01</span><h3>Overview</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>What is ringworm?</h4>
+            <p>A fungus — not a worm — causes ringworm. Fungi thrive in warm, humid areas like locker rooms and public showers. This common, contagious infection gets its name from the red, itchy, ring-shaped plaque it forms, and it spreads easily through close contact with an infected person, animal or object. Ringworm on the body is called <b>tinea corporis</b>, affecting the arms, legs, torso and face. It's treated with antifungal medication, over the counter or by prescription.</p>
+            <h4>Types of ringworm</h4>
+            <ul>
+              <li><span class="qa">Athlete's foot (tinea pedis):</span> itchy, burning rash between the toes and on the soles; skin may become scaly, cracked or blistered.</li>
+              <li><span class="qa">Jock itch (tinea cruris):</span> red, itchy rash in the groin, upper thighs or rectum.</li>
+              <li><span class="qa">Scalp ringworm (tinea capitis):</span> scaly, red, itchy bald spots that can grow and become permanent if untreated.</li>
+              <li><span class="qa">Hands (tinea manuum):</span> dry, cracked palms and ring-like patches.</li>
+              <li><span class="qa">Beard (tinea barbae):</span> patches on the neck, chin and cheeks that may crust or fill with pus.</li>
+              <li><span class="qa">Nails (tinea unguium / onychomycosis):</span> thick, discolored, deformed nails.</li>
+            </ul>
+            <h4>What does ringworm look like?</h4>
+            <p>It typically begins as a flat, discolored patch — red in lighter complexions, brown in darker ones — with a ring-like, circular shape and a raised, scaly border.</p>
+            <figure class="med-figure">
+              <img src="{{ url_for('static', filename='img/tinea.jpg') }}" alt="Ringworm (tinea) lesion — a circular, red plaque with a raised, scaly border" />
+              <figcaption><b>What tinea (ringworm) can look like.</b> A circular, discolored plaque with a raised, scaly border and a clearer center — the ring-like shape the infection is named for.</figcaption>
+            </figure>
+            <h4>Who gets ringworm?</h4>
+            <p>It affects all ages. You're more at risk if you have a weakened immune system or an autoimmune disease like lupus, play high-contact sports such as wrestling, sweat excessively, use public locker rooms or showers, or work closely with animals that might have ringworm.</p>
+            <h4>How common is it?</h4>
+            <p>Ringworm is contagious and extremely common — it can affect 20% to 25% of the world's population at any given time.</p>
+          </div></div>
+        </div>
+
+        <div class="acc" id="tin-symptoms">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">02</span><h3>Symptoms and Causes</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>What are the signs of ringworm?</h4>
+            <p>Signs typically appear four to 14 days after your skin contacts the fungus:</p>
+            <ul>
+              <li>Circular, ring-shaped scales or plaques</li>
+              <li>Flat patches with a raised, round border</li>
+              <li>Itchy skin</li>
+              <li>Hair loss or bald spots in the affected area</li>
+            </ul>
+            <h4>What causes ringworm?</h4>
+            <p>Despite its name, a fungus causes it. This fungus naturally lives on your skin, hair and nails, but when its environment gets hot and damp it starts growing uncontrollably. You can get infected whenever your skin contacts the ringworm fungus on someone else's skin.</p>
+            <h4>How contagious is it?</h4>
+            <p>Ringworm is contagious. It can live on skin, surfaces and in soil. It mainly spreads through:</p>
+            <ul>
+              <li>Skin-to-skin contact with someone who has ringworm</li>
+              <li>Contact with an infected dog, cat or other animal (pets or livestock)</li>
+              <li>Contact with a contaminated surface, like a locker-room floor or sweaty gym clothes</li>
+              <li>Sharing objects such as a brush, towel or bedding</li>
+              <li>Contaminated soil</li>
+            </ul>
+          </div></div>
+        </div>
+
+        <div class="acc" id="tin-diagnosis">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">03</span><h3>Diagnosis and Tests</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>How is ringworm diagnosed?</h4>
+            <p>Your healthcare provider can diagnose ringworm by looking at your skin and assessing your symptoms. They may scrape the area to examine the skin cells under a microscope — examining the scales typically confirms ringworm.</p>
+          </div></div>
+        </div>
+
+        <div class="acc" id="tin-treatment">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">04</span><h3>Management and Treatment</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>How is ringworm treated?</h4>
+            <p>Several over-the-counter and prescription antifungal medications treat ringworm, in forms like creams, gels or powders. More widespread ringworm can be treated with oral antifungal medication.</p>
+            <h4>Antifungal creams and powders</h4>
+            <p>OTC creams, gels or powders typically work well, including clotrimazole (Lotrimin®, Mycelex®), miconazole (Desenex®), terbinafine (Lamisil AT®) and tolnaftate (Tinactin®). If symptoms worsen or don't clear after two weeks, you may need an oral prescription.</p>
+            <h4>Oral medication</h4>
+            <p>A provider may prescribe oral antifungals for scalp ringworm or when many parts of the body are affected, usually for one to three months — for example fluconazole (Diflucan®), griseofulvin (Griasctin®), itraconazole (Sporanox®) and terbinafine (Lamisil®).</p>
+            <h4>Antifungal shampoo</h4>
+            <p>Shampoo such as ketoconazole (Nizoral A-D®) may stop scalp ringworm from spreading. It won't cure it — you also need a prescribed oral antifungal — and unaffected family members may benefit from using it too.</p>
+            <h4>Home remedies</h4>
+            <p>Remedies like apple cider vinegar or tea tree oil have little to no benefit; apple cider vinegar may cause open sores or inflammation. Your home may also need treatment — the fungus can live on surfaces for months, so use disinfectant sprays or bleach and wash clothes, sheets and towels in hot water and detergent.</p>
+            <h4>Steroid creams</h4>
+            <p>Corticosteroid creams may reduce inflammation but <b>shouldn't be used</b> to treat ringworm — in fact, they may worsen the infection.</p>
+            <h4>What cures ringworm?</h4>
+            <p>Mild cases clear within a few weeks; more serious infections may need six to 12 weeks. To promote healing: keep the area clean and dry, apply antifungal products for the entire treatment period, and avoid touching the area (wash your hands before touching other areas).</p>
+            <h4>Does ringworm go away by itself?</h4>
+            <p>It can, but that's uncommon — and while it's present on your skin, you're still contagious to others.</p>
+          </div></div>
+        </div>
+
+        <div class="acc" id="tin-outlook">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">05</span><h3>Outlook / Prognosis</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>Can ringworm come back?</h4>
+            <p>Yes. Ringworm will go away if treated appropriately, so follow your provider's plan until the infection clears completely. If you stop treatment or end it too soon, the infection can come back.</p>
+            <h4>What are the complications?</h4>
+            <p>Don't use anti-itch creams containing corticosteroids — they weaken the skin's defenses and can let the infection spread over larger areas. Rarely, the fungus goes deeper into the skin, making it harder to treat. Scalp ringworm can lead to a painful inflammation called <b>kerion</b>, with crusty, pus-filled sores, hair loss and scarring.</p>
+          </div></div>
+        </div>
+
+        <div class="acc" id="tin-prevention">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">06</span><h3>Prevention</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>How can I prevent ringworm?</h4>
+            <p>Ringworm thrives in damp, warm areas and can live on towels, clothes, sheets and surfaces for months. To prevent it:</p>
+            <ul>
+              <li>Change socks and underwear daily, or more often if damp or soiled</li>
+              <li>Shower immediately after contact sports or exercise</li>
+              <li>Wear sandals or shower shoes at pools and in public locker rooms and showers</li>
+              <li>Dry your skin thoroughly after showering, especially between the toes</li>
+              <li>Don't share towels, washcloths, sheets, clothes or combs</li>
+              <li>Wash clothes, athletic gear, sheets and towels in hot water and detergent</li>
+              <li>Disinfect surfaces with bleach or sprays</li>
+              <li>Treat pets for ringworm if they're infected, and wash your hands after contact with animals</li>
+            </ul>
+            <p>A weak immune system or a damp, warm climate increases your risk.</p>
+          </div></div>
+        </div>
+
+        <div class="acc" id="tin-living">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">07</span><h3>Living With</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>When should I call the doctor?</h4>
+            <p>Call your provider if the infection appears on your scalp, looks infected (redness and swelling), occurs during pregnancy, spreads to other areas, or doesn't improve after using OTC antifungal medication as directed.</p>
+            <h4>Questions to ask your doctor</h4>
+            <ul>
+              <li>How did I get ringworm?</li>
+              <li>How long is ringworm contagious?</li>
+              <li>Should I (or my child) stay home from work/school until it's gone?</li>
+              <li>How do I prevent it spreading to other parts of my body — or to other people?</li>
+              <li>What's the best treatment? Should I avoid any medications?</li>
+              <li>How can I keep from getting it again?</li>
+              <li>How can I tell if my pet has ringworm?</li>
+              <li>Should I watch for signs of complications?</li>
+            </ul>
+          </div></div>
+        </div>
+
+        <div class="acc" id="tin-faq">
+          <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">08</span><h3>Additional Common Questions</h3><span class="caret">⌄</span></div>
+          <div class="acc-body"><div class="acc-inner">
+            <h4>Is ringworm an actual worm?</h4>
+            <p>No. It's a fungal infection that gets its name from its ring-like border.</p>
+            <h4>How does ringworm affect pregnancy?</h4>
+            <p>The fungus won't affect your pregnancy, but check with your provider before using OTC antifungal creams or powders. Oral antifungals appear safe in pregnancy — your care provider can discuss risks and benefits.</p>
+            <h4>Can you get ringworm from dogs or cats?</h4>
+            <p>Yes — from dogs, cats and other animals like cows, goats or horses. Wash your hands after petting animals, and if a pet has ringworm, disinfect its bedding and clean surfaces it has visited.</p>
+            <h4>How is ringworm different from eczema?</h4>
+            <p>Both cause itchy, red skin, but unlike ringworm, eczema isn't contagious and doesn't spread from one area to another. Ringworm has a unique, ring-like appearance. Contact a provider for an appropriate diagnosis.</p>
+            <div class="src-note">Educational content adapted from <a href="https://my.clevelandclinic.org/health/diseases/4560-ringworm" target="_blank" rel="noopener">Cleveland Clinic — Ringworm (Tinea)</a>. For information only; not a substitute for professional medical advice.</div>
+          </div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <aside class="quicknav" id="qn-tinea">
+      <div class="qn-label">On this page</div>
+      <a href="#tin-overview" class="active">Overview</a>
+      <a href="#tin-symptoms">Symptoms and Causes</a>
+      <a href="#tin-diagnosis">Diagnosis and Tests</a>
+      <a href="#tin-treatment">Management and Treatment</a>
+      <a href="#tin-outlook">Outlook / Prognosis</a>
+      <a href="#tin-prevention">Prevention</a>
+      <a href="#tin-living">Living With</a>
+      <a href="#tin-faq">Common Questions</a>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ ABOUT MODEL ============ -->
+<section class="page" id="page-about">
+  <div class="about-hero">
+    <span class="eyebrow">About the model</span>
+    <h1>One CNN, trained to tell eczema and tinea apart</h1>
+    <p>SpotCheck is powered by a single convolutional neural network built and trained from scratch. Because eczema and tinea share redness, itch and scaling, the model learns the subtle visual patterns that separate them. Here's how it was built, from data to deployment.</p>
+  </div>
+
+  <div class="highlight-grid">
+    <div class="hl">
+      <span class="hl-eye">Dataset</span>
+      <span class="hl-big">2,020</span>
+      <span class="hl-sub">clean images · Eczema 1,037 · Tinea 983</span>
+    </div>
+    <div class="hl">
+      <span class="hl-eye">Architecture</span>
+      <span class="hl-big">748K</span>
+      <span class="hl-sub">parameters · residual CNN, 224×224 input</span>
+    </div>
+    <div class="hl">
+      <span class="hl-eye">Performance</span>
+      <span class="hl-big">89.7%</span>
+      <span class="hl-sub">ROC-AUC · 83.2% accuracy on the test set</span>
+    </div>
+  </div>
+
+  <div class="narrative">
+
+    <div class="nsec">
+      <div><span class="nstep">SECTION 01</span><h2>Introduction</h2></div>
+      <div class="ncontent">
+        <p>Eczema and tinea have similar clinical appearances — redness, itching, scaly skin — which makes them hard to tell apart by eye, and a mix-up can lead to the wrong treatment. SpotCheck tackles this as a <b>binary image classification</b> problem: eczema versus tinea.</p>
+        <p>The model is a Convolutional Neural Network (CNN) trained entirely from scratch — no transfer learning. Development followed a full pipeline: data exploration, preparation, model building, training, evaluation and inference.</p>
+      </div>
+    </div>
+
+    <div class="nsec">
+      <div><span class="nstep">SECTION 02</span><h2>Dataset</h2></div>
+      <div class="ncontent">
+        <p>Images come from the <b>Eczema and Tinea Skin Disease Dataset</b> (DermNet, via Kaggle). The raw collection held 2,147 images. A cleaning pass removed <b>107 exact duplicates</b> (detected by MD5 hashing) and <b>20 near-duplicates</b> (detected by perceptual hashing), and every remaining image was verified as readable.</p>
+        <p>That left <b>2,020 clean images</b> — 1,037 eczema (51.3%) and 983 tinea (48.7%), a well-balanced split. The data was then divided with a stratified 70 / 15 / 15 split, keeping class proportions consistent across each set:</p>
+        <ul>
+          <li><b>Train:</b> 1,414 images</li>
+          <li><b>Validation:</b> 303 images</li>
+          <li><b>Test:</b> 303 images</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="nsec">
+      <div><span class="nstep">SECTION 03</span><h2>Preparation</h2></div>
+      <div class="ncontent">
+        <p>Every image was standardized to three-channel RGB and resized to <b>224×224</b> using <b>letterbox resizing</b> — scaling proportionally and padding the shorter side — so the original shape is preserved instead of stretched. Pixel values were then normalized from 0–255 to a 0–1 range for stable training.</p>
+        <p>To help the model generalize, the training set received <b>moderate augmentation</b>: horizontal and vertical flips, 90° rotations, small brightness shifts and light zoom. Validation and test images were only resized and normalized — no augmentation — so evaluation reflects real, unaltered data.</p>
+      </div>
+    </div>
+
+    <div class="nsec">
+      <div><span class="nstep">SECTION 04</span><h2>Model architecture</h2></div>
+      <div class="ncontent">
+        <p>The network — <span class="mono">Final_Residual_CNN</span> — is a residual CNN built with the Keras Functional API. It stacks five convolutional blocks, using <b>skip (residual) connections</b> to help gradients flow and a <b>SeparableConv2D</b> in the deeper block for efficiency. Features are pooled with Global Average Pooling and passed through two dense layers before the output.</p>
+        <div class="arch-flow">
+          <span class="arch-node">Input 224×224×3</span><span class="arch-arrow">→</span>
+          <span class="arch-node">Conv 32</span><span class="arch-arrow">→</span>
+          <span class="arch-node">Conv 64</span><span class="arch-arrow">→</span>
+          <span class="arch-node res">Residual 128</span><span class="arch-arrow">→</span>
+          <span class="arch-node res">Residual 256 · Separable</span><span class="arch-arrow">→</span>
+          <span class="arch-node">Global Avg Pool</span><span class="arch-arrow">→</span>
+          <span class="arch-node">Dense 256 → 128</span><span class="arch-arrow">→</span>
+          <span class="arch-node">Sigmoid</span>
+        </div>
+        <p>Each dense layer is followed by dropout (0.3) to reduce overfitting, and the single sigmoid output gives the probability of tinea versus eczema. The whole model is compact — about <b>748K parameters (2.85 MB)</b>, of which ~746K are trainable — which keeps it light enough to run comfortably inside a web app.</p>
+      </div>
+    </div>
+
+    <div class="nsec">
+      <div><span class="nstep">SECTION 05</span><h2>Training strategy</h2></div>
+      <div class="ncontent">
+        <p>The model was trained with the <b>Adam</b> optimizer and a <b>Cosine Annealing learning-rate schedule with warmup</b>: the learning rate ramps gently from 1e-5 up to 5e-4 over the first 10 epochs, then decays smoothly along a cosine curve toward zero. The loss is <b>binary cross-entropy with label smoothing (0.1)</b>, which discourages the model from becoming overconfident and helps it generalize.</p>
+        <p><b>EarlyStopping</b> (patience 15, restoring the best weights) guarded against overfitting, with a 100-epoch cap. Training stopped at <b>epoch 84</b>. Train and validation accuracy landed at <b>83.8%</b> and <b>83.8%</b> — a gap of just 0.02%, indicating no meaningful overfitting.</p>
+      </div>
+    </div>
+
+    <div class="nsec">
+      <div><span class="nstep">SECTION 06</span><h2>Performance</h2></div>
+      <div class="ncontent">
+        <p>On the held-out <b>test set of 303 images</b>, the model reached:</p>
+        <table class="metric-table">
+          <thead><tr><th>Metric</th><th>Score</th></tr></thead>
+          <tbody>
+            <tr><td>Accuracy</td><td class="num">83.2%</td></tr>
+            <tr><td>Precision (macro)</td><td class="num">83.2%</td></tr>
+            <tr><td>Recall (macro)</td><td class="num">83.1%</td></tr>
+            <tr><td>Specificity (macro)</td><td class="num">83.1%</td></tr>
+            <tr><td>F1-Score (macro)</td><td class="num">83.1%</td></tr>
+            <tr><td>ROC-AUC</td><td class="num">89.7%</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:16px;">The confusion matrix on the test set:</p>
+        <div class="confusion">
+          <div class="cm-cell cm-lab"></div>
+          <div class="cm-cell cm-lab">Pred. Eczema</div>
+          <div class="cm-cell cm-lab">Pred. Tinea</div>
+          <div class="cm-cell cm-lab">Actual&nbsp;Eczema</div>
+          <div class="cm-cell cm-tp"><span class="cm-big">132</span><span class="cm-small">correct</span></div>
+          <div class="cm-cell cm-fn"><span class="cm-big">23</span><span class="cm-small">missed</span></div>
+          <div class="cm-cell cm-lab">Actual&nbsp;Tinea</div>
+          <div class="cm-cell cm-fp"><span class="cm-big">28</span><span class="cm-small">missed</span></div>
+          <div class="cm-cell cm-tn"><span class="cm-big">120</span><span class="cm-small">correct</span></div>
+        </div>
+        <p style="margin-top:16px;">Looking per class, eczema recall is 85.2% and tinea recall is 81.1% — meaning tinea is slightly more likely to be missed. Overall the model performs solidly but not perfectly, which is exactly why SpotCheck presents its output as a supportive read rather than a diagnosis.</p>
+      </div>
+    </div>
+
+    <div class="nsec">
+      <div><span class="nstep">SECTION 07</span><h2>Inference &amp; export</h2></div>
+      <div class="ncontent">
+        <p>For a new photo, the model applies the same preparation (letterbox resize + normalization), then outputs a probability. A score of 0.5 or above is read as tinea; below that, eczema — and the accompanying confidence shows how sure the model is.</p>
+        <p>The final model was exported to the <span class="mono">.keras</span> format (primary) and to SavedModel (a portable alternative), so it can be loaded directly into this web app.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

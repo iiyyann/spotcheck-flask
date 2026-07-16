@@ -1,0 +1,20 @@
+# Environment
+.env
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Setelan lokal Claude Code (khusus mesin ini, bukan bagian proyek)
+.claude/settings.local.json

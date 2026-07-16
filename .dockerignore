@@ -1,0 +1,28 @@
+# Kecilkan build context dan jaga rahasia tidak ikut ke dalam image.
+
+# Environment lokal — WAJIB dikecualikan: berisi SECRET_KEY.
+.env
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Pengujian dan dependensinya tidak dibutuhkan saat runtime.
+tests/
+pytest.ini
+requirements-dev.txt
+
+# Berkas kerja skripsi — tidak dipakai aplikasi saat berjalan.
+spotcheck-prototype.html
+versi-7-eczema-tinea-classification.md
+CLAUDE.md
+
+# Git dan editor
+.git/
+.gitignore
+.vscode/
+.idea/
