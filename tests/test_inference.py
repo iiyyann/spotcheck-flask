@@ -98,6 +98,86 @@ def test_preprocess_handles_various_shapes(size):
     assert inference.preprocess(make_jpeg(size)).shape == (1, 224, 224, 3)
 
 
+def test_preprocess_accepts_webp():
+    import io
+
+    buf = io.BytesIO()
+    Image.new("RGB", (300, 300), (190, 120, 110)).save(buf, "WEBP")
+    buf.seek(0)
+    assert inference.preprocess(buf).shape == (1, 224, 224, 3)
+
+
+# --------------------------------------------------------------------------
+# Orientasi EXIF
+# --------------------------------------------------------------------------
+
+def _foto_ponsel(img, orientation=6):
+    """Tiru foto ponsel: piksel tersimpan miring + tag EXIF orientasi."""
+    import io
+
+    exif = Image.Exif()
+    exif[274] = orientation  # 274 = tag Orientation; 6 = "putar 90 derajat saat ditampilkan"
+    buf = io.BytesIO()
+    img.rotate(90, expand=True).save(buf, "JPEG", exif=exif, quality=95)
+    buf.seek(0)
+    return buf
+
+
+def test_preprocess_applies_exif_orientation(tinea_photo):
+    """Foto ber-EXIF harus diluruskan agar sama dengan versi tegaknya.
+
+    Kamera ponsel tidak memutar piksel, hanya menandai orientasi lewat EXIF.
+    Browser menghormati tag itu (preview tampak tegak) sedangkan Pillow tidak,
+    sehingga tanpa exif_transpose model akan menerima foto miring padahal
+    pengguna melihatnya tegak.
+    """
+    tegak = inference.preprocess(tinea_photo)
+    dari_ponsel = inference.preprocess(_foto_ponsel(Image.open(tinea_photo).convert("RGB")))
+
+    # Tidak bisa identik bit-per-bit (ada siklus JPEG ulang), tapi harus sangat mirip.
+    selisih = np.abs(tegak - dari_ponsel).mean()
+    assert selisih < 0.02, f"foto ber-EXIF tidak diluruskan (selisih rata-rata {selisih:.4f})"
+
+
+def test_exif_orientation_changes_the_verdict_when_ignored(app, tinea_photo):
+    """Bukti mengapa exif_transpose penting: orientasi salah membalik jawaban.
+
+    Uji ini memanggil model pada foto yang sengaja dimiringkan tanpa dibetulkan.
+    Bila suatu saat model menjadi kebal rotasi, uji ini akan gagal — dan saat itu
+    exif_transpose boleh ditinjau ulang.
+    """
+    benar = inference.predict(tinea_photo)
+    miring = Image.open(tinea_photo).convert("RGB").rotate(90, expand=True)
+
+    import io
+
+    buf = io.BytesIO()
+    miring.save(buf, "JPEG", quality=95)  # tanpa tag EXIF -> tidak diluruskan
+    buf.seek(0)
+    hasil_miring = inference.predict(buf)
+
+    assert benar["verdict"] == "Tinea"
+    assert hasil_miring["verdict"] != benar["verdict"], (
+        "model ternyata kebal rotasi; alasan utama exif_transpose perlu ditinjau ulang"
+    )
+
+
+def test_preprocess_without_exif_still_matches_notebook(eczema_photo):
+    """exif_transpose tidak boleh mengubah citra tanpa tag EXIF.
+
+    Dataset training tidak memiliki tag orientasi, jadi pipeline harus tetap
+    identik dengan saat model dilatih.
+    """
+    from tensorflow.keras.utils import img_to_array
+
+    with Image.open(eczema_photo) as img:
+        img = img.convert("RGB")
+        img = inference.letterbox_resize(img, inference.IMAGE_SIZE)
+        referensi = np.expand_dims(img_to_array(img) / 255.0, axis=0)
+
+    assert np.array_equal(inference.preprocess(eczema_photo), referensi)
+
+
 # --------------------------------------------------------------------------
 # Uji paling penting: preprocessing identik dengan notebook
 # --------------------------------------------------------------------------

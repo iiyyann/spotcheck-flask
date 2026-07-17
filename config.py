@@ -44,7 +44,10 @@ class Config:
     MAX_CONTENT_LENGTH = int(_env("MAX_CONTENT_LENGTH", 8 * 1024 * 1024))
 
     # Tipe gambar yang diterima endpoint /predict.
-    ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
+    # HEIC sengaja tidak didukung: butuh dependensi tambahan (pillow-heif),
+    # sementara iOS praktis selalu mengonversi HEIC menjadi JPEG saat diunggah
+    # lewat form web. Berkas HEIC yang lolos akan ditolak dengan pesan jelas.
+    ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "webp"}
 
     # Muat model saat startup (bukan saat request pertama).
     #

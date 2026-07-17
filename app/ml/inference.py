@@ -13,7 +13,7 @@ Output model adalah satu nilai sigmoid = P(tinea).
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 
 # Ukuran input model, sama dengan IMAGE_SIZE di notebook.
 IMAGE_SIZE = (224, 224)
@@ -142,10 +142,19 @@ def preprocess(image_file):
     Raises:
         PIL.UnidentifiedImageError: Bila berkas bukan citra yang valid.
     """
-    img = Image.open(image_file).convert("RGB")     # 1. paksa RGB
-    img = letterbox_resize(img, IMAGE_SIZE)         # 2. letterbox ke 224x224
-    arr = np.asarray(img, dtype="float32") / 255.0  # 3. normalisasi 0..1
-    arr = np.expand_dims(arr, axis=0)               # 4. batch 1 -> (1,224,224,3)
+    img = Image.open(image_file)
+    # Kamera ponsel tidak memutar piksel; mereka menyimpan orientasi sebagai tag
+    # EXIF. Browser menghormati tag itu (preview tampak tegak), Pillow tidak —
+    # sehingga tanpa langkah ini model menerima foto MIRING padahal pengguna
+    # melihatnya tegak. Diukur pada foto tinea: tegak -> "Tinea" 61%, dimiringkan
+    # 90 derajat -> "Eczema" 83% (salah, dan percaya diri).
+    # Pada citra tanpa tag EXIF (seperti dataset training) fungsi ini tidak
+    # mengubah apa pun, jadi pipeline-nya tetap sama dengan saat training.
+    img = ImageOps.exif_transpose(img)              # 1. luruskan sesuai EXIF
+    img = img.convert("RGB")                        # 2. paksa RGB
+    img = letterbox_resize(img, IMAGE_SIZE)         # 3. letterbox ke 224x224
+    arr = np.asarray(img, dtype="float32") / 255.0  # 4. normalisasi 0..1
+    arr = np.expand_dims(arr, axis=0)               # 5. batch 1 -> (1,224,224,3)
     return arr
 
 

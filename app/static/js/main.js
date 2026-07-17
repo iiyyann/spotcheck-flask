@@ -66,11 +66,17 @@
   const resultBox = document.getElementById('result');
   const preview   = document.getElementById('dzPreview');
   const againBtn  = document.getElementById('scanAgain');
+  const cameraIn  = document.getElementById('cameraInput');
+  const cameraBtn = document.getElementById('takePhoto');
+  const learnBox  = document.getElementById('resultLearn');
+  const learnBtn  = document.getElementById('resultLearnBtn');
 
   const DZ_TITLE_IDLE = dzTitle.textContent;
   const DZ_SUB_IDLE   = dzSub.innerHTML;
   const MAX_BYTES     = 8 * 1024 * 1024;   // samakan dengan MAX_CONTENT_LENGTH
-  const ALLOWED_TYPES = ['image/jpeg', 'image/png'];
+  // Samakan dengan ALLOWED_EXTENSIONS di config.py. HEIC sengaja tidak ada:
+  // iOS praktis selalu mengonversinya ke JPEG saat diunggah lewat form web.
+  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
   // Prediksi biasanya selesai di bawah satu detik — terlalu cepat untuk sempat
   // membaca animasi pindainya. Tahan state "Analyzing…" selama minimal satu
@@ -142,7 +148,7 @@
   // Validasi di sisi klien; server tetap memvalidasi ulang.
   function validate(file){
     if(!ALLOWED_TYPES.includes(file.type)){
-      return 'Please choose a JPG or PNG image.';
+      return 'Please choose a JPG, PNG or WebP image.';
     }
     if(file.size > MAX_BYTES){
       return 'That image is larger than 8 MB. Please choose a smaller one.';
@@ -158,6 +164,12 @@
     const chip = document.getElementById('confChip');
     chip.textContent = data.confidence + '% confidence';
     chip.className = 'chip ' + (data.verdict === 'Tinea' ? 'chip-tinea' : 'chip-eczema');
+
+    // Antar pengguna ke halaman edukasi yang sesuai hasilnya.
+    const tinea = data.verdict === 'Tinea';
+    learnBtn.textContent = 'Read the ' + (tinea ? 'Tinea' : 'Eczema') + ' guide →';
+    learnBtn.onclick = () => go(tinea ? 'tinea' : 'eczema');
+    learnBox.hidden = false;
 
     // Reset ke 0 supaya animasi terputar ulang setiap prediksi (perilaku prototype).
     document.getElementById('barE').style.width = '0%';
@@ -217,10 +229,18 @@
   // Klik untuk memilih berkas.
   dz.addEventListener('click', ()=>{ if(!busy) fileInput.click(); });
   againBtn.addEventListener('click', ()=>{ if(!busy) fileInput.click(); });
-  fileInput.addEventListener('change', ()=>{
-    if(fileInput.files.length) runPrediction(fileInput.files[0]);
-    // Kosongkan agar memilih berkas yang sama dua kali tetap memicu 'change'.
-    fileInput.value = '';
+
+  // Foto langsung. Atribut capture="environment" pada input membuat ponsel
+  // membuka kamera belakang; desktop mengabaikannya (tombolnya memang
+  // disembunyikan di desktop lewat @media (pointer:coarse) di style.css).
+  cameraBtn.addEventListener('click', ()=>{ if(!busy) cameraIn.click(); });
+
+  [fileInput, cameraIn].forEach(input=>{
+    input.addEventListener('change', ()=>{
+      if(input.files.length) runPrediction(input.files[0]);
+      // Kosongkan agar memilih berkas yang sama dua kali tetap memicu 'change'.
+      input.value = '';
+    });
   });
 
   // Drag-and-drop.

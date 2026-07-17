@@ -19,7 +19,8 @@
         <span style="font-weight:600;">Skin scan</span>
         <span class="pill" id="scanPill">Model ready</span>
       </div>
-      <input type="file" id="fileInput" accept="image/jpeg,image/png" hidden />
+      <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" hidden />
+      <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden />
       <div class="dropzone" id="dz">
         <img class="dz-preview" id="dzPreview" alt="" hidden />
         <div class="reticle">
@@ -28,11 +29,14 @@
           <div class="crosshair"></div>
         </div>
         <div class="dz-title" id="dzTitle">Drop a skin photo here</div>
-        <div class="dz-sub" id="dzSub">or <span class="browse">browse a file</span> · one image · JPG or PNG</div>
+        <div class="dz-sub" id="dzSub">or <span class="browse">browse a file</span> · one image · JPG, PNG or WebP</div>
         <div class="dz-hint">Click to scan another photo</div>
       </div>
 
-      <button type="button" class="btn btn-ghost dz-again" id="scanAgain" hidden>↺ Scan another photo</button>
+      <div class="dz-actions">
+        <button type="button" class="btn btn-ghost dz-camera" id="takePhoto">Take a photo</button>
+        <button type="button" class="btn btn-ghost dz-again" id="scanAgain" hidden>↺ Scan another photo</button>
+      </div>
 
       <div class="scan-error" id="scanError" hidden></div>
 
@@ -51,6 +55,10 @@
           <span class="bar-track"><span class="bar-fill" id="barT" style="width:0;background:var(--tinea);"></span></span>
           <span class="val" id="valT">0%</span>
         </div>
+        <div class="result-learn" id="resultLearn">
+          <span class="rl-text">Want to understand this condition?</span>
+          <button type="button" class="rl-go" id="resultLearnBtn">Read the Eczema guide →</button>
+        </div>
         <div class="disclaimer">
           <span class="ic">i</span>
           <p><b>This is not a medical diagnosis.</b> SpotCheck is a supportive tool, not a doctor. See a dermatologist or healthcare provider to confirm any skin condition and get treatment.</p>
@@ -63,7 +71,7 @@
     <div class="block-head">
       <span class="eyebrow">How it works</span>
       <h2>Three steps, a few seconds</h2>
-      <p>Everything runs on a single convolutional neural network trained to tell these two look-alike conditions apart.</p>
+      <p>Everything runs on a convolutional neural network (CNN) trained from scratch to tell these two look-alike conditions apart.</p>
     </div>
     <div class="steps">
       <div class="step"><span class="num">STEP 01</span><h3>Upload</h3><p>Add a clear, well-lit photo of the affected skin. The image never leaves the model's own pipeline.</p></div>
@@ -80,13 +88,13 @@
     </div>
     <div class="learn-split">
       <div class="learn-card ecz" onclick="go('eczema')">
-        <span class="chip chip-eczema">Not contagious</span>
+        <span class="chip chip-eczema">Inflammatory · Chronic · Not contagious</span>
         <h3 style="margin-top:12px;">Eczema</h3>
         <p>A chronic condition that leaves skin dry, itchy and inflamed when its barrier is disrupted by triggers.</p>
         <span class="go">Read the guide →</span>
       </div>
       <div class="learn-card tin" onclick="go('tinea')">
-        <span class="chip chip-tinea">Contagious · fungal</span>
+        <span class="chip chip-tinea">Fungal · Usually acute · Contagious</span>
         <h3 style="margin-top:12px;">Tinea (Ringworm)</h3>
         <p>A common fungal infection named for its ring-shaped, scaly-bordered rash — treatable with antifungals.</p>
         <span class="go">Read the guide →</span>
@@ -98,7 +106,7 @@
 <!-- ============ ECZEMA ============ -->
 <section class="page" id="page-eczema">
   <div class="article-hero">
-    <span class="chip chip-eczema">Chronic · Not contagious</span>
+    <span class="chip chip-eczema">Inflammatory · Chronic · Not contagious</span>
     <h1>Eczema</h1>
     <p>A condition that makes skin dry, itchy and bumpy by weakening its barrier function. Eczema is a type of dermatitis — a group of conditions that cause skin inflammation.</p>
     <div class="glance">
@@ -297,7 +305,7 @@
 <!-- ============ TINEA ============ -->
 <section class="page" id="page-tinea">
   <div class="article-hero">
-    <span class="chip chip-tinea">Fungal · Contagious</span>
+    <span class="chip chip-tinea">Fungal · Usually acute · Contagious</span>
     <h1>Tinea (Ringworm)</h1>
     <p>A fungus — not a worm — causes ringworm. It's a common, contagious skin infection named for the red, itchy, ring-shaped plaque it forms, and it's treated with antifungal medication.</p>
     <div class="glance">
@@ -482,8 +490,8 @@
 <section class="page" id="page-about">
   <div class="about-hero">
     <span class="eyebrow">About the model</span>
-    <h1>One CNN, trained to tell eczema and tinea apart</h1>
-    <p>SpotCheck is powered by a single convolutional neural network built and trained from scratch. Because eczema and tinea share redness, itch and scaling, the model learns the subtle visual patterns that separate them. Here's how it was built, from data to deployment.</p>
+    <h1>A CNN trained from scratch to tell eczema and tinea apart</h1>
+    <p>SpotCheck is powered by a convolutional neural network (CNN) that was built and trained from scratch — no pre-trained model was reused. Because eczema and tinea share redness, itch and scaling, the model learns the subtle visual patterns that separate them. Here's how it was built, from data to deployment.</p>
   </div>
 
   <div class="highlight-grid">
