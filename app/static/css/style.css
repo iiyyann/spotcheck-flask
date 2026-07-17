@@ -213,6 +213,10 @@
   .med-figure img{width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--line);}
   .med-figure figcaption{font-size:.8rem;color:var(--muted);margin-top:8px;line-height:1.45;}
   .med-figure figcaption b{color:var(--ink);font-weight:600;}
+  /* Gambar yang resolusi aslinya lebih sempit dari kolom. Tanpa batas ini, ia
+     diregangkan melebihi ukuran aslinya sehingga terlihat blur — sekaligus
+     tampil kebesaran untuk plot yang bentuknya nyaris persegi. */
+  .med-figure.fig-narrow img{max-width:560px;margin-inline:auto;}
 
   /* Right quick nav */
   .quicknav{position:sticky;top:88px;}

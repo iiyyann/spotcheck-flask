@@ -635,7 +635,7 @@
           <div class="cm-cell cm-tn"><span class="cm-big">120</span><span class="cm-small">correct</span></div>
         </div>
         <p style="margin-top:16px;">Looking per class, eczema recall is 85.2% and tinea recall is 81.1% — meaning tinea is slightly more likely to be missed. Overall the model performs solidly but not perfectly, which is exactly why SpotCheck presents its output as a supportive read rather than a diagnosis.</p>
-        <figure class="med-figure">
+        <figure class="med-figure fig-narrow">
           <img src="{{ url_for('static', filename='img/model/roc-curve.png') }}" alt="ROC curve on the test set, area under the curve 0.8974, plotted against the diagonal of a random classifier" />
           <figcaption><b>ROC curve on the test set.</b> The curve plots true positives against false positives across every possible decision threshold, so it judges the model independently of the 0.5 cut-off SpotCheck uses. The area underneath is <b>0.8974</b> — a random guess would trace the dashed diagonal and score 0.5.</figcaption>
         </figure>

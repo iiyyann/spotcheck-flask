@@ -77,6 +77,36 @@ def test_model_figures_are_served(client, path):
     assert res.data
 
 
+@pytest.mark.parametrize(
+    "nama, lebar_min, lebar_tampil",
+    [
+        ("training-curves.png", 1100, 830),
+        ("roc-curve.png", 580, 560),
+        ("inference-samples.png", 1100, 830),
+    ],
+)
+def test_model_figures_keep_native_resolution(nama, lebar_min, lebar_tampil):
+    """Gambar harus berasal dari notebook, bukan hasil salin dari layar.
+
+    Menyalin gambar dari penampil notebook menghasilkan versi selebar viewport
+    (529 px), yang lalu diregangkan di halaman dan terlihat blur. Gambar asli
+    tertanam di dalam .ipynb dan jauh lebih besar; uji ini menahan agar versi
+    kecil tidak masuk kembali.
+    """
+    from PIL import Image
+
+    from tests.conftest import PROJECT_ROOT
+
+    berkas = PROJECT_ROOT / "app" / "static" / "img" / "model" / nama
+    lebar = Image.open(berkas).size[0]
+
+    assert lebar >= lebar_min, f"{nama} hanya {lebar} px — kemungkinan hasil salin layar"
+    assert lebar >= lebar_tampil, (
+        f"{nama} ({lebar} px) lebih sempit dari lebar tampilnya ({lebar_tampil} px) "
+        "sehingga akan diregangkan dan terlihat blur"
+    )
+
+
 def test_about_shows_model_figures_and_metrics(client):
     """Angka pelatihan berasal dari notebook — jangan sampai berubah diam-diam."""
     html = client.get("/").get_data(as_text=True)
