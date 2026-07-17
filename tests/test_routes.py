@@ -63,6 +63,52 @@ def test_favicon_ico_redirects(client):
     assert "favicon.svg" in res.headers["Location"]
 
 
+@pytest.mark.parametrize(
+    "path",
+    [
+        "/static/img/model/training-curves.png",
+        "/static/img/model/roc-curve.png",
+        "/static/img/model/inference-samples.png",
+    ],
+)
+def test_model_figures_are_served(client, path):
+    res = client.get(path)
+    assert res.status_code == 200
+    assert res.data
+
+
+def test_about_shows_model_figures_and_metrics(client):
+    """Angka pelatihan berasal dari notebook — jangan sampai berubah diam-diam."""
+    html = client.get("/").get_data(as_text=True)
+
+    for gambar in ("training-curves.png", "roc-curve.png", "inference-samples.png"):
+        assert gambar in html
+
+    # Train / Validation / Test — loss dan accuracy, persis seperti notebook.
+    for angka in ("0.4463", "83.80%", "0.4401", "83.83%", "0.4721", "83.17%"):
+        assert angka in html, f"metrik {angka} hilang dari halaman About"
+
+
+def test_footer_links_to_cleveland_clinic(client):
+    html = client.get("/").get_data(as_text=True)
+    assert 'href="https://my.clevelandclinic.org/"' in html
+
+
+def test_eczema_types_have_definitions(client):
+    """Tiap tipe eczema harus punya penjelasan, bukan sekadar daftar nama."""
+    html = client.get("/").get_data(as_text=True)
+    for tipe in (
+        "Atopic dermatitis",
+        "Contact dermatitis",
+        "Dyshidrotic eczema",
+        "Neurodermatitis",
+        "Nummular eczema",
+        "Seborrheic dermatitis",
+    ):
+        assert f"<dt>{tipe}</dt>" in html
+    assert html.count("<dd>") >= 6
+
+
 def test_index_serves_photos_as_static_files(client):
     html = client.get("/").get_data(as_text=True)
     assert "base64," not in html

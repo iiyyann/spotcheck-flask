@@ -34,7 +34,14 @@
       </div>
 
       <div class="dz-actions">
-        <button type="button" class="btn btn-ghost dz-camera" id="takePhoto">Take a photo</button>
+        <button type="button" class="btn btn-ghost dz-camera" id="takePhoto">
+          <svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2a1 1 0 0 0 .8-.4l1-1.3a1 1 0 0 1 .8-.4h5.4a1 1 0 0 1 .8.4l1 1.3a1 1 0 0 0 .8.4h2.2A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5v-9Z"/>
+            <circle cx="12" cy="13" r="3.5"/>
+          </svg>
+          Take a photo
+        </button>
         <button type="button" class="btn btn-ghost dz-again" id="scanAgain" hidden>↺ Scan another photo</button>
       </div>
 
@@ -132,7 +139,25 @@
             <p>Eczema is a condition that causes your skin to become dry, itchy and bumpy. It weakens your skin's barrier function, which helps your skin retain moisture and protects your body from outside elements. Eczema is a type of dermatitis, a group of conditions that cause skin inflammation.</p>
             <h4>What are the types of eczema?</h4>
             <p>Each type has unique triggers that can affect your skin's barrier function:</p>
-            <ul><li>Atopic dermatitis</li><li>Contact dermatitis</li><li>Dyshidrotic eczema</li><li>Neurodermatitis</li><li>Nummular eczema</li><li>Seborrheic dermatitis</li></ul>
+            <dl class="type-list">
+              <dt>Atopic dermatitis</dt>
+              <dd>A chronic type that discolours skin and brings itchy rashes. It usually starts in childhood and can keep flaring in adulthood. There's no cure, but creams and medication manage it.</dd>
+
+              <dt>Contact dermatitis</dt>
+              <dd>A rash where your skin met something you're allergic to or something that irritated it. It can swell, itch and feel uncomfortable — avoiding the trigger keeps it from returning.</dd>
+
+              <dt>Dyshidrotic eczema</dt>
+              <dd>Tiny itchy blisters on the hands and feet that can crack and peel as they heal. The cause isn't known; allergies, stress and frequently damp or sweaty skin may trigger it. Managed with at-home care and prescription medicine.</dd>
+
+              <dt>Neurodermatitis</dt>
+              <dd>Also called lichen simplex chronicus. Constant itching and scratching turn skin thick, rough and leathery, and the itch can be intense at night or under stress. Treatment breaks the itch–scratch cycle so skin can heal.</dd>
+
+              <dt>Nummular eczema</dt>
+              <dd>A chronic type that raises round, coin-shaped spots. They often itch, sometimes ooze clear fluid and may crust over. It usually responds well to treatment, though episodes can return.</dd>
+
+              <dt>Seborrheic dermatitis</dt>
+              <dd>Common, and makes skin itchy, flaky and scaly — especially on the scalp and face. It isn't contagious and comes and goes through life; medicated creams and shampoos keep it managed.</dd>
+            </dl>
             <p>It's possible to have more than one type of eczema at the same time.</p>
             <figure class="med-figure">
               <img src="{{ url_for('static', filename='img/eczema.jpg') }}" alt="Eczema rash on a forearm — red, blotchy, inflamed patches" />
@@ -565,7 +590,20 @@
       <div><span class="nstep">SECTION 05</span><h2>Training strategy</h2></div>
       <div class="ncontent">
         <p>The model was trained with the <b>Adam</b> optimizer and a <b>Cosine Annealing learning-rate schedule with warmup</b>: the learning rate ramps gently from 1e-5 up to 5e-4 over the first 10 epochs, then decays smoothly along a cosine curve toward zero. The loss is <b>binary cross-entropy with label smoothing (0.1)</b>, which discourages the model from becoming overconfident and helps it generalize.</p>
-        <p><b>EarlyStopping</b> (patience 15, restoring the best weights) guarded against overfitting, with a 100-epoch cap. Training stopped at <b>epoch 84</b>. Train and validation accuracy landed at <b>83.8%</b> and <b>83.8%</b> — a gap of just 0.02%, indicating no meaningful overfitting.</p>
+        <p><b>EarlyStopping</b> (patience 15, restoring the best weights) guarded against overfitting, with a 100-epoch cap. Training stopped at <b>epoch 84</b>, and the best weights came from <b>epoch 69</b>.</p>
+        <table class="metric-table">
+          <thead><tr><th>Split</th><th>Loss</th><th>Accuracy</th></tr></thead>
+          <tbody>
+            <tr><td>Train</td><td class="num">0.4463</td><td class="num">83.80%</td></tr>
+            <tr><td>Validation</td><td class="num">0.4401</td><td class="num">83.83%</td></tr>
+            <tr><td>Test</td><td class="num">0.4721</td><td class="num">83.17%</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:16px;">Train and validation accuracy land within <b>0.03%</b> of each other, and the test score sits just <b>0.6%</b> below them — the model generalizes to unseen photos rather than memorizing the training set.</p>
+        <figure class="med-figure">
+          <img src="{{ url_for('static', filename='img/model/training-curves.png') }}" alt="Loss and accuracy curves across 84 training epochs, for the training and validation sets, with the best epoch marked at 69" />
+          <figcaption><b>Training curves.</b> Loss falls and accuracy climbs together on both splits, and the two lines stay close — no diverging gap, which is the visual signature of overfitting. The dotted line marks the best epoch (69), whose weights were restored by EarlyStopping.</figcaption>
+        </figure>
       </div>
     </div>
 
@@ -597,6 +635,10 @@
           <div class="cm-cell cm-tn"><span class="cm-big">120</span><span class="cm-small">correct</span></div>
         </div>
         <p style="margin-top:16px;">Looking per class, eczema recall is 85.2% and tinea recall is 81.1% — meaning tinea is slightly more likely to be missed. Overall the model performs solidly but not perfectly, which is exactly why SpotCheck presents its output as a supportive read rather than a diagnosis.</p>
+        <figure class="med-figure">
+          <img src="{{ url_for('static', filename='img/model/roc-curve.png') }}" alt="ROC curve on the test set, area under the curve 0.8974, plotted against the diagonal of a random classifier" />
+          <figcaption><b>ROC curve on the test set.</b> The curve plots true positives against false positives across every possible decision threshold, so it judges the model independently of the 0.5 cut-off SpotCheck uses. The area underneath is <b>0.8974</b> — a random guess would trace the dashed diagonal and score 0.5.</figcaption>
+        </figure>
       </div>
     </div>
 
@@ -604,6 +646,10 @@
       <div><span class="nstep">SECTION 07</span><h2>Inference &amp; export</h2></div>
       <div class="ncontent">
         <p>For a new photo, the model applies the same preparation (letterbox resize + normalization), then outputs a probability. A score of 0.5 or above is read as tinea; below that, eczema — and the accompanying confidence shows how sure the model is.</p>
+        <figure class="med-figure">
+          <img src="{{ url_for('static', filename='img/model/inference-samples.png') }}" alt="Six test-set photos with the model's prediction, the true label and a confidence score for each" />
+          <figcaption><b>Inference on test-set samples.</b> Each photo shows the true label, the model's prediction and its confidence. Note the black bands above and below the images: that is the letterbox padding, which keeps a photo's original proportions instead of stretching it — the very same step this web app applies to every photo you upload.</figcaption>
+        </figure>
         <p>The final model was exported to the <span class="mono">.keras</span> format (primary) and to SavedModel (a portable alternative), so it can be loaded directly into this web app.</p>
       </div>
     </div>

@@ -122,6 +122,12 @@ re-theme, or "improve" the layout, colors, fonts, spacing, or components.
 - Keep all educational copy and the About-Model numbers (dataset counts, metrics,
   confusion matrix) **verbatim** — they come from the real notebook. Do not
   invent, round differently, or alter any statistic.
+- Content may be **added** as long as it is sourced, never invented: the eczema
+  type definitions are condensed from Cleveland Clinic, and the About-Model
+  figures (`app/static/img/model/`) plus the train/val/test loss and accuracy
+  table come straight from the notebook. Every number on the page must be
+  traceable to `versi-7-eczema-tinea-classification.md`; the test
+  `test_about_shows_model_figures_and_metrics` pins them.
 
 **Deliberate deviations from the prototype** (only these two; everything else is
 verbatim):
