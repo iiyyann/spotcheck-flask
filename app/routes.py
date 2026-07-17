@@ -4,7 +4,15 @@ Route dijaga tetap tipis: hanya menangani request/response dan validasi upload.
 Seluruh logika model berada di app/ml/inference.py.
 """
 
-from flask import Blueprint, current_app, jsonify, render_template, request
+from flask import (
+    Blueprint,
+    current_app,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from PIL import UnidentifiedImageError
 
 from app.ml import inference
@@ -16,6 +24,17 @@ bp = Blueprint("main", __name__)
 def index():
     """Sajikan halaman tunggal (navigasi antar-halaman dilakukan di sisi klien)."""
     return render_template("index.html")
+
+
+@bp.get("/favicon.ico")
+def favicon():
+    """Arahkan /favicon.ico ke ikon SVG.
+
+    Browser memakai tag <link rel="icon"> di base.html, tetapi sebagian perkakas
+    dan crawler tetap meminta /favicon.ico di root. Tanpa route ini, permintaan
+    itu memenuhi log dengan 404.
+    """
+    return redirect(url_for("static", filename="img/favicon.svg"))
 
 
 @bp.post("/predict")

@@ -2,6 +2,8 @@
 
 import io
 
+import pytest
+
 from tests.conftest import make_jpeg
 
 
@@ -30,6 +32,35 @@ def test_index_has_no_prototype_leftovers(client):
 def test_index_keeps_the_medical_disclaimer(client):
     html = client.get("/").get_data(as_text=True)
     assert "This is not a medical diagnosis." in html
+
+
+def test_index_links_the_favicon(client):
+    html = client.get("/").get_data(as_text=True)
+    assert 'rel="icon"' in html
+    assert "img/favicon.svg" in html
+    assert "apple-touch-icon" in html
+
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        "/static/img/favicon.svg",
+        "/static/img/favicon-32.png",
+        "/static/img/favicon-16.png",
+        "/static/img/apple-touch-icon.png",
+    ],
+)
+def test_favicon_files_are_served(client, path):
+    res = client.get(path)
+    assert res.status_code == 200
+    assert res.data, "berkas ikon kosong"
+
+
+def test_favicon_ico_redirects(client):
+    """Perkakas dan crawler tetap meminta /favicon.ico di root."""
+    res = client.get("/favicon.ico")
+    assert res.status_code in (301, 302, 308)
+    assert "favicon.svg" in res.headers["Location"]
 
 
 def test_index_serves_photos_as_static_files(client):
