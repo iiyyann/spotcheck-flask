@@ -18,3 +18,11 @@ Thumbs.db
 
 # Setelan lokal Claude Code (khusus mesin ini, bukan bagian proyek)
 .claude/settings.local.json
+
+# Berkas besar yang sengaja tidak di-commit.
+# Notebook .ipynb berukuran 13 MB karena memuat gambar hasil eksekusi; versi
+# .md-nya (202 KB) yang di-commit sebagai jejak sumber angka di halaman About.
+v2-kl-r0-sds-dd-classification-44.ipynb
+
+# Naskah skripsi. Bukan bagian aplikasi, dan isinya milik penulis.
+*.docx

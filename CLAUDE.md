@@ -17,8 +17,16 @@ this repository only builds the **web application** around it and prepares it fo
 **deployment** so other people can use it (not just on the developer's machine).
 
 The app lets a user upload one skin photo and get a supportive read on whether it
-looks more like **eczema** or **tinea**, plus educational pages about each
-condition. It is explicitly **not** a medical diagnosis tool.
+looks more like **dermatitis** (non-infectious inflammation) or
+**dermatophytosis** (a fungal infection), plus educational pages about each
+group. It is explicitly **not** a medical diagnosis tool.
+
+Both labels name a **group** of diseases, not a single one. Rather than write
+a guide for every member, the education pages cover the best-known member of
+each group — **eczema** for dermatitis, **ringworm** for dermatophytosis — and
+say so explicitly in a `.scope-note` box on the home page and on each guide.
+Never present the model's output as a prediction of eczema or ringworm
+specifically.
 
 **Working directory (developer's machine, Windows):**
 `C:\Users\Reihan\Proyek PI\SpotCheck-Flask`
@@ -48,56 +56,102 @@ condition. It is explicitly **not** a medical diagnosis tool.
 
 ## 3. The model — how to use it correctly
 
-- **File:** `model_final_best.keras` (place it under `app/ml/`).
-- **Input shape:** `(224, 224, 3)`, RGB, pixel values scaled to `0–1`.
-- **Output:** a single **sigmoid** value in `[0, 1]` = **P(tinea)**.
-- **Class mapping (from training):** `0 = eczema`, `1 = tinea`.
-- **Decision threshold:** `p >= 0.5` → **Tinea**; `p < 0.5` → **Eczema**.
+- **Source notebook:** `v2-kl-r0-sds-dd-classification-44.ipynb` (root of the
+  repo; the `.ipynb` itself is gitignored for size). This is the sole source of
+  truth for every model number and every preprocessing step. The earlier
+  `versi-7-eczema-tinea-classification.md` was deleted when the research moved
+  from eczema/tinea to dermatitis/dermatophytosis — it survives only in git
+  history (commit `2282767`) and must not be cited.
+- **File:** `model_final_best.keras` under `app/ml/` — the notebook's export
+  `v2-KL-r0-SDS-dermatitis-dermatophytosis-classification.keras`, renamed so the
+  path stays stable across retrainings.
+- **Config:** `app/ml/inference_config.json`, written by the notebook at export
+  time. It records the class order, threshold and canvas; `inference.py`'s
+  constants are pinned to it by a test.
+- **Input shape:** `(224, 336, 3)` — a **336×224 landscape canvas (3:2)**, RGB,
+  pixel values scaled to `0–1`. Note the tensor is (height, width, channels)
+  while the PIL canvas tuple is (width, height).
+- **Output:** a single **sigmoid** value in `[0, 1]` = **P(dermatophytosis)**.
+- **Class mapping (from training):** `0 = dermatitis`, `1 = dermatophytosis`.
+- **Decision threshold:** `p >= 0.5` → **Dermatophytosis**; `p < 0.5` →
+  **Dermatitis**.
 - **Confidence to display:** `max(p, 1 - p) * 100`, rounded.
 - **Bar percentages to display:**
-  - Tinea % = `round(p * 100)`
-  - Eczema % = `round((1 - p) * 100)`
+  - Dermatophytosis % = `round(p * 100)`
+  - Dermatitis % = `round((1 - p) * 100)`
+
+### Known limitation — the model has no "neither" answer
+
+It is a **closed-set** binary classifier: one sigmoid, one threshold, two possible
+answers. There is no rejection class and no out-of-distribution check, so any
+image at all — healthy skin, another condition, a photo that isn't skin — still
+comes back as one of the two, sometimes with high confidence. A gatekeeper model
+was considered and not built.
+
+Because a user can act on a wrong answer, this must be stated in the UI, not left
+for the reader to infer. It currently appears in three places, pinned by
+`test_index_warns_that_out_of_scope_photos_still_get_an_answer`:
+
+1. a `.scope-note` after the "How it works" steps on the home page,
+2. one clause in the result `.disclaimer`,
+3. a technical `.scope-note` at the end of About §07.
+
+Do not remove or soften these without replacing the guarantee some other way.
 
 **Load the model once at application startup** (e.g. in the factory or an
 `inference.py` module), never per request.
 
 ### Preprocessing — must match training EXACTLY
 
-The model was trained on **letterbox-resized** images (proportional resize +
-centered black padding), then normalized by dividing by 255. Reproduce this
-precisely for every uploaded image. Reference implementation from the training
-notebook:
+The model was trained on images that were first **rotated to landscape**, then
+**letterbox-resized** onto a 336×224 canvas (proportional resize + centered
+black padding), then normalized by dividing by 255. Reproduce this precisely for
+every uploaded image — the rotation step is easy to miss and silently wrong.
+Reference implementation, verbatim from the training notebook:
 
 ```python
 from PIL import Image
 import numpy as np
 
-IMAGE_SIZE = (224, 224)
+IMAGE_SIZE = (336, 224)          # (width, height) for PIL — a 3:2 landscape canvas
 
-def letterbox_resize(img, target_size, fill_color=(0, 0, 0)):
-    target_w, target_h = target_size
-    orig_w, orig_h = img.size
+def canonical_orientation(img):
+    # Portrait rotates to landscape; landscape and square pass through unchanged.
+    width, height = img.size
+    if height > width:
+        return img.transpose(Image.Transpose.ROTATE_90)
+    return img
 
-    scale = min(target_w / orig_w, target_h / orig_h)
-    new_w, new_h = int(orig_w * scale), int(orig_h * scale)
+def letterbox_resize(img, target_size=IMAGE_SIZE, fill_color=(0, 0, 0)):
+    target_width, target_height = target_size
+    original_width, original_height = img.size
 
-    resized_img = img.resize((new_w, new_h), Image.BILINEAR)
+    scale = min(target_width / original_width, target_height / original_height)
+    new_width = max(1, int(original_width * scale))
+    new_height = max(1, int(original_height * scale))
 
-    padded_img = Image.new("RGB", target_size, fill_color)
-    paste_x = (target_w - new_w) // 2
-    paste_y = (target_h - new_h) // 2
-    padded_img.paste(resized_img, (paste_x, paste_y))
-    return padded_img
+    resized = img.resize((new_width, new_height), Image.Resampling.BILINEAR)
+
+    canvas = Image.new("RGB", target_size, fill_color)
+    canvas.paste(resized, ((target_width - new_width) // 2,
+                           (target_height - new_height) // 2))
+    return canvas
 
 def preprocess(image_file):
     img = Image.open(image_file).convert("RGB")     # 1. force RGB
-    img = letterbox_resize(img, IMAGE_SIZE)         # 2. letterbox to 224x224
-    arr = np.asarray(img, dtype="float32") / 255.0  # 3. normalize 0..1
-    arr = np.expand_dims(arr, axis=0)               # 4. batch of 1 -> (1,224,224,3)
+    img = canonical_orientation(img)                # 2. portrait -> landscape
+    img = letterbox_resize(img, IMAGE_SIZE)         # 3. letterbox to 336x224
+    arr = np.asarray(img, dtype="float32") / 255.0  # 4. normalize 0..1
+    arr = np.expand_dims(arr, axis=0)               # 5. batch of 1 -> (1,224,336,3)
     return arr
 ```
 
 Inference then: `p = float(model.predict(arr, verbose=0)[0][0])`.
+
+The app adds one step ahead of all of these: `ImageOps.exif_transpose()`, so a
+phone photo that stores its orientation as an EXIF tag is straightened before
+the portrait/landscape decision is made. Training images carry no such tag, so
+this changes nothing for training-style input.
 
 ---
 
@@ -108,9 +162,12 @@ design**. The finished app must look **identical** to it. Do **not** redesign,
 re-theme, or "improve" the layout, colors, fonts, spacing, or components.
 
 - Keep the Google Fonts (`Fraunces`, `Hanken Grotesk`, `IBM Plex Mono`).
-- Keep the CSS variables / color palette exactly (mint/teal theme, eczema =
-  `#7A67A6`, tinea = `#1F8A9B`, etc.).
-- The two condition photos (eczema, tinea) are **embedded as base64** inside the
+- Keep the CSS variables / color palette exactly (mint/teal theme,
+  `--dermatitis` = `#7A67A6`, `--dermatophytosis` = `#2A5FA8`, etc.). The
+  variables were renamed from `--eczema`/`--tinea` when the classes changed;
+  the colour values are unchanged.
+- The two condition photos (eczema and ringworm — the example disease of each
+  group) are **embedded as base64** inside the
   prototype HTML. They have been **decoded losslessly** into
   `app/static/img/eczema.jpg` and `app/static/img/tinea.jpg` and are referenced
   with `url_for`. The image bytes are identical to the prototype's (verified by
@@ -118,16 +175,18 @@ re-theme, or "improve" the layout, colors, fonts, spacing, or components.
   readable (~42 KB instead of ~246 KB) and lets the browser cache the photos.
 - Preserve the existing client-side page navigation (`go()`), the accordions,
   the quick-nav, and the scroll-spy behavior. The four "pages" (Home & Scan,
-  Eczema, Tinea, About Model) should behave exactly as in the prototype.
+  Dermatitis, Dermatophytosis, About Model) should behave exactly as in the
+  prototype.
 - Keep all educational copy and the About-Model numbers (dataset counts, metrics,
   confusion matrix) **verbatim** — they come from the real notebook. Do not
   invent, round differently, or alter any statistic.
 - Content may be **added** as long as it is sourced, never invented: the eczema
   type definitions are condensed from Cleveland Clinic, and the About-Model
-  figures (`app/static/img/model/`) plus the train/val/test loss and accuracy
-  table come straight from the notebook. Every number on the page must be
-  traceable to `versi-7-eczema-tinea-classification.md`; the test
-  `test_about_shows_model_figures_and_metrics` pins them.
+  figures (`app/static/img/model/`) plus the train/val/test metric table come
+  straight from the notebook. Every number on the page must be traceable to
+  `v2-kl-r0-sds-dd-classification-44.md`; the tests
+  `test_about_shows_model_figures_and_metrics` and
+  `test_about_reports_the_dataset_used_for_training` pin them.
 
 **Deliberate deviations from the prototype** (only these two; everything else is
 verbatim):
@@ -162,10 +221,11 @@ In the prototype, clicking the dropzone calls a fake `runDemo()` that hard-codes
    `multipart/form-data`.
 3. The endpoint runs `preprocess` + `model.predict`, and returns JSON, e.g.:
    ```json
-   { "verdict": "Eczema", "confidence": 85, "eczema_pct": 85, "tinea_pct": 15 }
+   { "verdict": "Dermatitis", "confidence": 85,
+     "dermatitis_pct": 85, "dermatophytosis_pct": 15 }
    ```
 4. The frontend fills in the verdict text, the confidence chip, and animates the
-   Eczema/Tinea bars using the returned numbers (reuse the existing bar-fill
+   Dermatitis/Dermatophytosis bars using the returned numbers (reuse the bar-fill
    animation — just feed it real values). Keep the "This is not a medical
    diagnosis" disclaimer visible.
 5. Show a small loading state while the request is in flight, and a friendly
@@ -183,6 +243,7 @@ SpotCheck-Flask/
 │   ├── ml/
 │   │   ├── __init__.py
 │   │   ├── model_final_best.keras
+│   │   ├── inference_config.json   # class order, threshold, canvas (from the notebook)
 │   │   └── inference.py     # load model once + letterbox + preprocess + predict
 │   ├── static/
 │   │   ├── css/
@@ -192,10 +253,11 @@ SpotCheck-Flask/
 │   │   └── img/
 │   │       ├── eczema.jpg    # decoded from the prototype's base64
 │   │       ├── tinea.jpg     # decoded from the prototype's base64
-│   │       └── samples/      # optional: a couple of test images
+│   │       ├── favicon*.png / favicon.svg / apple-touch-icon.png
+│   │       └── model/        # figures exported from the training notebook
 │   └── templates/
 │       ├── base.html         # <head>, fonts, topbar, footer, {% block %}s
-│       ├── index.html        # the four sections (home/scan, eczema, tinea, about)
+│       ├── index.html        # four sections (home/scan, dermatitis, dermatophytosis, about)
 │       └── (split further only if it stays faithful to the prototype)
 ├── tests/                    # pytest: conftest.py, test_inference.py, test_routes.py
 ├── config.py                 # Config / DevConfig / ProdConfig classes

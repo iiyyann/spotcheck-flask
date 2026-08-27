@@ -16,9 +16,12 @@ tests/
 pytest.ini
 requirements-dev.txt
 
-# Berkas kerja skripsi — tidak dipakai aplikasi saat berjalan.
+# Berkas kerja skripsi — tidak dipakai aplikasi saat berjalan. Notebook-nya
+# besar (13 MB) dan hanya menjadi rujukan angka, bukan dependensi runtime.
 spotcheck-prototype.html
-versi-7-eczema-tinea-classification.md
+v2-kl-r0-sds-dd-classification-44.ipynb
+v2-kl-r0-sds-dd-classification-44.md
+*.docx
 CLAUDE.md
 
 # Git dan editor

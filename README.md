@@ -1,8 +1,13 @@
 # SpotCheck
 
-Aplikasi web klasifikasi citra kulit: membedakan **eczema** dan **tinea**
-(kurap) dari satu foto, sekaligus menyajikan halaman edukasi untuk kedua
-kondisi tersebut.
+Aplikasi web klasifikasi citra kulit: membedakan **dermatitis** (peradangan
+noninfeksi) dan **dermatofitosis** (infeksi jamur) dari satu foto, sekaligus
+menyajikan halaman edukasi untuk kedua kelompok penyakit tersebut.
+
+Keduanya adalah *kelompok* penyakit, bukan penyakit tunggal. Halaman edukasi
+membahas satu anggota paling dikenal dari tiap kelompok — **eczema** untuk
+dermatitis dan **ringworm** (kurap) untuk dermatofitosis — alih-alih membuat
+materi terpisah untuk setiap anggotanya.
 
 Aplikasi ini adalah deliverable web dari Proyek Ilmiah / skripsi. Modelnya
 berupa CNN residual yang dilatih dari nol dan sudah selesai lebih dulu;
@@ -81,6 +86,7 @@ SpotCheck-Flask/
 │   ├── routes.py            # "/" (halaman) dan "/predict" (inferensi)
 │   ├── ml/
 │   │   ├── inference.py     # muat model sekali + letterbox + preprocess + predict
+│   │   ├── inference_config.json  # kelas, ambang, kanvas — ditulis notebook
 │   │   └── model_final_best.keras
 │   ├── static/{css,js,img}  # aset hasil ekstraksi dari prototype
 │   └── templates/           # base.html + index.html
@@ -92,7 +98,7 @@ SpotCheck-Flask/
 
 Seluruh halaman edukasi bersifat statis dan navigasinya dilakukan di sisi klien,
 sehingga aplikasi menyajikan **satu halaman** (`index.html`) dengan empat bagian:
-Home & Scan, Eczema, Tinea, dan About Model.
+Home & Scan, Dermatitis, Dermatophytosis, dan About Model.
 
 ---
 
@@ -100,14 +106,16 @@ Home & Scan, Eczema, Tinea, dan About Model.
 
 | | |
 |---|---|
-| Arsitektur | `Final_Residual_CNN` — CNN residual, dilatih dari nol |
+| Notebook sumber | `v2-kl-r0-sds-dd-classification-44` |
+| Arsitektur | `Residual_CNN_Dermatitis_Dermatophytosis` — CNN residual, dilatih dari nol |
 | Parameter | 747.713 (~748K) |
-| Input | 224 × 224 × 3, RGB, nilai piksel 0–1 |
-| Output | satu nilai sigmoid = P(tinea) |
-| Kelas | `0 = eczema`, `1 = tinea` |
-| Ambang | `p >= 0.5` → Tinea; `p < 0.5` → Eczema |
-| Dataset | 2.020 citra bersih (1.037 eczema / 983 tinea) |
-| Performa | akurasi 83,2% · ROC-AUC 89,7% pada test set |
+| Input | 224 × 336 × 3 (kanvas 336 × 224, rasio 3:2), RGB, nilai piksel 0–1 |
+| Output | satu nilai sigmoid = P(dermatophytosis) |
+| Kelas | `0 = dermatitis`, `1 = dermatophytosis` |
+| Ambang | `p >= 0.5` → Dermatophytosis; `p < 0.5` → Dermatitis |
+| Bobot | epoch 134 dari 150, dipilih berdasarkan `val_auc` tertinggi |
+| Dataset | 3.049 citra bersih (1.696 dermatitis / 1.353 dermatophytosis) |
+| Performa | akurasi 86,03% · ROC-AUC 91,76% pada test set (458 citra) |
 
 Model dimuat **sekali** lalu dipakai ulang untuk setiap request — tidak pernah
 dimuat per request. Waktu pemuatannya bergantung `EAGER_LOAD_MODEL`: saat startup
@@ -116,15 +124,29 @@ di bagian Deployment.
 
 ### Preprocessing — harus sama persis dengan training
 
-Model dilatih memakai **letterbox resize** (skala proporsional + padding hitam
-di tengah) lalu normalisasi `/255`. Model **tidak** memiliki layer `Rescaling`
-di dalamnya, sehingga pembagian 255 wajib dilakukan di `inference.py`.
+Urutan langkahnya, sama persis dengan `preprocess_for_inference()` di notebook:
+
+1. **Konversi ke RGB.**
+2. **Kanonisasi orientasi** — citra potret diputar 90° menjadi lanskap. Kanvas
+   model berbentuk lanskap 3:2, jadi tanpa langkah ini foto tegak akan menyusut
+   menjadi strip tipis di antara dua bantalan hitam yang lebar.
+3. **Letterbox resize** ke kanvas 336 × 224 — skala proporsional, sisa ruang
+   diisi hitam, sehingga bentuk asli citra tidak diregangkan.
+4. **Normalisasi `/255`.** Model **tidak** memiliki layer `Rescaling` di
+   dalamnya, sehingga pembagian ini wajib dilakukan di `inference.py`.
+
+Aplikasi menambahkan satu langkah di depan yang tidak ada di notebook:
+`ImageOps.exif_transpose()`, untuk meluruskan foto ponsel yang menyimpan
+orientasinya sebagai tag EXIF. Dataset training tidak punya tag itu, jadi
+langkah ini tidak mengubah apa pun pada citra bergaya-training.
 
 Bila langkah ini menyimpang dari cara model dilatih, prediksi akan meleset
 **tanpa memunculkan error apa pun** — karena itu kesamaannya dikunci oleh uji
 otomatis (`tests/test_inference.py::test_preprocess_matches_training_pipeline`)
-yang membandingkan keluaran `preprocess()` dengan replikasi pipeline notebook,
-dan mensyaratkan keduanya identik.
+yang membandingkan keluaran `preprocess()` dengan salinan verbatim fungsi
+notebook, dan mensyaratkan keduanya identik. Konstanta modul juga dicocokkan
+dengan `app/ml/inference_config.json` — berkas yang ditulis notebook saat
+mengekspor model — oleh `test_constants_match_exported_notebook_config`.
 
 ---
 
@@ -138,11 +160,11 @@ Menerima `multipart/form-data` dengan field `image` (satu berkas JPG atau PNG).
 
 ```json
 {
-  "verdict": "Eczema",
+  "verdict": "Dermatitis",
   "confidence": 87,
-  "eczema_pct": 87,
-  "tinea_pct": 13,
-  "probability_tinea": 0.1267311573028564
+  "dermatitis_pct": 87,
+  "dermatophytosis_pct": 13,
+  "probability_dermatophytosis": 0.1267311573028564
 }
 ```
 
