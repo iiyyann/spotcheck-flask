@@ -1,0 +1,28 @@
+{
+  "model_file": "v2-KL-r0-SDS-dermatitis-dermatophytosis-classification.keras",
+  "class_names": [
+    "dermatitis",
+    "dermatophytosis"
+  ],
+  "positive_class": "dermatophytosis",
+  "threshold": 0.5,
+  "canvas_width": 336,
+  "canvas_height": 224,
+  "input_shape": [
+    224,
+    336,
+    3
+  ],
+  "preprocessing": [
+    "Konversi citra ke mode RGB",
+    "Putar 90 derajat bila tinggi lebih besar daripada lebar",
+    "Letterbox ke 336 x 224, bantalan hitam, bilinear",
+    "Bagi nilai piksel dengan 255.0"
+  ],
+  "weight_criterion": "val_auc",
+  "weight_epoch": 134,
+  "training_seed": 44,
+  "test_accuracy": 0.8603,
+  "test_roc_auc": 0.9176,
+  "test_macro_recall": 0.8559
+}

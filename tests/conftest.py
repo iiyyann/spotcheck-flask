@@ -13,7 +13,9 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from app import create_app  # noqa: E402
 
 # Dua foto milik halaman edukasi dipakai sebagai citra uji yang realistis:
-# keduanya foto klinis asli dengan label yang sudah diketahui.
+# keduanya foto klinis asli dengan label yang sudah diketahui. eczema.jpg
+# menampilkan eczema (kelompok dermatitis), tinea.jpg menampilkan ringworm
+# (kelompok dermatophytosis).
 ECZEMA_PHOTO = PROJECT_ROOT / "app" / "static" / "img" / "eczema.jpg"
 TINEA_PHOTO = PROJECT_ROOT / "app" / "static" / "img" / "tinea.jpg"
 
@@ -40,6 +42,22 @@ def eczema_photo():
 @pytest.fixture(scope="session")
 def tinea_photo():
     return TINEA_PHOTO
+
+
+def preprocess_tanpa_exif(image_file):
+    """Salinan inference.preprocess() dengan langkah exif_transpose dihilangkan.
+
+    Dipakai untuk membuktikan bahwa langkah tersebut memang mengubah masukan
+    model, bukan sekadar tambahan yang tidak berpengaruh.
+    """
+    import numpy as np
+
+    from app.ml import inference
+
+    img = Image.open(image_file).convert("RGB")
+    img = inference.canonical_orientation(img)
+    img = inference.letterbox_resize(img, inference.IMAGE_SIZE)
+    return np.expand_dims(np.asarray(img, dtype="float32") / 255.0, axis=0)
 
 
 def make_jpeg(size, color=(200, 120, 120)):

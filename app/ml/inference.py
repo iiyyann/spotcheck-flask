@@ -1,13 +1,14 @@
 """Pemuatan model dan inferensi SpotCheck.
 
 PENTING — preprocessing di modul ini harus sama persis dengan pipeline saat
-training (lihat notebook versi-7, kelas SkinDataGenerator): letterbox resize ke
-224x224 lalu normalisasi /255. Model tidak punya layer Rescaling di dalamnya,
+training (notebook v2-KL-r0-SDS, fungsi transform_image dan
+preprocess_for_inference): kanonisasi orientasi, letterbox resize ke kanvas
+336x224, lalu normalisasi /255. Model tidak punya layer Rescaling di dalamnya,
 jadi pembagian 255 memang harus dilakukan di sini. Bila langkah ini berbeda dari
 saat training, prediksi akan meleset tanpa memunculkan error apa pun.
 
-Konvensi kelas (dari training): 0 = eczema, 1 = tinea.
-Output model adalah satu nilai sigmoid = P(tinea).
+Konvensi kelas (dari training): 0 = dermatitis, 1 = dermatophytosis.
+Output model adalah satu nilai sigmoid = P(dermatophytosis).
 """
 
 from pathlib import Path
@@ -15,8 +16,10 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageOps
 
-# Ukuran input model, sama dengan IMAGE_SIZE di notebook.
-IMAGE_SIZE = (224, 224)
+# Ukuran kanvas model: 336x224 (rasio 3:2), sama dengan IMAGE_SIZE di notebook.
+# Urutan tuple mengikuti konvensi PIL (lebar, tinggi); bentuk tensor yang
+# dihasilkan preprocess() adalah (1, 224, 336, 3) mengikuti konvensi TensorFlow.
+IMAGE_SIZE = (336, 224)
 
 # Ambang keputusan; notebook memakai 0.5 saat evaluasi.
 THRESHOLD = 0.5
@@ -101,11 +104,35 @@ def get_model():
     return _model
 
 
+def canonical_orientation(img):
+    """Putar citra potret 90 derajat agar semua citra menjadi lanskap.
+
+    Kanvas model berbentuk lanskap 3:2. Tanpa langkah ini, foto potret akan
+    dikecilkan sampai muat pada tinggi kanvas dan menyisakan bantalan hitam yang
+    sangat lebar di kiri-kanan, sehingga area kulitnya jauh lebih kecil daripada
+    yang dilihat model saat training. Notebook menerapkan pemutaran yang sama
+    pada SELURUH data (latih, validasi, uji), jadi langkah ini wajib ada di sini.
+
+    Args:
+        img: Citra PIL.
+
+    Returns:
+        Citra PIL yang sisi lebarnya >= sisi tingginya.
+    """
+    width, height = img.size
+    if height > width:
+        return img.transpose(Image.Transpose.ROTATE_90)
+    return img
+
+
 def letterbox_resize(img, target_size, fill_color=(0, 0, 0)):
     """Ubah ukuran citra secara proporsional lalu beri padding di tengah.
 
     Rasio aspek citra asli dipertahankan (tidak digepengkan); sisa ruang diisi
     warna fill_color. Ini strategi resize yang dipakai saat training.
+
+    Sesuai notebook, sisi hasil dijaga minimal 1 piksel agar citra yang sangat
+    panjang dan tipis tidak menghasilkan ukuran nol.
 
     Args:
         img: Citra PIL bermode RGB.
@@ -119,7 +146,8 @@ def letterbox_resize(img, target_size, fill_color=(0, 0, 0)):
     orig_w, orig_h = img.size
 
     scale = min(target_w / orig_w, target_h / orig_h)
-    new_w, new_h = int(orig_w * scale), int(orig_h * scale)
+    new_w = max(1, int(orig_w * scale))
+    new_h = max(1, int(orig_h * scale))
 
     resized_img = img.resize((new_w, new_h), Image.BILINEAR)
 
@@ -131,7 +159,10 @@ def letterbox_resize(img, target_size, fill_color=(0, 0, 0)):
 
 
 def preprocess(image_file):
-    """Ubah berkas citra menjadi array siap-prediksi (1, 224, 224, 3).
+    """Ubah berkas citra menjadi array siap-prediksi (1, 224, 336, 3).
+
+    Urutan langkahnya mengikuti preprocess_for_inference() di notebook, dengan
+    satu tambahan di depan: pelurusan EXIF (lihat komentar di dalam fungsi).
 
     Args:
         image_file: Path, objek file, atau stream yang bisa dibaca PIL.
@@ -146,15 +177,17 @@ def preprocess(image_file):
     # Kamera ponsel tidak memutar piksel; mereka menyimpan orientasi sebagai tag
     # EXIF. Browser menghormati tag itu (preview tampak tegak), Pillow tidak —
     # sehingga tanpa langkah ini model menerima foto MIRING padahal pengguna
-    # melihatnya tegak. Diukur pada foto tinea: tegak -> "Tinea" 61%, dimiringkan
-    # 90 derajat -> "Eczema" 83% (salah, dan percaya diri).
+    # melihatnya tegak.
     # Pada citra tanpa tag EXIF (seperti dataset training) fungsi ini tidak
-    # mengubah apa pun, jadi pipeline-nya tetap sama dengan saat training.
-    img = ImageOps.exif_transpose(img)              # 1. luruskan sesuai EXIF
-    img = img.convert("RGB")                        # 2. paksa RGB
-    img = letterbox_resize(img, IMAGE_SIZE)         # 3. letterbox ke 224x224
+    # mengubah apa pun, jadi pipeline-nya tetap sama dengan saat training. Ia
+    # harus berjalan SEBELUM canonical_orientation(), supaya keputusan
+    # potret/lanskap dibuat atas orientasi yang sebenarnya dilihat pengguna.
+    img = ImageOps.exif_transpose(img)              # 0. luruskan sesuai EXIF
+    img = img.convert("RGB")                        # 1. paksa RGB
+    img = canonical_orientation(img)                # 2. potret -> lanskap
+    img = letterbox_resize(img, IMAGE_SIZE)         # 3. letterbox ke 336x224
     arr = np.asarray(img, dtype="float32") / 255.0  # 4. normalisasi 0..1
-    arr = np.expand_dims(arr, axis=0)               # 5. batch 1 -> (1,224,224,3)
+    arr = np.expand_dims(arr, axis=0)               # 5. batch 1 -> (1,224,336,3)
     return arr
 
 
@@ -175,15 +208,17 @@ def predict(image_file):
     model = get_model()
     arr = preprocess(image_file)
 
-    # Output sigmoid tunggal = P(tinea).
-    p_tinea = float(model.predict(arr, verbose=0)[0][0])
+    # Output sigmoid tunggal = P(dermatophytosis), kelas positif saat training.
+    p_dermatophytosis = float(model.predict(arr, verbose=0)[0][0])
 
-    is_tinea = p_tinea >= THRESHOLD
+    is_dermatophytosis = p_dermatophytosis >= THRESHOLD
     return {
-        "verdict": "Tinea" if is_tinea else "Eczema",
-        "confidence": round(max(p_tinea, 1 - p_tinea) * 100),
-        "eczema_pct": round((1 - p_tinea) * 100),
-        "tinea_pct": round(p_tinea * 100),
+        "verdict": "Dermatophytosis" if is_dermatophytosis else "Dermatitis",
+        "confidence": round(
+            max(p_dermatophytosis, 1 - p_dermatophytosis) * 100
+        ),
+        "dermatitis_pct": round((1 - p_dermatophytosis) * 100),
+        "dermatophytosis_pct": round(p_dermatophytosis * 100),
         # Probabilitas mentah disertakan untuk keperluan debugging/analisis.
-        "probability_tinea": p_tinea,
+        "probability_dermatophytosis": p_dermatophytosis,
     }

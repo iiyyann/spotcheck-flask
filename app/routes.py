@@ -42,7 +42,8 @@ def predict():
     """Terima satu citra kulit, kembalikan hasil klasifikasi sebagai JSON.
 
     Request: multipart/form-data dengan field "image".
-    Response 200: {verdict, confidence, eczema_pct, tinea_pct, probability_tinea}
+    Response 200: {verdict, confidence, dermatitis_pct, dermatophytosis_pct,
+                   probability_dermatophytosis}
     Response 400: {error} bila berkas tidak ada / tipe salah / bukan citra valid.
     """
     if "image" not in request.files:
