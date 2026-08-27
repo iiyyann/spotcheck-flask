@@ -50,7 +50,8 @@
       }
     });
   },{rootMargin:'-80px 0px -70% 0px',threshold:0});
-  document.querySelectorAll('.acc').forEach(a=>spy.observe(a));
+  // .acc = seksi akordion halaman edukasi; .nsec = seksi halaman About Model.
+  document.querySelectorAll('.acc, .nsec').forEach(a=>spy.observe(a));
 
   /* ---------- Prediksi nyata pada dropzone ----------
      Menggantikan runDemo() milik prototype yang meng-hardcode 85/15. Animasi
@@ -161,25 +162,27 @@
 
     document.getElementById('verdict').textContent = 'Looks like ' + data.verdict;
 
+    // Model memprediksi KELOMPOK penyakit, bukan satu penyakit tertentu.
+    const fungal = data.verdict === 'Dermatophytosis';
+
     const chip = document.getElementById('confChip');
     chip.textContent = data.confidence + '% confidence';
-    chip.className = 'chip ' + (data.verdict === 'Tinea' ? 'chip-tinea' : 'chip-eczema');
+    chip.className = 'chip ' + (fungal ? 'chip-dermatophytosis' : 'chip-dermatitis');
 
     // Antar pengguna ke halaman edukasi yang sesuai hasilnya.
-    const tinea = data.verdict === 'Tinea';
-    learnBtn.textContent = 'Read the ' + (tinea ? 'Tinea' : 'Eczema') + ' guide →';
-    learnBtn.onclick = () => go(tinea ? 'tinea' : 'eczema');
+    learnBtn.textContent = 'Read the ' + data.verdict + ' guide →';
+    learnBtn.onclick = () => go(fungal ? 'dermatophytosis' : 'dermatitis');
     learnBox.hidden = false;
 
     // Reset ke 0 supaya animasi terputar ulang setiap prediksi (perilaku prototype).
-    document.getElementById('barE').style.width = '0%';
-    document.getElementById('barT').style.width = '0%';
+    document.getElementById('barDerm').style.width = '0%';
+    document.getElementById('barDpht').style.width = '0%';
     requestAnimationFrame(()=>{
       setTimeout(()=>{
-        document.getElementById('barE').style.width = data.eczema_pct + '%';
-        document.getElementById('barT').style.width = data.tinea_pct + '%';
-        document.getElementById('valE').textContent = data.eczema_pct + '%';
-        document.getElementById('valT').textContent = data.tinea_pct + '%';
+        document.getElementById('barDerm').style.width = data.dermatitis_pct + '%';
+        document.getElementById('barDpht').style.width = data.dermatophytosis_pct + '%';
+        document.getElementById('valDerm').textContent = data.dermatitis_pct + '%';
+        document.getElementById('valDpht').textContent = data.dermatophytosis_pct + '%';
       },80);
     });
     setTimeout(()=>resultBox.scrollIntoView({behavior:'smooth',block:'center'}),200);

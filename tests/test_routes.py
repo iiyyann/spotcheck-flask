@@ -17,7 +17,8 @@ def test_index_returns_ok(client):
 
 def test_index_has_all_four_pages(client):
     html = client.get("/").get_data(as_text=True)
-    for page_id in ("page-home", "page-eczema", "page-tinea", "page-about"):
+    for page_id in ("page-home", "page-dermatitis", "page-dermatophytosis",
+                    "page-about"):
         assert f'id="{page_id}"' in html
 
 
@@ -68,7 +69,8 @@ def test_favicon_ico_redirects(client):
     [
         "/static/img/model/training-curves.png",
         "/static/img/model/roc-curve.png",
-        "/static/img/model/inference-samples.png",
+        "/static/img/model/inference-dermatitis.png",
+        "/static/img/model/inference-dermatophytosis.png",
     ],
 )
 def test_model_figures_are_served(client, path):
@@ -82,7 +84,8 @@ def test_model_figures_are_served(client, path):
     [
         ("training-curves.png", 1100, 830),
         ("roc-curve.png", 580, 560),
-        ("inference-samples.png", 1100, 830),
+        ("inference-dermatitis.png", 1100, 830),
+        ("inference-dermatophytosis.png", 1100, 830),
     ],
 )
 def test_model_figures_keep_native_resolution(nama, lebar_min, lebar_tampil):
@@ -108,15 +111,40 @@ def test_model_figures_keep_native_resolution(nama, lebar_min, lebar_tampil):
 
 
 def test_about_shows_model_figures_and_metrics(client):
-    """Angka pelatihan berasal dari notebook — jangan sampai berubah diam-diam."""
+    """Angka pelatihan berasal dari notebook — jangan sampai berubah diam-diam.
+
+    Sumber: v2-kl-r0-sds-dd-classification-44, bagian 6.1 (kinerja per subset),
+    6.2 (confusion matrix), 6.3 (metrik turunan) dan 6.4 (ROC-AUC).
+    """
     html = client.get("/").get_data(as_text=True)
 
-    for gambar in ("training-curves.png", "roc-curve.png", "inference-samples.png"):
+    for gambar in ("training-curves.png", "roc-curve.png",
+                   "inference-dermatitis.png", "inference-dermatophytosis.png"):
         assert gambar in html
 
-    # Train / Validation / Test — loss dan accuracy, persis seperti notebook.
-    for angka in ("0.4463", "83.80%", "0.4401", "83.83%", "0.4721", "83.17%"):
+    # 6.1 — Train / Validation / Test: loss, accuracy, ROC-AUC.
+    for angka in ("0.3065", "89.83%", "96.87%",
+                  "0.4297", "83.41%", "91.13%",
+                  "0.4116", "86.03%", "91.80%"):
         assert angka in html, f"metrik {angka} hilang dari halaman About"
+
+    # 6.2 — komponen confusion matrix pada 458 citra uji.
+    for sel in (">228<", ">27<", ">37<", ">166<"):
+        assert sel in html, f"sel confusion matrix {sel} hilang dari halaman About"
+
+    # 6.3 — recall per kelas, angka yang paling sering dikutip di Bab 3.
+    for angka in ("89.41%", "81.77%", "85.77%"):
+        assert angka in html, f"metrik {angka} hilang dari halaman About"
+
+    # 6.4 — AUC eksak dari kurva ROC.
+    assert "0.9176" in html
+
+
+def test_about_reports_the_dataset_used_for_training(client):
+    """Jumlah citra dan pembagiannya harus sesuai notebook (bagian 4.4.1)."""
+    html = client.get("/").get_data(as_text=True)
+    for angka in ("9,987", "3,049", "2,133", "1,696", "1,353"):
+        assert angka in html, f"angka dataset {angka} hilang dari halaman About"
 
 
 def test_footer_links_to_cleveland_clinic(client):
@@ -125,7 +153,11 @@ def test_footer_links_to_cleveland_clinic(client):
 
 
 def test_eczema_types_have_definitions(client):
-    """Tiap tipe eczema harus punya penjelasan, bukan sekadar daftar nama."""
+    """Tiap tipe eczema harus punya penjelasan, bukan sekadar daftar nama.
+
+    Eczema adalah contoh yang dibahas mendalam pada halaman Dermatitis; daftar
+    tipe ini bagian dari materi tersebut.
+    """
     html = client.get("/").get_data(as_text=True)
     for tipe in (
         "Atopic dermatitis",
@@ -137,6 +169,39 @@ def test_eczema_types_have_definitions(client):
     ):
         assert f"<dt>{tipe}</dt>" in html
     assert html.count("<dd>") >= 6
+
+
+def test_education_pages_state_their_scope(client):
+    """Halaman edukasi wajib menyatakan bahwa isinya satu contoh dari kelompok.
+
+    Model mengklasifikasikan KELOMPOK penyakit (dermatitis dan dermatophytosis),
+    sedangkan materi edukasinya membahas satu anggota paling dikenal dari tiap
+    kelompok: eczema dan ringworm. Tanpa catatan ini pembaca bisa mengira model
+    memprediksi eczema atau ringworm secara spesifik.
+    """
+    html = client.get("/").get_data(as_text=True)
+
+    assert html.count('class="scope-note"') >= 3, (
+        "catatan cakupan hilang dari beranda dan/atau halaman edukasi"
+    )
+    assert "best-known" in html
+
+
+def test_index_warns_that_out_of_scope_photos_still_get_an_answer(client):
+    """Batas terpenting model harus dinyatakan, bukan disimpulkan sendiri.
+
+    Model adalah pengklasifikasi biner closed-set: tidak ada kelas penolakan
+    dan tidak ada deteksi out-of-distribution, sehingga citra apa pun tetap
+    dijawab salah satu dari dua kelas — kadang dengan keyakinan tinggi.
+    Peringatan ini menyangkut keselamatan pengguna, jadi dikunci di sini.
+    """
+    html = client.get("/").get_data(as_text=True)
+
+    assert 'neither' in html, "peringatan citra di luar kelas hilang dari halaman"
+    assert "closed-set" in html, "penjelasan teknis closed-set hilang dari About"
+    assert "even when the photo is neither" in html, (
+        "disclaimer hasil tidak lagi menyebut bahwa model selalu memilih satu kelas"
+    )
 
 
 def test_index_serves_photos_as_static_files(client):
@@ -160,8 +225,8 @@ def test_predict_returns_result_for_valid_photo(client, eczema_photo):
 
     assert res.status_code == 200
     data = res.get_json()
-    assert data["verdict"] in ("Eczema", "Tinea")
-    assert data["eczema_pct"] + data["tinea_pct"] == 100
+    assert data["verdict"] in ("Dermatitis", "Dermatophytosis")
+    assert data["dermatitis_pct"] + data["dermatophytosis_pct"] == 100
     assert 50 <= data["confidence"] <= 100
 
 

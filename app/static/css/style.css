@@ -15,10 +15,10 @@
     --line:#E2E9E6;
     --amber:#C2571A;
     --amber-soft:#FBEDE3;
-    --eczema:#7A67A6;
-    --eczema-soft:#EDEAF5;
-    --tinea:#2A5FA8;
-    --tinea-soft:#E4EAF6;
+    --dermatitis:#7A67A6;
+    --dermatitis-soft:#EDEAF5;
+    --dermatophytosis:#2A5FA8;
+    --dermatophytosis-soft:#E4EAF6;
     --radius:16px;
     --shadow:0 1px 2px rgba(20,88,76,.05), 0 8px 24px rgba(20,88,76,.06);
     --shadow-lg:0 12px 40px rgba(20,88,76,.12);
@@ -134,13 +134,17 @@
   .result{margin-top:18px;display:none;}
   .result.show{display:block;animation:fade .4s;}
   .result-top{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+  .result-top .chip{flex:none;white-space:nowrap;}
   .result-verdict{font-family:"Fraunces",serif;font-size:1.5rem;font-weight:600;color:var(--primary);}
   .chip{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
     padding:5px 11px;border-radius:20px;font-weight:500;}
-  .chip-eczema{background:var(--eczema-soft);color:var(--eczema);}
-  .chip-tinea{background:var(--tinea-soft);color:var(--tinea);}
+  .chip-dermatitis{background:var(--dermatitis-soft);color:var(--dermatitis);}
+  .chip-dermatophytosis{background:var(--dermatophytosis-soft);color:var(--dermatophytosis);}
   .bar-row{display:flex;align-items:center;gap:12px;margin:9px 0;}
-  .bar-row .lab{width:74px;font-size:.86rem;color:var(--muted);font-weight:500;}
+  /* Lebarnya dipatok (bukan auto) supaya kedua bar mulai di garis yang sama.
+     Nilai 74px di prototype pas untuk "Eczema"/"Tinea"; "Dermatophytosis" jauh
+     lebih panjang dan menimpa bar-nya, jadi patokannya dinaikkan. */
+  .bar-row .lab{flex:none;width:128px;font-size:.86rem;color:var(--muted);font-weight:500;}
   .bar-track{flex:1;height:10px;background:var(--mint);border-radius:6px;overflow:hidden;}
   .bar-fill{height:100%;border-radius:6px;transition:width 1s cubic-bezier(.2,.7,.2,1);}
   .bar-row .val{width:52px;text-align:right;font-family:"IBM Plex Mono",monospace;font-size:.86rem;font-weight:600;color:var(--ink);}
@@ -152,6 +156,20 @@
   .disclaimer .ic{flex:none;width:22px;height:22px;border-radius:50%;background:var(--amber);color:#fff;
     display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;font-family:serif;}
   .disclaimer p{margin:0;font-size:.86rem;color:#7a3d16;line-height:1.55;}
+
+  /* Catatan cakupan. Menjelaskan bahwa model mengenali KELOMPOK penyakit,
+     sedangkan halaman edukasi membahas satu contoh paling dikenal dari
+     kelompok itu. Sengaja bertema mint (netral/informasional), bukan amber
+     seperti .disclaimer yang berarti peringatan. */
+  .scope-note{
+    display:flex;gap:12px;align-items:flex-start;background:var(--mint);
+    border:1px solid var(--mint-2);border-radius:14px;padding:14px 16px;margin:0 0 24px;
+  }
+  .scope-note .ic{flex:none;width:22px;height:22px;border-radius:50%;background:var(--primary-2);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;font-family:serif;}
+  .scope-note p{margin:0;font-size:.86rem;color:var(--primary);line-height:1.55;}
+  .scope-note p + p{margin-top:8px;}
+  .scope-note b{font-weight:600;}
 
   /* How it works */
   section.block{padding:52px 0;border-top:1px solid var(--line);}
@@ -167,13 +185,13 @@
   .learn-split{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
   .learn-card{border-radius:var(--radius);padding:28px;cursor:pointer;transition:.2s;border:1px solid var(--line);}
   .learn-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
-  .learn-card.ecz{background:var(--eczema-soft);}
-  .learn-card.tin{background:var(--tinea-soft);}
+  .learn-card.derm{background:var(--dermatitis-soft);}
+  .learn-card.dpht{background:var(--dermatophytosis-soft);}
   .learn-card h3{font-size:1.45rem;color:var(--ink);margin-bottom:8px;}
   .learn-card p{margin:0 0 16px;color:var(--muted);font-size:.95rem;}
   .learn-card .go{font-weight:600;font-size:.9rem;}
-  .learn-card.ecz .go{color:var(--eczema);}
-  .learn-card.tin .go{color:var(--tinea);}
+  .learn-card.derm .go{color:var(--dermatitis);}
+  .learn-card.dpht .go{color:var(--dermatophytosis);}
 
   /* ---------- Article layout (Eczema / Tinea) ---------- */
   .article-hero{padding:52px 0 30px;}
@@ -229,20 +247,27 @@
   .src-note a{color:var(--primary-2);text-decoration:underline;}
 
   /* ---------- About Model ---------- */
-  .about-hero{padding:56px 0 20px;max-width:70ch;}
+  /* Batas 70ch dipindah ke judul dan paragrafnya saja, supaya baris
+     spesifikasi di bawahnya boleh memakai lebar penuh dan muat satu baris. */
+  .about-hero{padding:56px 0 20px;}
+  .about-hero h1,.about-hero p{max-width:70ch;}
   .about-hero h1{font-size:2.7rem;letter-spacing:-.02em;margin:14px 0 16px;}
   .about-hero p{color:var(--muted);font-size:1.1rem;margin:0;}
   .highlight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:36px 0;}
-  .hl{background:var(--primary);color:#fff;border-radius:20px;padding:26px;position:relative;overflow:hidden;}
+  .hl{background:var(--primary);color:#fff;border-radius:20px;padding:26px;position:relative;overflow:hidden;
+    display:flex;flex-direction:column;}
   /* Tangga hijau: gelap -> sedang -> terang, mengikuti urutan kartunya. */
   .hl:nth-child(2){background:#1E6B5E;}
   .hl:nth-child(3){background:var(--primary-2);}
-  .hl .hl-eye{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75;}
-  .hl .hl-big{font-family:"Fraunces",serif;font-size:2.5rem;font-weight:600;margin:8px 0 2px;line-height:1;}
-  .hl .hl-sub{font-size:.9rem;opacity:.9;}
+  /* Bug bawaan prototype, sekeluarga dengan .bar-fill: ketiganya <span> tanpa
+     properti display, jadi elemen inline — yang mengabaikan margin vertikal,
+     sehingga label, angka besar, dan keterangan berdempet dalam satu baris. */
+  .hl .hl-eye{display:block;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75;}
+  .hl .hl-big{display:block;font-family:"Fraunces",serif;font-size:2.5rem;font-weight:600;margin:8px 0 2px;line-height:1;}
+  .hl .hl-sub{display:block;font-size:.9rem;opacity:.9;}
 
   .narrative{display:grid;grid-template-columns:1fr;gap:0;}
-  .nsec{padding:34px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:210px 1fr;gap:36px;align-items:start;}
+  .nsec{padding:34px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:210px 1fr;gap:36px;align-items:start;scroll-margin-top:88px;}
   .nsec .nstep{font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--primary-2);font-weight:600;letter-spacing:.08em;}
   .nsec h2{font-size:1.5rem;margin:8px 0 0;}
   .nsec .ncontent p{margin:0 0 12px;color:#38443F;}
@@ -250,13 +275,19 @@
   .nsec .ncontent ul{color:#38443F;padding-left:20px;margin:0 0 12px;}
   .nsec .ncontent li{margin:4px 0;}
 
+  .table-scroll{overflow-x:auto;margin:8px 0 4px;}
+  .table-scroll .metric-table{margin:0;min-width:420px;}
   .metric-table{width:100%;border-collapse:collapse;margin:8px 0 4px;font-size:.92rem;}
   .metric-table th,.metric-table td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);}
   .metric-table th{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;}
   .metric-table td.num{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--primary);}
   .metric-table tr:last-child td{border-bottom:none;}
 
-  .confusion{display:inline-grid;grid-template-columns:auto auto auto;gap:6px;margin:6px 0 2px;font-family:"IBM Plex Mono",monospace;font-size:.82rem;}
+  /* Nama kelas (dermatitis/dermatophytosis) jauh lebih panjang daripada
+     eczema/tinea di prototype, sehingga grid ini bisa melebihi lebar layar
+     ponsel. Pembungkusnya digulir mendatar agar isi halaman tidak ikut meluber. */
+  .confusion-wrap{overflow-x:auto;margin:6px 0 2px;}
+  .confusion{display:inline-grid;grid-template-columns:auto auto auto;gap:6px;font-family:"IBM Plex Mono",monospace;font-size:.82rem;}
   .confusion .cm-cell{padding:14px 18px;border-radius:10px;text-align:center;min-width:78px;}
   .confusion .cm-lab{color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;}
   .cm-tp{background:var(--mint);color:var(--primary);}
@@ -268,12 +299,141 @@
   .arch-flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:6px 0 4px;}
   .arch-node{background:var(--mint);color:var(--primary);border:1px solid var(--mint-2);border-radius:10px;
     padding:8px 12px;font-size:.8rem;font-weight:600;font-family:"IBM Plex Mono",monospace;}
-  /* Node blok residual di diagram arsitektur. Prototype memakai --tinea-soft di
+  /* Node blok residual di diagram arsitektur. Prototype memakai warna kelas di
      sini semata karena warnanya cocok — bukan karena ada kaitan dengan penyakit
-     tinea. Warnanya ditulis literal agar tidak ikut berubah saat warna tinea
-     diganti; diagram ini seluruhnya bertema hijau. */
+     dermatophytosis. Warnanya ditulis literal agar tidak ikut berubah saat warna
+     kelas diganti; diagram ini seluruhnya bertema hijau. */
   .arch-node.res{background:#DDF0F2;border-color:#BFE0D7;}
   .arch-arrow{color:var(--muted);font-size:.9rem;}
+
+  /* ---------- About Model: visualisasi ---------- */
+  /* Semua grafik di bawah memakai palet yang sudah ada. Aturan yang dipegang:
+     setiap nilai diberi label langsung, warna tidak pernah jadi satu-satunya
+     pembeda, dan tabel angka tetap disediakan di sebelahnya. */
+
+  .about-layout{display:grid;grid-template-columns:1fr 208px;gap:32px;align-items:start;}
+  .about-layout .nsec{grid-template-columns:168px 1fr;gap:26px;}
+  /* Item grid punya min-width:auto secara bawaan, artinya ia menolak menyusut
+     di bawah lebar isinya. Diagram SVG dan matriks yang lebar akan mendorong
+     kolom melewati tepi halaman dan menggeser rail navigasi keluar layar. */
+  .about-layout > *,
+  .nsec > *{min-width:0;}
+  @media (max-width:860px){
+    .about-layout{grid-template-columns:1fr;gap:0;}
+    /* Lebih spesifik daripada aturan .nsec global, jadi override khusus About
+       ini harus dinyatakan ulang di sini agar seksi ikut menjadi satu kolom. */
+    .about-layout .nsec{grid-template-columns:1fr;gap:12px;}
+  }
+
+  /* Rail navigasi kanan. Sengaja memakai gaya .quicknav halaman edukasi. */
+  .about-nav{position:sticky;top:88px;padding-top:34px;}
+  @media (max-width:860px){ .about-nav{display:none;} }
+
+  /* Baris spesifikasi di bawah hero About. Sengaja TANPA kotak: di bawahnya
+     sudah ada tiga kartu hijau pekat, dan dua baris kartu bertumpuk membuat
+     halaman terasa penuh kemasan. Pemisahnya garis tipis, seperti .glance pada
+     halaman edukasi tetapi tanpa latar dan tepi. */
+  .spec-strip{display:flex;flex-wrap:wrap;gap:0;margin:26px 0 0;padding:0;}
+  .spec-strip > div{padding:0 26px;border-left:1px solid var(--line);}
+  .spec-strip > div:first-child{padding-left:0;border-left:none;}
+  .spec-strip dt{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.2rem;color:var(--primary);}
+  .spec-strip dd{margin:4px 0 0;font-size:.92rem;color:var(--muted);}
+  @media (max-width:860px){
+    .spec-strip{gap:16px 0;}
+    .spec-strip > div{flex:1 1 44%;padding:0 0 0 16px;}
+    .spec-strip > div:nth-child(odd){padding-left:0;border-left:none;}
+  }
+
+  /* Pembungkus tiap grafik. */
+  .viz{margin:22px 0 10px;}
+  .viz-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+  .viz-title{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);}
+  .viz-note{font-size:.82rem;color:var(--muted);margin:16px 0 0;line-height:1.6;}
+  .viz-note b{color:var(--ink);font-weight:600;}
+
+  /* Legend. Selalu ada bila grafik memuat dua kelas. */
+  .chart-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);}
+  .chart-legend .lg{display:inline-flex;align-items:center;gap:7px;}
+  .chart-legend .lg i{width:10px;height:10px;border-radius:3px;flex:none;font-style:normal;}
+
+  /* --- Funnel pembersihan data: satu hue, tangga gelap ke terang --- */
+  .funnel{display:flex;flex-direction:column;gap:10px;}
+  .funnel-row{display:grid;grid-template-columns:1fr;gap:5px;}
+  .funnel-meta{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:.84rem;}
+  .funnel-meta .fn-lab{color:var(--ink);}
+  .funnel-meta .fn-val{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--primary);
+    font-variant-numeric:tabular-nums;}
+  .funnel-track{height:20px;background:var(--mint);border-radius:6px;overflow:hidden;}
+  .funnel-bar{height:100%;border-radius:0 6px 6px 0;transition:width .5s cubic-bezier(.2,.7,.2,1);}
+  .funnel-bar.s1{background:var(--primary);}
+  .funnel-bar.s2{background:#1E6B5E;}
+  .funnel-bar.s3{background:var(--primary-2);}
+  .funnel-drop{font-size:.78rem;color:var(--amber);padding-left:2px;}
+
+  /* --- Batang komposisi kelas per bagian data --- */
+  .compo{display:flex;flex-direction:column;gap:14px;}
+  .compo-row .compo-meta{display:flex;justify-content:space-between;align-items:baseline;
+    gap:12px;font-size:.84rem;margin-bottom:5px;}
+  .compo-row .compo-meta .cp-lab{color:var(--ink);}
+  .compo-row .compo-meta .cp-tot{font-family:"IBM Plex Mono",monospace;color:var(--muted);
+    font-size:.78rem;font-variant-numeric:tabular-nums;}
+  /* Celah 2px berwarna permukaan yang memisahkan segmen — bukan garis tepi. */
+  .compo-bar{display:flex;gap:2px;height:30px;}
+  .compo-seg{display:flex;align-items:center;padding:0 10px;font-family:"IBM Plex Mono",monospace;
+    font-size:.74rem;font-weight:600;color:#fff;white-space:nowrap;overflow:visible;}
+  .compo-seg:first-child{border-radius:6px 0 0 6px;}
+  .compo-seg:last-child{border-radius:0 6px 6px 0;justify-content:flex-end;}
+  .compo-seg.derm{background:var(--dermatitis);}
+  .compo-seg.dpht{background:var(--dermatophytosis);}
+
+  /* --- Batang metrik per kelas, berpasangan --- */
+  .mbars{display:flex;flex-direction:column;gap:18px;}
+  .mbar-group .mbar-name{font-size:.84rem;color:var(--ink);margin-bottom:7px;}
+  .mbar{display:grid;grid-template-columns:1fr 58px;align-items:center;gap:10px;margin-bottom:5px;}
+  .mbar-track{height:14px;background:var(--mint);border-radius:4px;}
+  .mbar-fill{height:100%;border-radius:0 4px 4px 0;}
+  .mbar-fill.derm{background:var(--dermatitis);}
+  .mbar-fill.dpht{background:var(--dermatophytosis);}
+  .mbar-val{font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:600;
+    color:var(--primary);text-align:right;font-variant-numeric:tabular-nums;}
+  .mbar-gap{font-size:.78rem;color:var(--amber);margin-top:2px;}
+
+  /* --- Confusion matrix, versi berskala --- */
+  .cmx{display:grid;grid-template-columns:140px 1fr 1fr auto;gap:6px;min-width:560px;}
+  .cmx .cx-h{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--muted);display:flex;align-items:flex-end;
+    justify-content:center;text-align:center;padding-bottom:4px;line-height:1.3;}
+  /* display:block, bukan flex: di dalam flex container tiap <br> dan <span>
+     menjadi item terpisah yang berjajar mendatar, sehingga "Actually
+     Dermatophytosis" dan "203 images" berdesakan lalu terpotong. */
+  .cmx .cx-rh{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--muted);display:block;align-self:center;
+    text-align:right;padding-right:12px;width:140px;line-height:1.4;}
+  .cmx .cx-cell{border-radius:10px;padding:16px 12px;text-align:center;position:relative;}
+  .cmx .cx-cell.hit{background:var(--mint);color:var(--primary);}
+  .cmx .cx-cell.miss{background:var(--amber-soft);color:var(--amber);}
+  /* Ukuran angka ikut besarnya nilai, jadi diagonal langsung terbaca dominan. */
+  .cmx .cx-n{font-family:"Fraunces",serif;font-weight:600;line-height:1;display:block;}
+  .cmx .cx-pct{font-family:"IBM Plex Mono",monospace;font-size:.72rem;display:block;margin-top:5px;opacity:.85;}
+  .cmx .cx-tag{font-size:.64rem;text-transform:uppercase;letter-spacing:.1em;display:block;
+    margin-top:6px;opacity:.7;}
+  .cmx .cx-recall{display:flex;flex-direction:column;justify-content:center;padding-left:10px;
+    border-left:1px solid var(--line);min-width:96px;}
+  .cmx .cx-recall .rc-n{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--primary);font-size:.9rem;}
+  .cmx .cx-recall .rc-l{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+
+  /* --- Diagram arsitektur (SVG) dan pipeline preprocessing --- */
+  .svg-scroll{overflow-x:auto;padding-bottom:4px;}
+  .svg-scroll svg{display:block;max-width:100%;height:auto;}
+  .svg-scroll svg text{font-family:"IBM Plex Mono",monospace;}
+
+  /* --- Kartu sorotan: tambahkan meter kecil di bawah angka --- */
+  .hl .hl-meter{display:block;height:4px;background:rgba(255,255,255,.25);border-radius:3px;
+    margin-top:auto;padding-top:0;overflow:hidden;}
+  .hl .hl-sub{margin-bottom:16px;}
+  .hl .hl-meter i{display:block;height:100%;background:rgba(255,255,255,.85);border-radius:3px;}
+  .hl .hl-foot{display:block;font-size:.72rem;opacity:.7;margin-top:7px;font-family:"IBM Plex Mono",monospace;}
 
   /* ---------- footer ---------- */
   footer{border-top:1px solid var(--line);background:var(--surface);margin-top:20px;}

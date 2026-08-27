@@ -5,9 +5,9 @@
 <section class="page active" id="page-home">
   <div class="hero">
     <div>
-      <span class="eyebrow">Eczema vs Tinea · CNN Classifier</span>
+      <span class="eyebrow">Dermatitis vs Dermatophytosis · CNN Classifier</span>
       <h1>Not sure what's on your skin? <em>Scan it.</em></h1>
-      <p class="lead">Upload a photo and SpotCheck's deep-learning model gives you a quick read on whether it looks more like <b>eczema</b> or <b>tinea</b> — then helps you learn what each one means.</p>
+      <p class="lead">Upload a photo and SpotCheck's deep-learning model gives you a quick read on whether it looks more like <b>dermatitis</b> (inflammation) or <b>dermatophytosis</b> (a fungal infection) — then helps you learn what each group means.</p>
       <div class="hero-cta">
         <button class="btn btn-primary" onclick="document.getElementById('dz').scrollIntoView({block:'center'})">Upload a photo</button>
         <button class="btn btn-ghost" onclick="go('about')">How the model works</button>
@@ -49,26 +49,26 @@
 
       <div class="result" id="result">
         <div class="result-top">
-          <span class="result-verdict" id="verdict">Looks like Eczema</span>
-          <span class="chip chip-eczema" id="confChip">85% confidence</span>
+          <span class="result-verdict" id="verdict">Looks like Dermatitis</span>
+          <span class="chip chip-dermatitis" id="confChip">85% confidence</span>
         </div>
         <div class="bar-row">
-          <span class="lab">Eczema</span>
-          <span class="bar-track"><span class="bar-fill" id="barE" style="width:0;background:var(--eczema);"></span></span>
-          <span class="val" id="valE">0%</span>
+          <span class="lab">Dermatitis</span>
+          <span class="bar-track"><span class="bar-fill" id="barDerm" style="width:0;background:var(--dermatitis);"></span></span>
+          <span class="val" id="valDerm">0%</span>
         </div>
         <div class="bar-row">
-          <span class="lab">Tinea</span>
-          <span class="bar-track"><span class="bar-fill" id="barT" style="width:0;background:var(--tinea);"></span></span>
-          <span class="val" id="valT">0%</span>
+          <span class="lab">Dermatophytosis</span>
+          <span class="bar-track"><span class="bar-fill" id="barDpht" style="width:0;background:var(--dermatophytosis);"></span></span>
+          <span class="val" id="valDpht">0%</span>
         </div>
         <div class="result-learn" id="resultLearn">
-          <span class="rl-text">Want to understand this condition?</span>
-          <button type="button" class="rl-go" id="resultLearnBtn">Read the Eczema guide →</button>
+          <span class="rl-text">Want to understand this group of conditions?</span>
+          <button type="button" class="rl-go" id="resultLearnBtn">Read the Dermatitis guide →</button>
         </div>
         <div class="disclaimer">
           <span class="ic">i</span>
-          <p><b>This is not a medical diagnosis.</b> SpotCheck is a supportive tool, not a doctor. See a dermatologist or healthcare provider to confirm any skin condition and get treatment.</p>
+          <p><b>This is not a medical diagnosis.</b> SpotCheck names a <b>group</b> of conditions, not a specific disease, and it always answers with one of its two classes even when the photo is neither. It is a supportive tool, not a doctor. See a dermatologist or healthcare provider to confirm any skin condition and get treatment.</p>
         </div>
       </div>
     </div>
@@ -78,49 +78,71 @@
     <div class="block-head">
       <span class="eyebrow">How it works</span>
       <h2>Three steps, a few seconds</h2>
-      <p>Everything runs on a convolutional neural network (CNN) trained from scratch to tell these two look-alike conditions apart.</p>
+      <p>Everything runs on a convolutional neural network (CNN) trained from scratch to tell these two look-alike groups of conditions apart.</p>
     </div>
     <div class="steps">
       <div class="step"><span class="num">STEP 01</span><h3>Upload</h3><p>Add a clear, well-lit photo of the affected skin. The image never leaves the model's own pipeline.</p></div>
       <div class="step"><span class="num">STEP 02</span><h3>Analyze</h3><p>The image is resized and normalized, then the CNN reads its visual patterns and scores each class.</p></div>
-      <div class="step"><span class="num">STEP 03</span><h3>Learn</h3><p>You get a confidence read for eczema vs tinea, plus a jump into plain-language education on each.</p></div>
+      <div class="step"><span class="num">STEP 03</span><h3>Learn</h3><p>You get a confidence read for dermatitis vs dermatophytosis, plus a jump into plain-language education on each.</p></div>
+    </div>
+    <div class="scope-note" style="margin:28px 0 0;">
+      <span class="ic">!</span>
+      <div>
+        <p><b>Send it only what it was built for.</b> The model knows two answers and nothing else — it cannot reply "this is neither". Give it a photo of healthy skin, a different skin condition, or anything that isn't a rash at all, and it will still pick one of the two and put a confidence figure next to it.</p>
+        <p>So please upload only a photo of a rash you think might be dermatitis or dermatophytosis. For anything outside that, the answer is not a weak result — it is a meaningless one.</p>
+      </div>
     </div>
   </section>
 
   <section class="block">
     <div class="block-head">
       <span class="eyebrow">Learn more</span>
-      <h2>Understand both conditions</h2>
-      <p>They share redness, itch and scaling — which is exactly why they're so easy to confuse. Here's what sets them apart.</p>
+      <h2>Understand both groups</h2>
+      <p>Dermatitis and dermatophytosis are not two diseases — they are two <b>families</b> of skin conditions. They share redness, itch and scaling, which is exactly why they're so easy to confuse. Here's what sets them apart.</p>
+    </div>
+    <div class="scope-note">
+      <span class="ic">i</span>
+      <div>
+        <p><b>Each family has many members.</b> Dermatitis covers everything from atopic and contact dermatitis to seborrheic and stasis dermatitis; dermatophytosis covers tinea of the scalp, body, face, groin, hands, feet and nails.</p>
+        <p>Rather than write a guide for every member, SpotCheck's education pages take the <b>best-known example</b> from each family — <b>eczema</b> for dermatitis and <b>ringworm</b> for dermatophytosis — and explain it in depth. What you learn there is the clearest way into the family as a whole.</p>
+      </div>
     </div>
     <div class="learn-split">
-      <div class="learn-card ecz" onclick="go('eczema')">
-        <span class="chip chip-eczema">Inflammatory · Chronic · Not contagious</span>
-        <h3 style="margin-top:12px;">Eczema</h3>
-        <p>A chronic condition that leaves skin dry, itchy and inflamed when its barrier is disrupted by triggers.</p>
+      <div class="learn-card derm" onclick="go('dermatitis')">
+        <span class="chip chip-dermatitis">Inflammatory · Non-infectious · Not contagious</span>
+        <h3 style="margin-top:12px;">Eczema (Dermatitis)</h3>
+        <p>The best-known member of the dermatitis family — skin inflammation that is not caused by an infection. Eczema leaves skin dry, itchy and inflamed when its barrier is disrupted by triggers.</p>
         <span class="go">Read the guide →</span>
       </div>
-      <div class="learn-card tin" onclick="go('tinea')">
-        <span class="chip chip-tinea">Fungal · Usually acute · Contagious</span>
-        <h3 style="margin-top:12px;">Tinea (Ringworm)</h3>
-        <p>A common fungal infection named for its ring-shaped, scaly-bordered rash — treatable with antifungals.</p>
+      <div class="learn-card dpht" onclick="go('dermatophytosis')">
+        <span class="chip chip-dermatophytosis">Fungal · Infectious · Contagious</span>
+        <h3 style="margin-top:12px;">Ringworm (Dermatophytosis)</h3>
+        <p>The best-known member of the dermatophytosis family — fungal infections of skin, hair and nails caused by dermatophytes. Ringworm forms a ring-shaped, scaly-bordered rash treated with antifungals.</p>
         <span class="go">Read the guide →</span>
       </div>
     </div>
   </section>
 </section>
 
-<!-- ============ ECZEMA ============ -->
-<section class="page" id="page-eczema">
+<!-- ============ DERMATITIS ============ -->
+<section class="page" id="page-dermatitis">
   <div class="article-hero">
-    <span class="chip chip-eczema">Inflammatory · Chronic · Not contagious</span>
-    <h1>Eczema</h1>
-    <p>A condition that makes skin dry, itchy and bumpy by weakening its barrier function. Eczema is a type of dermatitis — a group of conditions that cause skin inflammation.</p>
+    <span class="chip chip-dermatitis">Inflammatory · Non-infectious · Not contagious</span>
+    <h1>Eczema (Dermatitis)</h1>
+    <p>Dermatitis is skin inflammation that is <b>not</b> caused by an infection. It covers a whole family of conditions that share the same look: redness, swelling, small inflamed bumps or blisters, scaling, crusting and thickened skin, usually with itch, pain or a burning feeling.</p>
     <div class="glance">
-      <div class="g"><b>31M+</b><span>Americans affected</span></div>
-      <div class="g"><b>6 types</b><span>including atopic dermatitis</span></div>
+      <div class="g"><b>31M+</b><span>Americans with eczema</span></div>
+      <div class="g"><b>6 types</b><span>of eczema, incl. atopic dermatitis</span></div>
       <div class="g"><b>Any age</b><span>often starts in childhood</span></div>
       <div class="g"><b>No cure</b><span>but very manageable</span></div>
+    </div>
+  </div>
+
+  <div class="scope-note" style="margin:0 0 4px;">
+    <span class="ic">i</span>
+    <div>
+      <p><b>What this guide covers.</b> SpotCheck's model recognises the dermatitis family as a whole — atopic, irritant contact, allergic contact, photoallergic, protein contact, phototoxic, radiation, seborrheic, stasis, autoimmune and deficiency dermatitis all belong to it.</p>
+      <p>Writing a separate guide for each one would bury the thing you actually need. So this page goes deep on <b>eczema</b>, the family's best-known and most-studied member, whose dry, itchy, inflamed skin is the picture most people already have in mind when they think of dermatitis.</p>
     </div>
   </div>
 
@@ -128,11 +150,11 @@
     <div>
       <div class="toolbar">
         <span class="t-title">Education · 8 sections</span>
-        <button class="expand-all" data-scope="eczema" onclick="toggleAll('eczema',this)">Collapse all</button>
+        <button class="expand-all" data-scope="dermatitis" onclick="toggleAll('dermatitis',this)">Collapse all</button>
       </div>
-      <div class="accordion" id="acc-eczema">
+      <div class="accordion" id="acc-dermatitis">
 
-        <div class="acc open" id="ecz-overview">
+        <div class="acc open" id="derm-overview">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">01</span><h3>Overview</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>What is eczema?</h4>
@@ -170,7 +192,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="ecz-symptoms">
+        <div class="acc" id="derm-symptoms">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">02</span><h3>Symptoms and Causes</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>What are the symptoms of eczema?</h4>
@@ -195,7 +217,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="ecz-diagnosis">
+        <div class="acc" id="derm-diagnosis">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">03</span><h3>Diagnosis and Tests</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>How is eczema diagnosed?</h4>
@@ -216,7 +238,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="ecz-treatment">
+        <div class="acc" id="derm-treatment">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">04</span><h3>Management and Treatment</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>How do I get rid of eczema?</h4>
@@ -249,7 +271,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="ecz-outlook">
+        <div class="acc" id="derm-outlook">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">05</span><h3>Outlook / Prognosis</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>What can I expect?</h4>
@@ -261,7 +283,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="ecz-prevention">
+        <div class="acc" id="derm-prevention">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">06</span><h3>Prevention</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>How can I prevent flare-ups?</h4>
@@ -277,7 +299,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="ecz-living">
+        <div class="acc" id="derm-living">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">07</span><h3>Living With</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>How do I take care of myself?</h4>
@@ -301,7 +323,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="ecz-faq">
+        <div class="acc" id="derm-faq">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">08</span><h3>Additional Common Questions</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>Does the weather make eczema worse?</h4>
@@ -313,31 +335,39 @@
       </div>
     </div>
 
-    <aside class="quicknav" id="qn-eczema">
+    <aside class="quicknav" id="qn-dermatitis">
       <div class="qn-label">On this page</div>
-      <a href="#ecz-overview" class="active">Overview</a>
-      <a href="#ecz-symptoms">Symptoms and Causes</a>
-      <a href="#ecz-diagnosis">Diagnosis and Tests</a>
-      <a href="#ecz-treatment">Management and Treatment</a>
-      <a href="#ecz-outlook">Outlook / Prognosis</a>
-      <a href="#ecz-prevention">Prevention</a>
-      <a href="#ecz-living">Living With</a>
-      <a href="#ecz-faq">Common Questions</a>
+      <a href="#derm-overview" class="active">Overview</a>
+      <a href="#derm-symptoms">Symptoms and Causes</a>
+      <a href="#derm-diagnosis">Diagnosis and Tests</a>
+      <a href="#derm-treatment">Management and Treatment</a>
+      <a href="#derm-outlook">Outlook / Prognosis</a>
+      <a href="#derm-prevention">Prevention</a>
+      <a href="#derm-living">Living With</a>
+      <a href="#derm-faq">Common Questions</a>
     </aside>
   </div>
 </section>
 
-<!-- ============ TINEA ============ -->
-<section class="page" id="page-tinea">
+<!-- ============ DERMATOPHYTOSIS ============ -->
+<section class="page" id="page-dermatophytosis">
   <div class="article-hero">
-    <span class="chip chip-tinea">Fungal · Usually acute · Contagious</span>
-    <h1>Tinea (Ringworm)</h1>
-    <p>A fungus — not a worm — causes ringworm. It's a common, contagious skin infection named for the red, itchy, ring-shaped plaque it forms, and it's treated with antifungal medication.</p>
+    <span class="chip chip-dermatophytosis">Fungal · Infectious · Contagious</span>
+    <h1>Ringworm (Dermatophytosis)</h1>
+    <p>Dermatophytosis — also called tinea — is a fungal infection of the skin, hair and nails caused by a group of fungi called <b>dermatophytes</b>, which can break down keratin and so live in the tissue that contains it. On the body it typically forms ring-shaped, scaly, red patches whose edge is more inflamed than the centre.</p>
     <div class="glance">
-      <div class="g"><b>20–25%</b><span>of people at any time</span></div>
+      <div class="g"><b>20–25%</b><span>of people have ringworm at any time</span></div>
       <div class="g"><b>4–14 days</b><span>to show after contact</span></div>
       <div class="g"><b>Antifungals</b><span>OTC or prescription</span></div>
       <div class="g"><b>Ring-shaped</b><span>raised, scaly border</span></div>
+    </div>
+  </div>
+
+  <div class="scope-note" style="margin:0 0 4px;">
+    <span class="ic">i</span>
+    <div>
+      <p><b>What this guide covers.</b> SpotCheck's model recognises the dermatophytosis family as a whole. Its members are named for the body site they infect — tinea capitis (scalp), corporis (body), faciei (face), cruris (groin), manuum (hands), pedis (feet) and onychomycosis (nails).</p>
+      <p>Rather than a thin guide for each site, this page goes deep on <b>ringworm</b> — tinea corporis, the family's best-known member — because its ring-shaped, scaly-bordered rash is the pattern that gives the whole group its everyday name.</p>
     </div>
   </div>
 
@@ -345,11 +375,11 @@
     <div>
       <div class="toolbar">
         <span class="t-title">Education · 8 sections</span>
-        <button class="expand-all" data-scope="tinea" onclick="toggleAll('tinea',this)">Collapse all</button>
+        <button class="expand-all" data-scope="dermatophytosis" onclick="toggleAll('dermatophytosis',this)">Collapse all</button>
       </div>
-      <div class="accordion" id="acc-tinea">
+      <div class="accordion" id="acc-dermatophytosis">
 
-        <div class="acc open" id="tin-overview">
+        <div class="acc open" id="dpht-overview">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">01</span><h3>Overview</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>What is ringworm?</h4>
@@ -376,7 +406,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="tin-symptoms">
+        <div class="acc" id="dpht-symptoms">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">02</span><h3>Symptoms and Causes</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>What are the signs of ringworm?</h4>
@@ -401,7 +431,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="tin-diagnosis">
+        <div class="acc" id="dpht-diagnosis">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">03</span><h3>Diagnosis and Tests</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>How is ringworm diagnosed?</h4>
@@ -409,7 +439,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="tin-treatment">
+        <div class="acc" id="dpht-treatment">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">04</span><h3>Management and Treatment</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>How is ringworm treated?</h4>
@@ -431,7 +461,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="tin-outlook">
+        <div class="acc" id="dpht-outlook">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">05</span><h3>Outlook / Prognosis</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>Can ringworm come back?</h4>
@@ -441,7 +471,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="tin-prevention">
+        <div class="acc" id="dpht-prevention">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">06</span><h3>Prevention</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>How can I prevent ringworm?</h4>
@@ -460,7 +490,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="tin-living">
+        <div class="acc" id="dpht-living">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">07</span><h3>Living With</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>When should I call the doctor?</h4>
@@ -479,7 +509,7 @@
           </div></div>
         </div>
 
-        <div class="acc" id="tin-faq">
+        <div class="acc" id="dpht-faq">
           <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">08</span><h3>Additional Common Questions</h3><span class="caret">⌄</span></div>
           <div class="acc-body"><div class="acc-inner">
             <h4>Is ringworm an actual worm?</h4>
@@ -497,16 +527,16 @@
       </div>
     </div>
 
-    <aside class="quicknav" id="qn-tinea">
+    <aside class="quicknav" id="qn-dermatophytosis">
       <div class="qn-label">On this page</div>
-      <a href="#tin-overview" class="active">Overview</a>
-      <a href="#tin-symptoms">Symptoms and Causes</a>
-      <a href="#tin-diagnosis">Diagnosis and Tests</a>
-      <a href="#tin-treatment">Management and Treatment</a>
-      <a href="#tin-outlook">Outlook / Prognosis</a>
-      <a href="#tin-prevention">Prevention</a>
-      <a href="#tin-living">Living With</a>
-      <a href="#tin-faq">Common Questions</a>
+      <a href="#dpht-overview" class="active">Overview</a>
+      <a href="#dpht-symptoms">Symptoms and Causes</a>
+      <a href="#dpht-diagnosis">Diagnosis and Tests</a>
+      <a href="#dpht-treatment">Management and Treatment</a>
+      <a href="#dpht-outlook">Outlook / Prognosis</a>
+      <a href="#dpht-prevention">Prevention</a>
+      <a href="#dpht-living">Living With</a>
+      <a href="#dpht-faq">Common Questions</a>
     </aside>
   </div>
 </section>
@@ -515,145 +545,432 @@
 <section class="page" id="page-about">
   <div class="about-hero">
     <span class="eyebrow">About the model</span>
-    <h1>A CNN trained from scratch to tell eczema and tinea apart</h1>
-    <p>SpotCheck is powered by a convolutional neural network (CNN) that was built and trained from scratch — no pre-trained model was reused. Because eczema and tinea share redness, itch and scaling, the model learns the subtle visual patterns that separate them. Here's how it was built, from data to deployment.</p>
+    <h1>A CNN trained from scratch to tell dermatitis and dermatophytosis apart</h1>
+    <p>SpotCheck is powered by a convolutional neural network (CNN) that was built and trained from scratch — no pre-trained model was reused. Because inflamed skin and fungal infections share redness, itch and scaling, the model learns the subtle visual patterns that separate the two families. Here's how it was built, from data to deployment.</p>
+    <dl class="spec-strip">
+      <div><dt>Residual CNN</dt><dd>from scratch, no transfer learning</dd></div>
+      <div><dt>747,713</dt><dd>parameters · 8.68 MB</dd></div>
+      <div><dt>336 × 224</dt><dd>input canvas, 3:2</dd></div>
+      <div><dt>150 epochs</dt><dd>weights from epoch 134</dd></div>
+    </dl>
   </div>
 
   <div class="highlight-grid">
     <div class="hl">
       <span class="hl-eye">Dataset</span>
-      <span class="hl-big">2,020</span>
-      <span class="hl-sub">clean images · Eczema 1,037 · Tinea 983</span>
+      <span class="hl-big">3,049</span>
+      <span class="hl-sub">clean images · Dermatitis 1,696 · Dermatophytosis 1,353</span>
+      <span class="hl-meter"><i style="width:30.5%;"></i></span>
+      <span class="hl-foot">30.5% of 9,987 raw images survived cleaning</span>
     </div>
     <div class="hl">
-      <span class="hl-eye">Architecture</span>
-      <span class="hl-big">748K</span>
-      <span class="hl-sub">parameters · residual CNN, 224×224 input</span>
+      <span class="hl-eye">Test accuracy</span>
+      <span class="hl-big">86.03%</span>
+      <span class="hl-sub">394 of 458 held-out images classified correctly</span>
+      <span class="hl-meter"><i style="width:86.03%;"></i></span>
+      <span class="hl-foot">at the 0.5 decision threshold</span>
     </div>
     <div class="hl">
-      <span class="hl-eye">Performance</span>
-      <span class="hl-big">89.7%</span>
-      <span class="hl-sub">ROC-AUC · 83.2% accuracy on the test set</span>
+      <span class="hl-eye">Test ROC-AUC</span>
+      <span class="hl-big">0.9176</span>
+      <span class="hl-sub">measured across every threshold, not just 0.5</span>
+      <span class="hl-meter"><i style="width:91.76%;"></i></span>
+      <span class="hl-foot">a random guess would score 0.5</span>
     </div>
   </div>
 
-  <div class="narrative">
+  <div class="about-layout">
+    <div class="narrative">
 
-    <div class="nsec">
+    <div class="nsec" id="ab-intro">
       <div><span class="nstep">SECTION 01</span><h2>Introduction</h2></div>
       <div class="ncontent">
-        <p>Eczema and tinea have similar clinical appearances — redness, itching, scaly skin — which makes them hard to tell apart by eye, and a mix-up can lead to the wrong treatment. SpotCheck tackles this as a <b>binary image classification</b> problem: eczema versus tinea.</p>
-        <p>The model is a Convolutional Neural Network (CNN) trained entirely from scratch — no transfer learning. Development followed a full pipeline: data exploration, preparation, model building, training, evaluation and inference.</p>
+        <p><b>Dermatitis</b> (non-infectious skin inflammation) and <b>dermatophytosis</b> (fungal infection by dermatophytes) have similar clinical appearances — redness, itching, scaly skin — which makes them hard to tell apart by eye, especially early on. A mix-up matters: treating dermatophytosis with steroids as if it were dermatitis can push it into <i>tinea incognito</i>, where the infection loses its usual signs and becomes even harder to recognise.</p>
+        <p>SpotCheck tackles this as a <b>binary image classification</b> problem: dermatitis versus dermatophytosis. The model is a Convolutional Neural Network (CNN) trained entirely from scratch — no transfer learning, no pre-trained backbone. Development followed the CRISP-DM pipeline: data understanding, preparation, modeling, evaluation and deployment.</p>
       </div>
     </div>
 
-    <div class="nsec">
+    <div class="nsec" id="ab-dataset">
       <div><span class="nstep">SECTION 02</span><h2>Dataset</h2></div>
       <div class="ncontent">
-        <p>Images come from the <b>Eczema and Tinea Skin Disease Dataset</b> (DermNet, via Kaggle). The raw collection held 2,147 images. A cleaning pass removed <b>107 exact duplicates</b> (detected by MD5 hashing) and <b>20 near-duplicates</b> (detected by perceptual hashing), and every remaining image was verified as readable.</p>
-        <p>That left <b>2,020 clean images</b> — 1,037 eczema (51.3%) and 983 tinea (48.7%), a well-balanced split. The data was then divided with a stratified 70 / 15 / 15 split, keeping class proportions consistent across each set:</p>
-        <ul>
-          <li><b>Train:</b> 1,414 images</li>
-          <li><b>Validation:</b> 303 images</li>
-          <li><b>Test:</b> 303 images</li>
-        </ul>
+        <p>Images come from a <b>DermNet</b> collection assembled via Kaggle: <b>9,987 images</b> in total — 5,490 dermatitis and 4,497 dermatophytosis. Every file opened cleanly, so no image was lost to corruption.</p>
+        <p>Cleaning was aggressive, because duplicates spread across source uploads inflate scores without adding information. Exact duplicates were found by content hashing and near-duplicates by perceptual hashing, with connected copies grouped so each chain of look-alikes keeps only one representative. A further pass removed images showing <i>drug eruption</i>, a reaction that belongs to neither target family.</p>
+
+        <div class="viz">
+          <div class="viz-head"><span class="viz-title">Cleaning · images remaining</span></div>
+          <div class="funnel">
+            <div class="funnel-row">
+              <div class="funnel-meta"><span class="fn-lab">Raw collection</span><span class="fn-val">9,987</span></div>
+              <div class="funnel-track"><div class="funnel-bar s1" style="width:100%;"></div></div>
+            </div>
+            <div class="funnel-row">
+              <div class="funnel-meta"><span class="fn-lab">After removing duplicates</span><span class="fn-val">3,274</span></div>
+              <div class="funnel-track"><div class="funnel-bar s2" style="width:32.78%;"></div></div>
+              <div class="funnel-drop">− 6,713 exact and near-duplicate images (67.2%)</div>
+            </div>
+            <div class="funnel-row">
+              <div class="funnel-meta"><span class="fn-lab">After removing drug eruption</span><span class="fn-val">3,049</span></div>
+              <div class="funnel-track"><div class="funnel-bar s3" style="width:30.53%;"></div></div>
+              <div class="funnel-drop">− 225 images (224 of them filed under dermatitis)</div>
+            </div>
+          </div>
+          <p class="viz-note">Two thirds of the raw collection was discarded. That looks drastic, but a duplicate photo appearing in both the training and test sets would quietly inflate every score that follows — so removing them is what makes the numbers in Section 06 mean anything.</p>
+        </div>
+
+        <p>The remaining 3,049 images were split 70 / 15 / 15, stratified per class so both families keep the same proportions everywhere:</p>
+
+        <div class="viz">
+          <div class="viz-head">
+            <span class="viz-title">Class balance within each split</span>
+            <span class="chart-legend">
+              <span class="lg"><i style="background:var(--dermatitis);"></i>Dermatitis</span>
+              <span class="lg"><i style="background:var(--dermatophytosis);"></i>Dermatophytosis</span>
+            </span>
+          </div>
+          <div class="compo">
+            <div class="compo-row">
+              <div class="compo-meta"><span class="cp-lab">Train</span><span class="cp-tot">2,133 images · 69.96%</span></div>
+              <div class="compo-bar">
+                <div class="compo-seg derm" style="width:55.60%;">1,186</div>
+                <div class="compo-seg dpht" style="width:44.40%;">947</div>
+              </div>
+            </div>
+            <div class="compo-row">
+              <div class="compo-meta"><span class="cp-lab">Validation</span><span class="cp-tot">458 images · 15.02%</span></div>
+              <div class="compo-bar">
+                <div class="compo-seg derm" style="width:55.68%;">255</div>
+                <div class="compo-seg dpht" style="width:44.32%;">203</div>
+              </div>
+            </div>
+            <div class="compo-row">
+              <div class="compo-meta"><span class="cp-lab">Test</span><span class="cp-tot">458 images · 15.02%</span></div>
+              <div class="compo-bar">
+                <div class="compo-seg derm" style="width:55.68%;">255</div>
+                <div class="compo-seg dpht" style="width:44.32%;">203</div>
+              </div>
+            </div>
+          </div>
+          <p class="viz-note">The ratio holds at <b>1.25 : 1</b> in all three splits, so the validation and test scores are measured on the same class mix the model trained on.</p>
+        </div>
       </div>
     </div>
 
-    <div class="nsec">
+    <div class="nsec" id="ab-prep">
       <div><span class="nstep">SECTION 03</span><h2>Preparation</h2></div>
       <div class="ncontent">
-        <p>Every image was standardized to three-channel RGB and resized to <b>224×224</b> using <b>letterbox resizing</b> — scaling proportionally and padding the shorter side — so the original shape is preserved instead of stretched. Pixel values were then normalized from 0–255 to a 0–1 range for stable training.</p>
-        <p>To help the model generalize, the training set received <b>moderate augmentation</b>: horizontal and vertical flips, 90° rotations, small brightness shifts and light zoom. Validation and test images were only resized and normalized — no augmentation — so evaluation reflects real, unaltered data.</p>
+        <p>Every image was standardized to three-channel RGB and placed on a <b>336×224</b> canvas. That shape is not arbitrary: measured across the collection, the median image has a long-to-short side ratio of <b>1.51</b>, so a 3:2 canvas (ratio 1.50) wastes the least space on padding.</p>
+
+        <div class="viz">
+          <div class="viz-head"><span class="viz-title">What happens to one uploaded photo</span></div>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 736 196" width="736" height="196" role="img"
+                 aria-label="Four preparation steps: a portrait photo is rotated to landscape, letterboxed onto a 336 by 224 canvas with black padding, then normalized to a 0 to 1 range">
+              <defs>
+                <marker id="pp-arrow" viewBox="0 0 10 10" refX="8" refY="5"
+                        markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted)"/>
+                </marker>
+              </defs>
+
+              <!-- 1. asli, potret. Rasio 1.76 dipilih sedikit lebih lonjong daripada
+                   median dataset (1.51) semata agar bantalannya kelihatan; lihat catatan. -->
+              <rect x="42" y="35" width="66" height="116" rx="4" fill="var(--mint)" stroke="var(--mint-2)"/>
+              <text x="75" y="178" text-anchor="middle" font-size="11" fill="var(--muted)">1 · Original</text>
+              <text x="75" y="191" text-anchor="middle" font-size="10" fill="var(--muted)">portrait</text>
+              <line x1="126" y1="93" x2="158" y2="93" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#pp-arrow)"/>
+
+              <!-- 2. diputar jadi lanskap: sisi yang sama, hanya bertukar tempat -->
+              <rect x="180" y="60" width="116" height="66" rx="4" fill="var(--mint)" stroke="var(--mint-2)"/>
+              <text x="238" y="178" text-anchor="middle" font-size="11" fill="var(--muted)">2 · Rotated 90°</text>
+              <text x="238" y="191" text-anchor="middle" font-size="10" fill="var(--muted)">now landscape</text>
+              <line x1="314" y1="93" x2="346" y2="93" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#pp-arrow)"/>
+
+              <!-- 3. letterbox: kanvas 174x116 (3:2). Citra 116x66 diskalakan x1.5
+                   menjadi 174x99, menyisakan bantalan 8.5 px di atas dan di bawah. -->
+              <rect x="366" y="35" width="174" height="116" rx="4" fill="#141A18"/>
+              <rect x="366" y="43.5" width="174" height="99" fill="var(--mint)"/>
+              <text x="453" y="178" text-anchor="middle" font-size="11" fill="var(--muted)">3 · Letterboxed</text>
+              <text x="453" y="191" text-anchor="middle" font-size="10" fill="var(--muted)">336 × 224, black padding</text>
+              <line x1="558" y1="93" x2="590" y2="93" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#pp-arrow)"/>
+
+              <!-- 4. normalisasi -->
+              <rect x="608" y="65" width="106" height="56" rx="8" fill="var(--mint)" stroke="var(--mint-2)"/>
+              <text x="661" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">÷ 255</text>
+              <text x="661" y="107" text-anchor="middle" font-size="11" fill="var(--primary)">0.0 – 1.0</text>
+              <text x="661" y="178" text-anchor="middle" font-size="11" fill="var(--muted)">4 · Normalized</text>
+              <text x="661" y="191" text-anchor="middle" font-size="10" fill="var(--muted)">ready for the model</text>
+            </svg>
+          </div>
+          <p class="viz-note">Step 2 is the one that is easy to miss. Without it a portrait photo would be shrunk to fit the canvas <i>height</i> and end up as a narrow strip between two wide black bars — far less skin for the model to read than it saw during training.</p>
+          <p class="viz-note">The black bands above are drawn thicker than they usually are, so that they show up at all. On a real photo they are hardly there: the median image in the collection has an aspect ratio of <b>1.51</b> against the canvas's <b>1.50</b>, which leaves a band well under 1% of the height. That near-perfect fit is the whole reason the canvas is 3:2 — <b>80%</b> of the collection sits between ratios 1.47 and 1.53.</p>
+        </div>
+
+        <p>To help the model generalize, the training set received augmentation applied per batch after normalization: horizontal and vertical flips (each with probability 0.5), random zoom between 0.7 and 1.0, and brightness shifts of ±0.2. Validation and test images were only transformed and normalized — no augmentation — so evaluation reflects real, unaltered data.</p>
       </div>
     </div>
 
-    <div class="nsec">
+    <div class="nsec" id="ab-arch">
       <div><span class="nstep">SECTION 04</span><h2>Model architecture</h2></div>
       <div class="ncontent">
-        <p>The network — <span class="mono">Final_Residual_CNN</span> — is a residual CNN built with the Keras Functional API. It stacks five convolutional blocks, using <b>skip (residual) connections</b> to help gradients flow and a <b>SeparableConv2D</b> in the deeper block for efficiency. Features are pooled with Global Average Pooling and passed through two dense layers before the output.</p>
-        <div class="arch-flow">
-          <span class="arch-node">Input 224×224×3</span><span class="arch-arrow">→</span>
-          <span class="arch-node">Conv 32</span><span class="arch-arrow">→</span>
-          <span class="arch-node">Conv 64</span><span class="arch-arrow">→</span>
-          <span class="arch-node res">Residual 128</span><span class="arch-arrow">→</span>
-          <span class="arch-node res">Residual 256 · Separable</span><span class="arch-arrow">→</span>
-          <span class="arch-node">Global Avg Pool</span><span class="arch-arrow">→</span>
-          <span class="arch-node">Dense 256 → 128</span><span class="arch-arrow">→</span>
-          <span class="arch-node">Sigmoid</span>
+        <p>The network — <span class="mono">Residual_CNN_Dermatitis_Dermatophytosis</span> — is built with the Keras Functional API. Two plain convolutional blocks are followed by two residual blocks, where a <b>skip connection</b> carries the earlier tensor forward and adds it back after the convolutions. That shortcut is what lets gradients reach the early layers of a deep stack. A <b>SeparableConv2D</b> in the last block keeps the parameter count down.</p>
+
+        <div class="viz">
+          <div class="viz-head"><span class="viz-title">Layer flow · skip connections on the right</span></div>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 470 762" width="470" height="762" role="img"
+                 aria-label="Vertical diagram of the network: input, two convolutional blocks, two residual blocks each with a skip connection that is added back, then global average pooling, two dense layers and a sigmoid output">
+              <defs>
+                <marker id="ar-arrow" viewBox="0 0 10 10" refX="8" refY="5"
+                        markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted)"/>
+                </marker>
+                <marker id="ar-skip" viewBox="0 0 10 10" refX="8" refY="5"
+                        markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary-2)"/>
+                </marker>
+              </defs>
+
+              <!-- Input -->
+              <rect x="104" y="8" width="200" height="46" rx="10" fill="var(--surface)" stroke="var(--mint-2)"/>
+              <text x="204" y="28" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Input</text>
+              <text x="204" y="44" text-anchor="middle" font-size="11" fill="var(--muted)">224 × 336 × 3</text>
+              <line x1="204" y1="54" x2="204" y2="74" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+
+              <!-- Conv 32 / Conv 64 -->
+              <rect x="104" y="76" width="200" height="38" rx="10" fill="var(--mint)" stroke="var(--mint-2)"/>
+              <text x="204" y="100" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Conv 32 · BN · Pool</text>
+              <line x1="204" y1="114" x2="204" y2="134" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+
+              <rect x="104" y="136" width="200" height="38" rx="10" fill="var(--mint)" stroke="var(--mint-2)"/>
+              <text x="204" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Conv 64 · BN · Pool</text>
+              <line x1="204" y1="174" x2="204" y2="192" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+
+              <!-- Blok residual A -->
+              <rect x="84" y="194" width="240" height="104" rx="14" fill="#F4FAF8" stroke="var(--mint-2)"/>
+              <rect x="104" y="206" width="200" height="36" rx="9" fill="#DDF0F2" stroke="#BFE0D7"/>
+              <text x="204" y="229" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Conv 128 · BN · Pool</text>
+              <line x1="204" y1="242" x2="204" y2="252" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+              <rect x="104" y="254" width="200" height="36" rx="9" fill="#DDF0F2" stroke="#BFE0D7"/>
+              <text x="204" y="277" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Conv 128 · BN</text>
+              <line x1="204" y1="298" x2="204" y2="312" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+
+              <!-- Skip A -->
+              <path d="M 204 183 H 344 Q 354 183 354 193 V 316 Q 354 326 344 326 H 224"
+                    fill="none" stroke="var(--primary-2)" stroke-width="1.5" marker-end="url(#ar-skip)"/>
+              <text x="362" y="250" font-size="10" fill="var(--primary-2)">1×1 conv</text>
+              <text x="362" y="263" font-size="10" fill="var(--primary-2)">+ pool</text>
+
+              <!-- Add A -->
+              <circle cx="204" cy="326" r="14" fill="var(--surface)" stroke="var(--primary-2)" stroke-width="1.5"/>
+              <text x="204" y="331" text-anchor="middle" font-size="14" font-weight="600" fill="var(--primary-2)">+</text>
+              <line x1="204" y1="340" x2="204" y2="356" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+
+              <!-- Blok residual B -->
+              <rect x="84" y="358" width="240" height="104" rx="14" fill="#F4FAF8" stroke="var(--mint-2)"/>
+              <rect x="104" y="370" width="200" height="36" rx="9" fill="#DDF0F2" stroke="#BFE0D7"/>
+              <text x="204" y="393" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Conv 256 · BN · Pool</text>
+              <line x1="204" y1="406" x2="204" y2="416" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+              <rect x="104" y="418" width="200" height="36" rx="9" fill="#DDF0F2" stroke="#BFE0D7"/>
+              <text x="204" y="441" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">SeparableConv 256 · BN</text>
+              <line x1="204" y1="462" x2="204" y2="476" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+
+              <!-- Skip B -->
+              <path d="M 204 348 H 344 Q 354 348 354 358 V 480 Q 354 490 344 490 H 224"
+                    fill="none" stroke="var(--primary-2)" stroke-width="1.5" marker-end="url(#ar-skip)"/>
+              <text x="362" y="414" font-size="10" fill="var(--primary-2)">1×1 conv</text>
+              <text x="362" y="427" font-size="10" fill="var(--primary-2)">+ pool</text>
+
+              <!-- Add B -->
+              <circle cx="204" cy="490" r="14" fill="var(--surface)" stroke="var(--primary-2)" stroke-width="1.5"/>
+              <text x="204" y="495" text-anchor="middle" font-size="14" font-weight="600" fill="var(--primary-2)">+</text>
+              <line x1="204" y1="504" x2="204" y2="520" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+
+              <!-- Kepala klasifikasi -->
+              <rect x="104" y="522" width="200" height="38" rx="10" fill="var(--mint)" stroke="var(--mint-2)"/>
+              <text x="204" y="540" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Global Average Pool</text>
+              <text x="204" y="554" text-anchor="middle" font-size="10" fill="var(--muted)">from 14 × 21 × 256</text>
+              <line x1="204" y1="560" x2="204" y2="578" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+
+              <rect x="104" y="580" width="200" height="38" rx="10" fill="var(--mint)" stroke="var(--mint-2)"/>
+              <text x="204" y="604" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Dense 256 · Dropout 0.3</text>
+              <line x1="204" y1="618" x2="204" y2="636" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+
+              <rect x="104" y="638" width="200" height="38" rx="10" fill="var(--mint)" stroke="var(--mint-2)"/>
+              <text x="204" y="662" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Dense 128 · Dropout 0.3</text>
+              <line x1="204" y1="676" x2="204" y2="694" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#ar-arrow)"/>
+
+              <rect x="84" y="696" width="240" height="50" rx="10" fill="var(--primary)"/>
+              <text x="204" y="717" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Sigmoid · 1 value</text>
+              <text x="204" y="734" text-anchor="middle" font-size="10" fill="#CFE6DF">P(dermatophytosis)</text>
+            </svg>
+          </div>
+          <p class="viz-note">The green rails on the right are the skip connections. Each carries the tensor from before the block through a 1×1 convolution and pooling — just enough to match the shape — and adds it back at the <b>+</b>. <b>SpatialDropout2D (0.15)</b> sits inside the convolutional body; ordinary dropout (0.3) follows each dense layer.</p>
         </div>
-        <p>Each dense layer is followed by dropout (0.3) to reduce overfitting, and the single sigmoid output gives the probability of tinea versus eczema. The whole model is compact — about <b>748K parameters (2.85 MB)</b>, of which ~746K are trainable — which keeps it light enough to run comfortably inside a web app.</p>
+
+        <div class="table-scroll"><table class="metric-table">
+          <thead><tr><th>Parameters</th><th>Count</th><th>Share</th></tr></thead>
+          <tbody>
+            <tr><td>Convolutional body</td><td class="num">648,896</td><td class="num">86.8%</td></tr>
+            <tr><td>Classification head</td><td class="num">98,817</td><td class="num">13.2%</td></tr>
+            <tr><td><b>Total</b></td><td class="num"><b>747,713</b></td><td class="num"><b>100%</b></td></tr>
+          </tbody>
+        </table></div>
+        <p style="margin-top:16px;">At roughly three quarters of a million parameters the model is compact — light enough to load and run inside a web app on an ordinary CPU.</p>
       </div>
     </div>
 
-    <div class="nsec">
+    <div class="nsec" id="ab-training">
       <div><span class="nstep">SECTION 05</span><h2>Training strategy</h2></div>
       <div class="ncontent">
-        <p>The model was trained with the <b>Adam</b> optimizer and a <b>Cosine Annealing learning-rate schedule with warmup</b>: the learning rate ramps gently from 1e-5 up to 5e-4 over the first 10 epochs, then decays smoothly along a cosine curve toward zero. The loss is <b>binary cross-entropy with label smoothing (0.1)</b>, which discourages the model from becoming overconfident and helps it generalize.</p>
-        <p><b>EarlyStopping</b> (patience 15, restoring the best weights) guarded against overfitting, with a 100-epoch cap. Training stopped at <b>epoch 84</b>, and the best weights came from <b>epoch 69</b>.</p>
-        <table class="metric-table">
-          <thead><tr><th>Split</th><th>Loss</th><th>Accuracy</th></tr></thead>
+        <p>The model was trained with the <b>AdamW</b> optimizer and a <b>cosine decay learning-rate schedule with warmup</b>: the learning rate ramps gently from 1e-5 up to 5e-4 over the first 10 epochs, then decays smoothly along a cosine curve toward zero. Weight decay is 1e-4, excluding normalization parameters and biases. The loss is <b>binary cross-entropy with label smoothing (0.05)</b>, which discourages the model from becoming overconfident and helps it generalize.</p>
+        <p>Training ran the full <b>150 epochs</b> — there was no early stopping. Instead a checkpoint kept the weights from whichever epoch scored highest on <b>validation ROC-AUC</b>, a threshold-independent criterion. That turned out to be <b>epoch 134</b>. All three splits were then re-measured without augmentation, so the numbers are directly comparable:</p>
+        <div class="table-scroll"><table class="metric-table">
+          <thead><tr><th>Split</th><th>Loss</th><th>Accuracy</th><th>ROC-AUC</th></tr></thead>
           <tbody>
-            <tr><td>Train</td><td class="num">0.4463</td><td class="num">83.80%</td></tr>
-            <tr><td>Validation</td><td class="num">0.4401</td><td class="num">83.83%</td></tr>
-            <tr><td>Test</td><td class="num">0.4721</td><td class="num">83.17%</td></tr>
+            <tr><td>Train</td><td class="num">0.3065</td><td class="num">89.83%</td><td class="num">96.87%</td></tr>
+            <tr><td>Validation</td><td class="num">0.4297</td><td class="num">83.41%</td><td class="num">91.13%</td></tr>
+            <tr><td>Test</td><td class="num">0.4116</td><td class="num">86.03%</td><td class="num">91.80%</td></tr>
           </tbody>
-        </table>
-        <p style="margin-top:16px;">Train and validation accuracy land within <b>0.03%</b> of each other, and the test score sits just <b>0.6%</b> below them — the model generalizes to unseen photos rather than memorizing the training set.</p>
+        </table></div>
+        <p style="margin-top:16px;">Train accuracy sits <b>3.80 points</b> above test accuracy, and the test set actually scores <b>2.62 points higher</b> than validation — the model generalizes to unseen photos rather than memorizing the training set.</p>
         <figure class="med-figure">
-          <img src="{{ url_for('static', filename='img/model/training-curves.png') }}" alt="Loss and accuracy curves across 84 training epochs, for the training and validation sets, with the best epoch marked at 69" />
-          <figcaption><b>Training curves.</b> Loss falls and accuracy climbs together on both splits, and the two lines stay close — no diverging gap, which is the visual signature of overfitting. The dotted line marks the best epoch (69), whose weights were restored by EarlyStopping.</figcaption>
+          <img src="{{ url_for('static', filename='img/model/training-curves.png') }}" alt="Loss, accuracy and ROC-AUC curves across 150 training epochs for the training and validation sets, with the selected epoch marked at 134" />
+          <figcaption><b>Training curves.</b> Loss (<i>Kurva Loss</i>), accuracy and ROC-AUC across all 150 epochs, for the augmented training set (<i>Latih</i>, solid) and validation (<i>Validasi</i>, dashed). The lines climb together without the widening gap that signals overfitting. The dashed red line marks epoch 134, whose weights were kept.</figcaption>
         </figure>
       </div>
     </div>
 
-    <div class="nsec">
+    <div class="nsec" id="ab-performance">
       <div><span class="nstep">SECTION 06</span><h2>Performance</h2></div>
       <div class="ncontent">
-        <p>On the held-out <b>test set of 303 images</b>, the model reached:</p>
-        <table class="metric-table">
-          <thead><tr><th>Metric</th><th>Score</th></tr></thead>
-          <tbody>
-            <tr><td>Accuracy</td><td class="num">83.2%</td></tr>
-            <tr><td>Precision (macro)</td><td class="num">83.2%</td></tr>
-            <tr><td>Recall (macro)</td><td class="num">83.1%</td></tr>
-            <tr><td>Specificity (macro)</td><td class="num">83.1%</td></tr>
-            <tr><td>F1-Score (macro)</td><td class="num">83.1%</td></tr>
-            <tr><td>ROC-AUC</td><td class="num">89.7%</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:16px;">The confusion matrix on the test set:</p>
-        <div class="confusion">
-          <div class="cm-cell cm-lab"></div>
-          <div class="cm-cell cm-lab">Pred. Eczema</div>
-          <div class="cm-cell cm-lab">Pred. Tinea</div>
-          <div class="cm-cell cm-lab">Actual&nbsp;Eczema</div>
-          <div class="cm-cell cm-tp"><span class="cm-big">132</span><span class="cm-small">correct</span></div>
-          <div class="cm-cell cm-fn"><span class="cm-big">23</span><span class="cm-small">missed</span></div>
-          <div class="cm-cell cm-lab">Actual&nbsp;Tinea</div>
-          <div class="cm-cell cm-fp"><span class="cm-big">28</span><span class="cm-small">missed</span></div>
-          <div class="cm-cell cm-tn"><span class="cm-big">120</span><span class="cm-small">correct</span></div>
+        <p>On the held-out <b>test set of 458 images</b>, at the 0.5 threshold, the model got <b>394 right and 64 wrong</b>. Reading each row across shows what happened to every image of one true class:</p>
+
+        <div class="viz">
+          <div class="viz-head"><span class="viz-title">Confusion matrix · test set</span></div>
+          <div class="svg-scroll">
+            <div class="cmx">
+              <div></div>
+              <div class="cx-h">Predicted<br>Dermatitis</div>
+              <div class="cx-h">Predicted<br>Dermatophytosis</div>
+              <div class="cx-h" style="justify-content:flex-end;">Recall</div>
+
+              <div class="cx-rh">Actually<br>Dermatitis<br><span style="opacity:.7;">255 images</span></div>
+              <div class="cx-cell hit">
+                <span class="cx-n" style="font-size:2.1rem;">228</span>
+                <span class="cx-pct">89.4% of the row</span>
+                <span class="cx-tag">correct</span>
+              </div>
+              <div class="cx-cell miss">
+                <span class="cx-n" style="font-size:1.25rem;">27</span>
+                <span class="cx-pct">10.6% of the row</span>
+                <span class="cx-tag">false alarm</span>
+              </div>
+              <div class="cx-recall"><span class="rc-n">89.41%</span><span class="rc-l">caught</span></div>
+
+              <div class="cx-rh">Actually<br>Dermatophytosis<br><span style="opacity:.7;">203 images</span></div>
+              <div class="cx-cell miss">
+                <span class="cx-n" style="font-size:1.4rem;">37</span>
+                <span class="cx-pct">18.2% of the row</span>
+                <span class="cx-tag">missed</span>
+              </div>
+              <div class="cx-cell hit">
+                <span class="cx-n" style="font-size:1.85rem;">166</span>
+                <span class="cx-pct">81.8% of the row</span>
+                <span class="cx-tag">correct</span>
+              </div>
+              <div class="cx-recall"><span class="rc-n">81.77%</span><span class="rc-l">caught</span></div>
+            </div>
+          </div>
+          <p class="viz-note">Green is a correct call, amber a mistake, and the number's size follows its count. The bottom-left cell is the one worth watching: <b>37 fungal infections were read as dermatitis</b>. That is the error with real consequences, because treating a fungal infection as inflammation is what leads to <i>tinea incognito</i>.</p>
         </div>
-        <p style="margin-top:16px;">Looking per class, eczema recall is 85.2% and tinea recall is 81.1% — meaning tinea is slightly more likely to be missed. Overall the model performs solidly but not perfectly, which is exactly why SpotCheck presents its output as a supportive read rather than a diagnosis.</p>
+
+        <p>Reading the same matrix column-wise and per class gives the standard metrics:</p>
+
+        <div class="viz">
+          <div class="viz-head">
+            <span class="viz-title">Metrics by class</span>
+            <span class="chart-legend">
+              <span class="lg"><i style="background:var(--dermatitis);"></i>Dermatitis</span>
+              <span class="lg"><i style="background:var(--dermatophytosis);"></i>Dermatophytosis</span>
+            </span>
+          </div>
+          <div class="mbars">
+            <div class="mbar-group">
+              <div class="mbar-name">Precision — when it says this class, how often is it right?</div>
+              <div class="mbar"><div class="mbar-track"><div class="mbar-fill derm" style="width:86.04%;"></div></div><span class="mbar-val">86.04%</span></div>
+              <div class="mbar"><div class="mbar-track"><div class="mbar-fill dpht" style="width:86.01%;"></div></div><span class="mbar-val">86.01%</span></div>
+            </div>
+            <div class="mbar-group">
+              <div class="mbar-name">Recall — of all images of this class, how many were caught?</div>
+              <div class="mbar"><div class="mbar-track"><div class="mbar-fill derm" style="width:89.41%;"></div></div><span class="mbar-val">89.41%</span></div>
+              <div class="mbar"><div class="mbar-track"><div class="mbar-fill dpht" style="width:81.77%;"></div></div><span class="mbar-val">81.77%</span></div>
+              <div class="mbar-gap">7.64-point gap — dermatophytosis is the easier one to miss</div>
+            </div>
+            <div class="mbar-group">
+              <div class="mbar-name">F1-score — the balance of precision and recall</div>
+              <div class="mbar"><div class="mbar-track"><div class="mbar-fill derm" style="width:87.69%;"></div></div><span class="mbar-val">87.69%</span></div>
+              <div class="mbar"><div class="mbar-track"><div class="mbar-fill dpht" style="width:83.84%;"></div></div><span class="mbar-val">83.84%</span></div>
+            </div>
+          </div>
+          <p class="viz-note">Bars run from 0 to 100%. Precision is effectively tied between the classes; recall is where they part.</p>
+        </div>
+
+        <div class="table-scroll"><table class="metric-table">
+          <thead><tr><th>Metric</th><th>Dermatitis</th><th>Dermatophytosis</th><th>Macro avg.</th></tr></thead>
+          <tbody>
+            <tr><td>Precision</td><td class="num">86.04%</td><td class="num">86.01%</td><td class="num">86.02%</td></tr>
+            <tr><td>Recall</td><td class="num">89.41%</td><td class="num">81.77%</td><td class="num">85.59%</td></tr>
+            <tr><td>Specificity</td><td class="num">81.77%</td><td class="num">89.41%</td><td class="num">85.59%</td></tr>
+            <tr><td>F1-Score</td><td class="num">87.69%</td><td class="num">83.84%</td><td class="num">85.77%</td></tr>
+            <tr><td>Accuracy</td><td class="num" colspan="3">86.03% overall</td></tr>
+          </tbody>
+        </table></div>
+
+        <p style="margin-top:16px;">Every number above depends on the 0.5 cut-off. The ROC curve removes that dependency by sweeping every possible threshold at once:</p>
         <figure class="med-figure fig-narrow">
-          <img src="{{ url_for('static', filename='img/model/roc-curve.png') }}" alt="ROC curve on the test set, area under the curve 0.8974, plotted against the diagonal of a random classifier" />
-          <figcaption><b>ROC curve on the test set.</b> The curve plots true positives against false positives across every possible decision threshold, so it judges the model independently of the 0.5 cut-off SpotCheck uses. The area underneath is <b>0.8974</b> — a random guess would trace the dashed diagonal and score 0.5.</figcaption>
+          <img src="{{ url_for('static', filename='img/model/roc-curve.png') }}" alt="ROC curves for the validation and test sets, area under the curve 0.9111 and 0.9176, plotted against the diagonal of a random classifier" />
+          <figcaption><b>ROC curves.</b> True positives against false positives across every possible decision threshold. The area underneath is <b>0.9176</b> on the test set (<i>Uji</i>) and 0.9111 on validation (<i>Validasi</i>); a random guess would trace the dotted diagonal and score 0.5. The red dot marks where the 0.5 threshold lands — catching 81.8% of fungal cases while wrongly flagging 10.6% of dermatitis ones. <i>(0.9176 here against 91.80% in Section 05: that table uses Keras's 200-bin approximation of the area, this curve the exact calculation.)</i></figcaption>
         </figure>
+        <p>Overall the model performs solidly but not perfectly — which is exactly why SpotCheck presents its output as a supportive read rather than a diagnosis.</p>
       </div>
     </div>
 
-    <div class="nsec">
+    <div class="nsec" id="ab-inference">
       <div><span class="nstep">SECTION 07</span><h2>Inference &amp; export</h2></div>
       <div class="ncontent">
-        <p>For a new photo, the model applies the same preparation (letterbox resize + normalization), then outputs a probability. A score of 0.5 or above is read as tinea; below that, eczema — and the accompanying confidence shows how sure the model is.</p>
+        <p>For a new photo the model applies exactly the same preparation as training — RGB conversion, portrait-to-landscape rotation, letterbox onto the 336×224 canvas, divide by 255 — then outputs one probability. A score of 0.5 or above is read as dermatophytosis; below that, dermatitis. The confidence shown is simply how far that score sits from the 0.5 line.</p>
         <figure class="med-figure">
-          <img src="{{ url_for('static', filename='img/model/inference-samples.png') }}" alt="Six test-set photos with the model's prediction, the true label and a confidence score for each" />
-          <figcaption><b>Inference on test-set samples.</b> Each photo shows the true label, the model's prediction and its confidence. Note the black bands above and below the images: that is the letterbox padding, which keeps a photo's original proportions instead of stretching it — the very same step this web app applies to every photo you upload.</figcaption>
+          <img src="{{ url_for('static', filename='img/model/inference-dermatitis.png') }}" alt="Four dermatitis test-set photos with the model's prediction, probability and confidence; three correct and one wrong" />
+          <figcaption><b>Inference on dermatitis samples.</b> Four test-set photos of dermatitis, framed green where the model was right and red where it was wrong. <i>Prediksi</i> is the prediction, <i>Probabilitas</i> the raw sigmoid score, <i>Keyakinan</i> the confidence. The fourth is a near-miss — 0.506, barely over the line.</figcaption>
         </figure>
-        <p>The final model was exported to the <span class="mono">.keras</span> format (primary) and to SavedModel (a portable alternative), so it can be loaded directly into this web app.</p>
+        <figure class="med-figure">
+          <img src="{{ url_for('static', filename='img/model/inference-dermatophytosis.png') }}" alt="Four dermatophytosis test-set photos with the model's prediction, probability and confidence; three correct and one wrong" />
+          <figcaption><b>Inference on dermatophytosis samples.</b> The same read-out for four fungal cases. The third one is wrong and confidently so — 90.4% for dermatitis — a reminder that a high confidence score is not a guarantee.</figcaption>
+        </figure>
+        <p>The final model was exported to the <span class="mono">.keras</span> format — an 8.68 MB file — alongside a small JSON config recording the class order, threshold and preprocessing steps, so this web app reproduces the training pipeline exactly rather than from memory.</p>
+
+        <div class="scope-note" style="margin:22px 0 0;">
+          <span class="ic">!</span>
+          <div>
+            <p><b>The model has no way to say "neither".</b> It is a closed-set binary classifier: one sigmoid output, one threshold, two possible answers. Nothing in the pipeline checks whether an image belongs to either family in the first place — there is no out-of-distribution detector and no rejection class.</p>
+            <p>So a photo of healthy skin, a different skin condition, or something that isn't skin at all still comes back as dermatitis or dermatophytosis, and the confidence figure can be high even then. That number only ever means <i>which of the two the image resembles more</i> — never that the image is one of the two. Treat any result on an out-of-scope photo as meaningless rather than as a finding.</p>
+          </div>
+        </div>
       </div>
     </div>
 
+    </div>
+
+    <aside class="quicknav about-nav" id="qn-about">
+      <div class="qn-label">On this page</div>
+      <a href="#ab-intro" class="active">Introduction</a>
+      <a href="#ab-dataset">Dataset</a>
+      <a href="#ab-prep">Preparation</a>
+      <a href="#ab-arch">Model architecture</a>
+      <a href="#ab-training">Training strategy</a>
+      <a href="#ab-performance">Performance</a>
+      <a href="#ab-inference">Inference &amp; export</a>
+    </aside>
   </div>
 </section>
 {% endblock %}
