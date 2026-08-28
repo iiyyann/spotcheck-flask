@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 1332" width="1180" height="1332">
+<rect width="1180" height="1332" fill="#FFFFFF"/>
+<rect x="435.0" y="30.0" width="170" height="42" rx="21.0" ry="21.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="520" y="51.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Mulai</text>
+<polygon points="370.0,100.0 670.0,100.0 670.0,142.0 370.0,142.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="121.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Membuka aplikasi SpotCheck</text>
+<polygon points="342.0,170.0 720.0,170.0 698.0,212.0 320.0,212.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="191.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Halaman utama SpotCheck ditampilkan</text>
+<polygon points="520,240.0 670.0,279.0 520,318.0 370.0,279.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="279.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Memindai foto?</text>
+<polygon points="342.0,346.0 720.0,346.0 698.0,402.0 320.0,402.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="363.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Mengunggah foto kulit:</text>
+<text x="520" y="384.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">klik, seret-lepas, atau kamera</text>
+<polygon points="280.0,430.0 760.0,430.0 760.0,486.0 280.0,486.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="447.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Validasi berkas di peramban:</text>
+<text x="520" y="468.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">format JPG / JPEG / PNG / WebP, maksimal 8 MB</text>
+<polygon points="520,514.0 660.0,553.0 520,592.0 380.0,553.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="553.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Berkas valid?</text>
+<polygon points="300.0,620.0 740.0,620.0 740.0,662.0 300.0,662.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="641.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Mengirim foto ke server melalui POST /predict</text>
+<polygon points="330.0,690.0 710.0,690.0 710.0,746.0 330.0,746.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<line x1="342.0" y1="690.0" x2="342.0" y2="746.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="698.0" y1="690.0" x2="698.0" y2="746.0" stroke="#000000" stroke-width="1.6"/>
+<text x="520" y="707.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Validasi unggahan di server</text>
+<text x="520" y="728.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">(Gambar 3.43)</text>
+<polygon points="520,774.0 645.0,813.0 520,852.0 395.0,813.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="813.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Unggahan valid?</text>
+<polygon points="300.0,880.0 740.0,880.0 740.0,936.0 300.0,936.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<line x1="312.0" y1="880.0" x2="312.0" y2="936.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="728.0" y1="880.0" x2="728.0" y2="936.0" stroke="#000000" stroke-width="1.6"/>
+<text x="520" y="897.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Prapemrosesan citra dan prediksi model</text>
+<text x="520" y="918.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">(Gambar 3.44)</text>
+<polygon points="520,964.0 670.0,1003.0 520,1042.0 370.0,1003.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="1003.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Prediksi berhasil?</text>
+<polygon points="292.0,1070.0 770.0,1070.0 748.0,1126.0 270.0,1126.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="1087.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Menampilkan hasil klasifikasi:</text>
+<text x="520" y="1108.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">kelas prediksi, tingkat keyakinan, dan persentase kedua kelas</text>
+<polygon points="520,1154.0 665.0,1193.0 520,1232.0 375.0,1193.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="1193.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Pindai foto lain?</text>
+<rect x="435.0" y="1260.0" width="170" height="42" rx="21.0" ry="21.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="520" y="1281.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Selesai</text>
+<polygon points="740.0,251.0 1140.0,251.0 1140.0,307.0 740.0,307.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="940" y="268.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Membaca halaman edukasi: Dermatitis,</text>
+<text x="940" y="289.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Dermatophytosis, atau About Model</text>
+<polygon points="72.0,792.0 300.0,792.0 278.0,834.0 50.0,834.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="175" y="813.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Menampilkan pesan galat</text>
+<line x1="520" y1="72.0" x2="520" y2="100.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,100.0 514.6,91.0 525.4,91.0" fill="#000000"/>
+<line x1="520" y1="142.0" x2="520" y2="170.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,170.0 514.6,161.0 525.4,161.0" fill="#000000"/>
+<line x1="520" y1="212.0" x2="520" y2="240.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,240.0 514.6,231.0 525.4,231.0" fill="#000000"/>
+<line x1="520" y1="318.0" x2="520" y2="346.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,346.0 514.6,337.0 525.4,337.0" fill="#000000"/>
+<line x1="520" y1="402.0" x2="520" y2="430.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,430.0 514.6,421.0 525.4,421.0" fill="#000000"/>
+<line x1="520" y1="486.0" x2="520" y2="514.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,514.0 514.6,505.0 525.4,505.0" fill="#000000"/>
+<line x1="520" y1="592.0" x2="520" y2="620.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,620.0 514.6,611.0 525.4,611.0" fill="#000000"/>
+<line x1="520" y1="662.0" x2="520" y2="690.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,690.0 514.6,681.0 525.4,681.0" fill="#000000"/>
+<line x1="520" y1="746.0" x2="520" y2="774.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,774.0 514.6,765.0 525.4,765.0" fill="#000000"/>
+<line x1="520" y1="852.0" x2="520" y2="880.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,880.0 514.6,871.0 525.4,871.0" fill="#000000"/>
+<line x1="520" y1="936.0" x2="520" y2="964.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,964.0 514.6,955.0 525.4,955.0" fill="#000000"/>
+<line x1="520" y1="1042.0" x2="520" y2="1070.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,1070.0 514.6,1061.0 525.4,1061.0" fill="#000000"/>
+<line x1="520" y1="1126.0" x2="520" y2="1154.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,1154.0 514.6,1145.0 525.4,1145.0" fill="#000000"/>
+<line x1="520" y1="1232.0" x2="520" y2="1260.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,1260.0 514.6,1251.0 525.4,1251.0" fill="#000000"/>
+<line x1="670.0" y1="279.0" x2="740.0" y2="279.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="740.0,279.0 731.0,273.6 731.0,284.4" fill="#000000"/>
+<line x1="940" y1="307.0" x2="940" y2="1281.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="940" y1="1281.0" x2="605.0" y2="1281.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="605.0,1281.0 614.0,1275.6 614.0,1286.4" fill="#000000"/>
+<line x1="380.0" y1="553.0" x2="175" y2="553.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="175" y1="553.0" x2="175" y2="792.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="175,792.0 169.6,783.0 180.4,783.0" fill="#000000"/>
+<line x1="395.0" y1="813.0" x2="289.0" y2="813.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="289.0,813.0 298.0,807.6 298.0,818.4" fill="#000000"/>
+<line x1="370.0" y1="1003.0" x2="175" y2="1003.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="175" y1="1003.0" x2="175" y2="834.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="175,834.0 169.6,843.0 180.4,843.0" fill="#000000"/>
+<line x1="61.0" y1="813.0" x2="30" y2="813.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="30" y1="813.0" x2="30" y2="374.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="30" y1="374.0" x2="331.0" y2="374.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="331.0,374.0 322.0,368.6 322.0,379.4" fill="#000000"/>
+<line x1="665.0" y1="1193.0" x2="810" y2="1193.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="810" y1="1193.0" x2="810" y2="374.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="810" y1="374.0" x2="709.0" y2="374.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="709.0,374.0 718.0,368.6 718.0,379.4" fill="#000000"/>
+<text x="536" y="332.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Ya</text>
+<text x="536" y="606.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Ya</text>
+<text x="536" y="866.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Ya</text>
+<text x="536" y="1056.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Ya</text>
+<text x="536" y="1246.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Tidak</text>
+<text x="690.0" y="266.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Tidak</text>
+<text x="685.0" y="1180.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Ya</text>
+<text x="328.0" y="540.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Tidak</text>
+<text x="343.0" y="800.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Tidak</text>
+<text x="318.0" y="990.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Tidak</text>
+</svg>

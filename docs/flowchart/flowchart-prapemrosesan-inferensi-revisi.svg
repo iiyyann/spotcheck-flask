@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1150 1168" width="1150" height="1168">
+<rect width="1150" height="1168" fill="#FFFFFF"/>
+<rect x="395.0" y="30.0" width="170" height="42" rx="21.0" ry="21.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="480" y="51.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Mulai</text>
+<polygon points="302.0,100.0 680.0,100.0 658.0,142.0 280.0,142.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="121.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Berkas citra kulit dari pengguna</text>
+<polygon points="250.0,170.0 710.0,170.0 710.0,226.0 250.0,226.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="187.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Membuka citra dan meluruskan orientasi</text>
+<text x="480" y="208.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">berdasarkan tag EXIF</text>
+<polygon points="280.0,254.0 680.0,254.0 680.0,296.0 280.0,296.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="275.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Mengubah citra ke mode warna RGB</text>
+<polygon points="480,324.0 650.0,368.0 480,412.0 310.0,368.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="357.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Tinggi lebih besar</text>
+<text x="480" y="378.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">daripada lebar?</text>
+<polygon points="250.0,440.0 710.0,440.0 710.0,496.0 250.0,496.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="457.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Letterbox: mengubah ukuran secara proporsional</text>
+<text x="480" y="478.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">ke kanvas 336 x 224 piksel dengan bantalan hitam</text>
+<polygon points="280.0,524.0 680.0,524.0 680.0,566.0 280.0,566.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="545.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Normalisasi: nilai piksel dibagi 255</text>
+<polygon points="230.0,594.0 730.0,594.0 730.0,636.0 230.0,636.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="615.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Menambah dimensi batch menjadi tensor (1, 224, 336, 3)</text>
+<polygon points="240.0,664.0 720.0,664.0 720.0,720.0 240.0,720.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="681.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Prediksi model CNN menghasilkan satu nilai sigmoid</text>
+<text x="480" y="702.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">p = peluang kelas dermatofitosis</text>
+<polygon points="480,748.0 630.0,787.0 480,826.0 330.0,787.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="787.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Nilai p ≥ 0,5?</text>
+<polygon points="225.0,924.0 735.0,924.0 735.0,998.0 225.0,998.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="940.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Menghitung tingkat keyakinan dan persentase kedua kelas:</text>
+<text x="480" y="961.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">keyakinan = maks(p, 1 − p) × 100%</text>
+<text x="480" y="982.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">dermatofitosis = p × 100%, dermatitis = (1 − p) × 100%</text>
+<polygon points="302.0,1026.0 680.0,1026.0 658.0,1068.0 280.0,1068.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="480" y="1047.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Hasil klasifikasi dikirim sebagai JSON</text>
+<rect x="395.0" y="1096.0" width="170" height="42" rx="21.0" ry="21.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="480" y="1117.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Selesai</text>
+<polygon points="710.0,340.0 1090.0,340.0 1090.0,396.0 710.0,396.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="900" y="357.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Memutar citra 90 derajat</text>
+<text x="900" y="378.5" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">menjadi orientasi lanskap</text>
+<polygon points="100.0,854.0 400.0,854.0 400.0,896.0 100.0,896.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="250" y="875.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Kelas prediksi = Dermatitis</text>
+<polygon points="560.0,854.0 860.0,854.0 860.0,896.0 560.0,896.0" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="710" y="875.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Kelas prediksi = Dermatofitosis</text>
+<line x1="480" y1="72.0" x2="480" y2="100.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,100.0 474.6,91.0 485.4,91.0" fill="#000000"/>
+<line x1="480" y1="142.0" x2="480" y2="170.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,170.0 474.6,161.0 485.4,161.0" fill="#000000"/>
+<line x1="480" y1="226.0" x2="480" y2="254.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,254.0 474.6,245.0 485.4,245.0" fill="#000000"/>
+<line x1="480" y1="296.0" x2="480" y2="324.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,324.0 474.6,315.0 485.4,315.0" fill="#000000"/>
+<line x1="480" y1="412.0" x2="480" y2="440.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,440.0 474.6,431.0 485.4,431.0" fill="#000000"/>
+<line x1="480" y1="496.0" x2="480" y2="524.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,524.0 474.6,515.0 485.4,515.0" fill="#000000"/>
+<line x1="480" y1="566.0" x2="480" y2="594.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,594.0 474.6,585.0 485.4,585.0" fill="#000000"/>
+<line x1="480" y1="636.0" x2="480" y2="664.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,664.0 474.6,655.0 485.4,655.0" fill="#000000"/>
+<line x1="480" y1="720.0" x2="480" y2="748.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,748.0 474.6,739.0 485.4,739.0" fill="#000000"/>
+<line x1="650.0" y1="368.0" x2="710.0" y2="368.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="710.0,368.0 701.0,362.6 701.0,373.4" fill="#000000"/>
+<line x1="900" y1="396.0" x2="900" y2="468.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="900" y1="468.0" x2="710.0" y2="468.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="710.0,468.0 719.0,462.6 719.0,473.4" fill="#000000"/>
+<line x1="330.0" y1="787.0" x2="250" y2="787.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="250" y1="787.0" x2="250" y2="854.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="250,854.0 244.6,845.0 255.4,845.0" fill="#000000"/>
+<line x1="630.0" y1="787.0" x2="710" y2="787.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="710" y1="787.0" x2="710" y2="854.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="710,854.0 704.6,845.0 715.4,845.0" fill="#000000"/>
+<line x1="250" y1="896.0" x2="250" y2="910.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="250" y1="910.0" x2="480" y2="910.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="710" y1="896.0" x2="710" y2="910.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="710" y1="910.0" x2="480" y2="910.0" stroke="#000000" stroke-width="1.6"/>
+<line x1="480" y1="910.0" x2="480" y2="924.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,924.0 474.6,915.0 485.4,915.0" fill="#000000"/>
+<line x1="480" y1="998.0" x2="480" y2="1026.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,1026.0 474.6,1017.0 485.4,1017.0" fill="#000000"/>
+<line x1="480" y1="1068.0" x2="480" y2="1096.0" stroke="#000000" stroke-width="1.6"/>
+<polygon points="480,1096.0 474.6,1087.0 485.4,1087.0" fill="#000000"/>
+<text x="670.0" y="355.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Ya</text>
+<text x="496" y="426.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Tidak</text>
+<text x="274.0" y="774.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Tidak</text>
+<text x="650.0" y="774.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Ya</text>
+</svg>

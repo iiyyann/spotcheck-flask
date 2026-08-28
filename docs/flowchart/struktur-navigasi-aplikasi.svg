@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1340 1030" width="1340" height="1030">
+<rect width="1340" height="1030" fill="#FFFFFF"/>
+<text x="30" y="40.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Global navigation (topbar), present on every page</text>
+<polygon points="30,58 1310,58 1310,122 30,122" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="50" y="90.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">SpotCheck</text>
+<polygon points="140.0,73 260.0,73 260.0,107 140.0,107" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="200" y="90.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Home &amp; Scan</text>
+<polygon points="472.5,73 567.5,73 567.5,107 472.5,107" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="90.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Dermatitis</text>
+<polygon points="770.0,73 910.0,73 910.0,107 770.0,107" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="840" y="90.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Dermatophytosis</text>
+<polygon points="1105.0,73 1215.0,73 1215.0,107 1105.0,107" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="1160" y="90.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">About Model</text>
+<line x1="200" y1="122" x2="200" y2="190" stroke="#000000" stroke-width="1.6"/>
+<polygon points="200,190 194.6,181.0 205.4,181.0" fill="#000000"/>
+<polygon points="55.0,190 345.0,190 345.0,446 55.0,446" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<polygon points="67.0,202 333.0,202 333.0,240 67.0,240" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="200" y="221.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Home &amp; Scan</text>
+<polygon points="67.0,250 333.0,250 333.0,282 67.0,282" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="79.0" y="266.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Hero</text>
+<polygon points="67.0,288 333.0,288 333.0,320 67.0,320" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="79.0" y="304.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Skin scan</text>
+<polygon points="67.0,326 333.0,326 333.0,358 67.0,358" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="79.0" y="342.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">How it works</text>
+<polygon points="67.0,364 333.0,364 333.0,396 67.0,396" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="79.0" y="380.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Scope note</text>
+<polygon points="67.0,402 333.0,402 333.0,434 67.0,434" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="79.0" y="418.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Learn more</text>
+<line x1="520" y1="122" x2="520" y2="190" stroke="#000000" stroke-width="1.6"/>
+<polygon points="520,190 514.6,181.0 525.4,181.0" fill="#000000"/>
+<polygon points="375.0,190 665.0,190 665.0,602 375.0,602" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<polygon points="387.0,202 653.0,202 653.0,240 387.0,240" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="221.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Dermatitis</text>
+<polygon points="387.0,250 653.0,250 653.0,282 387.0,282" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="520" y="266.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Quick navigation "On this page"</text>
+<polygon points="387.0,292 653.0,292 653.0,324 387.0,324" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="399.0" y="308.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">01 Overview</text>
+<line x1="632.5" y1="305.5" x2="637.0" y2="310.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="637.0" y1="310.5" x2="641.5" y2="305.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="387.0,330 653.0,330 653.0,362 387.0,362" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="399.0" y="346.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">02 Symptoms and Causes</text>
+<line x1="632.5" y1="343.5" x2="637.0" y2="348.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="637.0" y1="348.5" x2="641.5" y2="343.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="387.0,368 653.0,368 653.0,400 387.0,400" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="399.0" y="384.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">03 Diagnosis and Tests</text>
+<line x1="632.5" y1="381.5" x2="637.0" y2="386.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="637.0" y1="386.5" x2="641.5" y2="381.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="387.0,406 653.0,406 653.0,438 387.0,438" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="399.0" y="422.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">04 Management and Treatment</text>
+<line x1="632.5" y1="419.5" x2="637.0" y2="424.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="637.0" y1="424.5" x2="641.5" y2="419.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="387.0,444 653.0,444 653.0,476 387.0,476" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="399.0" y="460.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">05 Outlook / Prognosis</text>
+<line x1="632.5" y1="457.5" x2="637.0" y2="462.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="637.0" y1="462.5" x2="641.5" y2="457.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="387.0,482 653.0,482 653.0,514 387.0,514" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="399.0" y="498.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">06 Prevention</text>
+<line x1="632.5" y1="495.5" x2="637.0" y2="500.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="637.0" y1="500.5" x2="641.5" y2="495.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="387.0,520 653.0,520 653.0,552 387.0,552" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="399.0" y="536.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">07 Living With</text>
+<line x1="632.5" y1="533.5" x2="637.0" y2="538.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="637.0" y1="538.5" x2="641.5" y2="533.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="387.0,558 653.0,558 653.0,590 387.0,590" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="399.0" y="574.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">08 Additional Common Questions</text>
+<line x1="632.5" y1="571.5" x2="637.0" y2="576.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="637.0" y1="576.5" x2="641.5" y2="571.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="840" y1="122" x2="840" y2="190" stroke="#000000" stroke-width="1.6"/>
+<polygon points="840,190 834.6,181.0 845.4,181.0" fill="#000000"/>
+<polygon points="695.0,190 985.0,190 985.0,602 695.0,602" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<polygon points="707.0,202 973.0,202 973.0,240 707.0,240" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="840" y="221.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Dermatophytosis</text>
+<polygon points="707.0,250 973.0,250 973.0,282 707.0,282" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="840" y="266.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Quick navigation "On this page"</text>
+<polygon points="707.0,292 973.0,292 973.0,324 707.0,324" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="719.0" y="308.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">01 Overview</text>
+<line x1="952.5" y1="305.5" x2="957.0" y2="310.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="957.0" y1="310.5" x2="961.5" y2="305.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="707.0,330 973.0,330 973.0,362 707.0,362" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="719.0" y="346.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">02 Symptoms and Causes</text>
+<line x1="952.5" y1="343.5" x2="957.0" y2="348.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="957.0" y1="348.5" x2="961.5" y2="343.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="707.0,368 973.0,368 973.0,400 707.0,400" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="719.0" y="384.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">03 Diagnosis and Tests</text>
+<line x1="952.5" y1="381.5" x2="957.0" y2="386.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="957.0" y1="386.5" x2="961.5" y2="381.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="707.0,406 973.0,406 973.0,438 707.0,438" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="719.0" y="422.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">04 Management and Treatment</text>
+<line x1="952.5" y1="419.5" x2="957.0" y2="424.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="957.0" y1="424.5" x2="961.5" y2="419.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="707.0,444 973.0,444 973.0,476 707.0,476" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="719.0" y="460.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">05 Outlook / Prognosis</text>
+<line x1="952.5" y1="457.5" x2="957.0" y2="462.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="957.0" y1="462.5" x2="961.5" y2="457.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="707.0,482 973.0,482 973.0,514 707.0,514" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="719.0" y="498.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">06 Prevention</text>
+<line x1="952.5" y1="495.5" x2="957.0" y2="500.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="957.0" y1="500.5" x2="961.5" y2="495.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="707.0,520 973.0,520 973.0,552 707.0,552" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="719.0" y="536.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">07 Living With</text>
+<line x1="952.5" y1="533.5" x2="957.0" y2="538.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="957.0" y1="538.5" x2="961.5" y2="533.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="707.0,558 973.0,558 973.0,590 707.0,590" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="719.0" y="574.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">08 Additional Common Questions</text>
+<line x1="952.5" y1="571.5" x2="957.0" y2="576.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="957.0" y1="576.5" x2="961.5" y2="571.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="1160" y1="122" x2="1160" y2="190" stroke="#000000" stroke-width="1.6"/>
+<polygon points="1160,190 1154.6,181.0 1165.4,181.0" fill="#000000"/>
+<polygon points="1015.0,190 1305.0,190 1305.0,564 1015.0,564" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<polygon points="1027.0,202 1293.0,202 1293.0,240 1027.0,240" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="1160" y="221.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">About Model</text>
+<polygon points="1027.0,250 1293.0,250 1293.0,282 1027.0,282" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="1160" y="266.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Quick navigation "On this page"</text>
+<polygon points="1027.0,292 1293.0,292 1293.0,324 1027.0,324" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="1039.0" y="308.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Introduction</text>
+<line x1="1272.5" y1="305.5" x2="1277.0" y2="310.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="1277.0" y1="310.5" x2="1281.5" y2="305.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="1027.0,330 1293.0,330 1293.0,362 1027.0,362" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="1039.0" y="346.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Dataset</text>
+<line x1="1272.5" y1="343.5" x2="1277.0" y2="348.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="1277.0" y1="348.5" x2="1281.5" y2="343.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="1027.0,368 1293.0,368 1293.0,400 1027.0,400" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="1039.0" y="384.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Preparation</text>
+<line x1="1272.5" y1="381.5" x2="1277.0" y2="386.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="1277.0" y1="386.5" x2="1281.5" y2="381.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="1027.0,406 1293.0,406 1293.0,438 1027.0,438" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="1039.0" y="422.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Model architecture</text>
+<line x1="1272.5" y1="419.5" x2="1277.0" y2="424.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="1277.0" y1="424.5" x2="1281.5" y2="419.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="1027.0,444 1293.0,444 1293.0,476 1027.0,476" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="1039.0" y="460.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Training strategy</text>
+<line x1="1272.5" y1="457.5" x2="1277.0" y2="462.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="1277.0" y1="462.5" x2="1281.5" y2="457.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="1027.0,482 1293.0,482 1293.0,514 1027.0,514" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="1039.0" y="498.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Performance</text>
+<line x1="1272.5" y1="495.5" x2="1277.0" y2="500.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="1277.0" y1="500.5" x2="1281.5" y2="495.5" stroke="#000000" stroke-width="1.6"/>
+<polygon points="1027.0,520 1293.0,520 1293.0,552 1027.0,552" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="1039.0" y="536.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Inference &amp; export</text>
+<line x1="1272.5" y1="533.5" x2="1277.0" y2="538.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="1277.0" y1="538.5" x2="1281.5" y2="533.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="70" y1="446" x2="70" y2="632" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<line x1="70" y1="632" x2="460" y2="632" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<line x1="460" y1="632" x2="460" y2="602" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<polygon points="460,602 454.6,611.0 465.4,611.0" fill="#000000"/>
+<rect x="175.0" y="608" width="250.0" height="22" fill="#FFFFFF" stroke="none"/>
+<text x="300" y="619.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">"Learn more" card: "Read the guide"</text>
+<line x1="90" y1="446" x2="90" y2="660" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<line x1="90" y1="660" x2="560" y2="660" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<line x1="560" y1="660" x2="560" y2="602" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<polygon points="560,602 554.6,611.0 565.4,611.0" fill="#000000"/>
+<rect x="222.5" y="636" width="275.0" height="22" fill="#FFFFFF" stroke="none"/>
+<text x="360" y="647.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">scan result: "Read the Dermatitis guide"</text>
+<line x1="110" y1="446" x2="110" y2="688" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<line x1="110" y1="688" x2="790" y2="688" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<line x1="790" y1="688" x2="790" y2="602" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<polygon points="790,602 784.6,611.0 795.4,611.0" fill="#000000"/>
+<rect x="345.0" y="664" width="250.0" height="22" fill="#FFFFFF" stroke="none"/>
+<text x="470" y="675.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">"Learn more" card: "Read the guide"</text>
+<line x1="130" y1="446" x2="130" y2="716" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<line x1="130" y1="716" x2="890" y2="716" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<line x1="890" y1="716" x2="890" y2="602" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<polygon points="890,602 884.6,611.0 895.4,611.0" fill="#000000"/>
+<rect x="360.0" y="692" width="320.0" height="22" fill="#FFFFFF" stroke="none"/>
+<text x="520" y="703.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">scan result: "Read the Dermatophytosis guide"</text>
+<line x1="150" y1="446" x2="150" y2="744" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<line x1="150" y1="744" x2="1160" y2="744" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<line x1="1160" y1="744" x2="1160" y2="564" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<polygon points="1160,564 1154.6,573.0 1165.4,573.0" fill="#000000"/>
+<rect x="557.5" y="720" width="205.0" height="22" fill="#FFFFFF" stroke="none"/>
+<text x="660" y="731.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">hero: "How the model works"</text>
+<text x="30" y="774.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Utility navigation (footer), present on every page</text>
+<polygon points="30,790 1310,790 1310,846 30,846" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="670.0" y="818.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="middle" dominant-baseline="central">Not-a-medical-diagnosis statement  ·  Cleveland Clinic source link</text>
+<polygon points="30,880 890,880 890,986 30,986" fill="#FFFFFF" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter"/>
+<text x="50" y="902.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Legend</text>
+<line x1="50" y1="930" x2="94" y2="930" stroke="#000000" stroke-width="1.6"/>
+<text x="108" y="930.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Global navigation: a topbar button opens the page</text>
+<line x1="50" y1="954" x2="94" y2="954" stroke="#000000" stroke-width="1.6" stroke-dasharray="8 5"/>
+<text x="108" y="954.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Associative navigation and related content: a contextual link inside the content</text>
+<line x1="67.5" y1="973.5" x2="72" y2="978.5" stroke="#000000" stroke-width="1.6"/>
+<line x1="72" y1="978.5" x2="76.5" y2="973.5" stroke="#000000" stroke-width="1.6"/>
+<text x="108" y="976.0" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#000000" text-anchor="start" dominant-baseline="central">Accordion section that expands and collapses</text>
+</svg>
