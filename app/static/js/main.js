@@ -50,8 +50,8 @@
       }
     });
   },{rootMargin:'-80px 0px -70% 0px',threshold:0});
-  // .acc = seksi akordion halaman edukasi; .nsec = seksi halaman About Model.
-  document.querySelectorAll('.acc, .nsec').forEach(a=>spy.observe(a));
+  // Seluruh seksi berbentuk akordion, baik pada halaman edukasi maupun About Model.
+  document.querySelectorAll('.acc').forEach(a=>spy.observe(a));
 
   /* ---------- Prediksi nyata pada dropzone ----------
      Menggantikan runDemo() milik prototype yang meng-hardcode 85/15. Animasi

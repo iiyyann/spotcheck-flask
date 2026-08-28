@@ -150,7 +150,7 @@
     <div>
       <div class="toolbar">
         <span class="t-title">Education · 8 sections</span>
-        <button class="expand-all" data-scope="dermatitis" onclick="toggleAll('dermatitis',this)">Collapse all</button>
+        <button class="expand-all" data-scope="dermatitis" onclick="toggleAll('dermatitis',this)">Expand all</button>
       </div>
       <div class="accordion" id="acc-dermatitis">
 
@@ -375,7 +375,7 @@
     <div>
       <div class="toolbar">
         <span class="t-title">Education · 8 sections</span>
-        <button class="expand-all" data-scope="dermatophytosis" onclick="toggleAll('dermatophytosis',this)">Collapse all</button>
+        <button class="expand-all" data-scope="dermatophytosis" onclick="toggleAll('dermatophytosis',this)">Expand all</button>
       </div>
       <div class="accordion" id="acc-dermatophytosis">
 
@@ -582,17 +582,23 @@
   <div class="about-layout">
     <div class="narrative">
 
-    <div class="nsec" id="ab-intro">
-      <div><span class="nstep">SECTION 01</span><h2>Introduction</h2></div>
-      <div class="ncontent">
+      <div class="toolbar">
+        <span class="t-title">About · 7 sections</span>
+        <button class="expand-all" data-scope="about" onclick="toggleAll('about',this)">Expand all</button>
+      </div>
+      <div class="accordion" id="acc-about">
+
+    <div class="acc open" id="ab-intro">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">01</span><h3>Introduction</h3><span class="caret">⌄</span></div>
+      <div class="acc-body"><div class="acc-inner">
         <p><b>Dermatitis</b> (non-infectious skin inflammation) and <b>dermatophytosis</b> (fungal infection by dermatophytes) have similar clinical appearances — redness, itching, scaly skin — which makes them hard to tell apart by eye, especially early on. A mix-up matters: treating dermatophytosis with steroids as if it were dermatitis can push it into <i>tinea incognito</i>, where the infection loses its usual signs and becomes even harder to recognise.</p>
         <p>SpotCheck tackles this as a <b>binary image classification</b> problem: dermatitis versus dermatophytosis. The model is a Convolutional Neural Network (CNN) trained entirely from scratch — no transfer learning, no pre-trained backbone. Development followed the CRISP-DM pipeline: data understanding, preparation, modeling, evaluation and deployment.</p>
-      </div>
+      </div></div>
     </div>
 
-    <div class="nsec" id="ab-dataset">
-      <div><span class="nstep">SECTION 02</span><h2>Dataset</h2></div>
-      <div class="ncontent">
+    <div class="acc" id="ab-dataset">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">02</span><h3>Dataset</h3><span class="caret">⌄</span></div>
+      <div class="acc-body"><div class="acc-inner">
         <p>Images come from a <b>DermNet</b> collection assembled via Kaggle: <b>9,987 images</b> in total — 5,490 dermatitis and 4,497 dermatophytosis. Every file opened cleanly, so no image was lost to corruption.</p>
         <p>Cleaning was aggressive, because duplicates spread across source uploads inflate scores without adding information. Exact duplicates were found by content hashing and near-duplicates by perceptual hashing, with connected copies grouped so each chain of look-alikes keeps only one representative. A further pass removed images showing <i>drug eruption</i>, a reaction that belongs to neither target family.</p>
 
@@ -652,12 +658,12 @@
           </div>
           <p class="viz-note">The ratio holds at <b>1.25 : 1</b> in all three splits, so the validation and test scores are measured on the same class mix the model trained on.</p>
         </div>
-      </div>
+      </div></div>
     </div>
 
-    <div class="nsec" id="ab-prep">
-      <div><span class="nstep">SECTION 03</span><h2>Preparation</h2></div>
-      <div class="ncontent">
+    <div class="acc" id="ab-prep">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">03</span><h3>Preparation</h3><span class="caret">⌄</span></div>
+      <div class="acc-body"><div class="acc-inner">
         <p>Every image was standardized to three-channel RGB and placed on a <b>336×224</b> canvas. That shape is not arbitrary: measured across the collection, the median image has a long-to-short side ratio of <b>1.51</b>, so a 3:2 canvas (ratio 1.50) wastes the least space on padding.</p>
 
         <div class="viz">
@@ -706,12 +712,12 @@
         </div>
 
         <p>To help the model generalize, the training set received augmentation applied per batch after normalization: horizontal and vertical flips (each with probability 0.5), random zoom between 0.7 and 1.0, and brightness shifts of ±0.2. Validation and test images were only transformed and normalized — no augmentation — so evaluation reflects real, unaltered data.</p>
-      </div>
+      </div></div>
     </div>
 
-    <div class="nsec" id="ab-arch">
-      <div><span class="nstep">SECTION 04</span><h2>Model architecture</h2></div>
-      <div class="ncontent">
+    <div class="acc" id="ab-arch">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">04</span><h3>Model architecture</h3><span class="caret">⌄</span></div>
+      <div class="acc-body"><div class="acc-inner">
         <p>The network — <span class="mono">Residual_CNN_Dermatitis_Dermatophytosis</span> — is built with the Keras Functional API. Two plain convolutional blocks are followed by two residual blocks, where a <b>skip connection</b> carries the earlier tensor forward and adds it back after the convolutions. That shortcut is what lets gradients reach the early layers of a deep stack. A <b>SeparableConv2D</b> in the last block keeps the parameter count down.</p>
 
         <div class="viz">
@@ -816,12 +822,12 @@
           </tbody>
         </table></div>
         <p style="margin-top:16px;">At roughly three quarters of a million parameters the model is compact — light enough to load and run inside a web app on an ordinary CPU.</p>
-      </div>
+      </div></div>
     </div>
 
-    <div class="nsec" id="ab-training">
-      <div><span class="nstep">SECTION 05</span><h2>Training strategy</h2></div>
-      <div class="ncontent">
+    <div class="acc" id="ab-training">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">05</span><h3>Training strategy</h3><span class="caret">⌄</span></div>
+      <div class="acc-body"><div class="acc-inner">
         <p>The model was trained with the <b>AdamW</b> optimizer and a <b>cosine decay learning-rate schedule with warmup</b>: the learning rate ramps gently from 1e-5 up to 5e-4 over the first 10 epochs, then decays smoothly along a cosine curve toward zero. Weight decay is 1e-4, excluding normalization parameters and biases. The loss is <b>binary cross-entropy with label smoothing (0.05)</b>, which discourages the model from becoming overconfident and helps it generalize.</p>
         <p>Training ran the full <b>150 epochs</b> — there was no early stopping. Instead a checkpoint kept the weights from whichever epoch scored highest on <b>validation ROC-AUC</b>, a threshold-independent criterion. That turned out to be <b>epoch 134</b>. All three splits were then re-measured without augmentation, so the numbers are directly comparable:</p>
         <div class="table-scroll"><table class="metric-table">
@@ -837,12 +843,12 @@
           <img src="{{ url_for('static', filename='img/model/training-curves.png') }}" alt="Loss, accuracy and ROC-AUC curves across 150 training epochs for the training and validation sets, with the selected epoch marked at 134" />
           <figcaption><b>Training curves.</b> Loss (<i>Kurva Loss</i>), accuracy and ROC-AUC across all 150 epochs, for the augmented training set (<i>Latih</i>, solid) and validation (<i>Validasi</i>, dashed). The lines climb together without the widening gap that signals overfitting. The dashed red line marks epoch 134, whose weights were kept.</figcaption>
         </figure>
-      </div>
+      </div></div>
     </div>
 
-    <div class="nsec" id="ab-performance">
-      <div><span class="nstep">SECTION 06</span><h2>Performance</h2></div>
-      <div class="ncontent">
+    <div class="acc" id="ab-performance">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">06</span><h3>Performance</h3><span class="caret">⌄</span></div>
+      <div class="acc-body"><div class="acc-inner">
         <p>On the held-out <b>test set of 458 images</b>, at the 0.5 threshold, the model got <b>394 right and 64 wrong</b>. Reading each row across shows what happened to every image of one true class:</p>
 
         <div class="viz">
@@ -932,12 +938,12 @@
           <figcaption><b>ROC curves.</b> True positives against false positives across every possible decision threshold. The area underneath is <b>0.9176</b> on the test set (<i>Uji</i>) and 0.9111 on validation (<i>Validasi</i>); a random guess would trace the dotted diagonal and score 0.5. The red dot marks where the 0.5 threshold lands — catching 81.8% of fungal cases while wrongly flagging 10.6% of dermatitis ones. <i>(0.9176 here against 91.80% in Section 05: that table uses Keras's 200-bin approximation of the area, this curve the exact calculation.)</i></figcaption>
         </figure>
         <p>Overall the model performs solidly but not perfectly — which is exactly why SpotCheck presents its output as a supportive read rather than a diagnosis.</p>
-      </div>
+      </div></div>
     </div>
 
-    <div class="nsec" id="ab-inference">
-      <div><span class="nstep">SECTION 07</span><h2>Inference &amp; export</h2></div>
-      <div class="ncontent">
+    <div class="acc" id="ab-inference">
+      <div class="acc-head" onclick="toggleAcc(this)"><span class="idx">07</span><h3>Inference &amp; export</h3><span class="caret">⌄</span></div>
+      <div class="acc-body"><div class="acc-inner">
         <p>For a new photo the model applies exactly the same preparation as training — RGB conversion, portrait-to-landscape rotation, letterbox onto the 336×224 canvas, divide by 255 — then outputs one probability. A score of 0.5 or above is read as dermatophytosis; below that, dermatitis. The confidence shown is simply how far that score sits from the 0.5 line.</p>
         <figure class="med-figure">
           <img src="{{ url_for('static', filename='img/model/inference-dermatitis.png') }}" alt="Four dermatitis test-set photos with the model's prediction, probability and confidence; three correct and one wrong" />
@@ -956,8 +962,9 @@
             <p>So a photo of healthy skin, a different skin condition, or something that isn't skin at all still comes back as dermatitis or dermatophytosis, and the confidence figure can be high even then. That number only ever means <i>which of the two the image resembles more</i> — never that the image is one of the two. Treat any result on an out-of-scope photo as meaningless rather than as a finding.</p>
           </div>
         </div>
-      </div>
+      </div></div>
     </div>
+      </div>
 
     </div>
 

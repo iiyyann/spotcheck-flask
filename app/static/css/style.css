@@ -267,13 +267,6 @@
   .hl .hl-sub{display:block;font-size:.9rem;opacity:.9;}
 
   .narrative{display:grid;grid-template-columns:1fr;gap:0;}
-  .nsec{padding:34px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:210px 1fr;gap:36px;align-items:start;scroll-margin-top:88px;}
-  .nsec .nstep{font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--primary-2);font-weight:600;letter-spacing:.08em;}
-  .nsec h2{font-size:1.5rem;margin:8px 0 0;}
-  .nsec .ncontent p{margin:0 0 12px;color:#38443F;}
-  .nsec .ncontent p:last-child{margin-bottom:0;}
-  .nsec .ncontent ul{color:#38443F;padding-left:20px;margin:0 0 12px;}
-  .nsec .ncontent li{margin:4px 0;}
 
   .table-scroll{overflow-x:auto;margin:8px 0 4px;}
   .table-scroll .metric-table{margin:0;min-width:420px;}
@@ -312,22 +305,26 @@
      pembeda, dan tabel angka tetap disediakan di sebelahnya. */
 
   .about-layout{display:grid;grid-template-columns:1fr 208px;gap:32px;align-items:start;}
-  .about-layout .nsec{grid-template-columns:168px 1fr;gap:26px;}
   /* Item grid punya min-width:auto secara bawaan, artinya ia menolak menyusut
      di bawah lebar isinya. Diagram SVG dan matriks yang lebar akan mendorong
      kolom melewati tepi halaman dan menggeser rail navigasi keluar layar. */
   .about-layout > *,
-  .nsec > *{min-width:0;}
+  .narrative > *{min-width:0;}
+
+  /* Seksi About memuat gambar, diagram, dan tabel sehingga tingginya jauh
+     melampaui batas 4000px pada .acc umum. Batasnya dilepas agar isi tidak
+     terpotong; konsekuensinya seksi About terbuka seketika tanpa animasi. */
+  #acc-about .acc.open .acc-body{max-height:none;}
   @media (max-width:860px){
-    .about-layout{grid-template-columns:1fr;gap:0;}
-    /* Lebih spesifik daripada aturan .nsec global, jadi override khusus About
-       ini harus dinyatakan ulang di sini agar seksi ikut menjadi satu kolom. */
-    .about-layout .nsec{grid-template-columns:1fr;gap:12px;}
+    /* Jarak dipakai untuk memisahkan kartu "On this page" dari narasi. */
+    .about-layout{grid-template-columns:1fr;gap:24px;}
   }
 
-  /* Rail navigasi kanan. Sengaja memakai gaya .quicknav halaman edukasi. */
+  /* Rail navigasi kanan. Sengaja memakai gaya .quicknav halaman edukasi.
+     Di layar kecil ia TIDAK disembunyikan: aturan .quicknav pada blok
+     responsive mengubahnya menjadi kartu "On this page" di atas konten,
+     sama seperti halaman edukasi. */
   .about-nav{position:sticky;top:88px;padding-top:34px;}
-  @media (max-width:860px){ .about-nav{display:none;} }
 
   /* Baris spesifikasi di bawah hero About. Sengaja TANPA kotak: di bawahnya
      sudah ada tiga kartu hijau pekat, dan dua baris kartu bertumpuk membuat
@@ -425,7 +422,7 @@
 
   /* --- Diagram arsitektur (SVG) dan pipeline preprocessing --- */
   .svg-scroll{overflow-x:auto;padding-bottom:4px;}
-  .svg-scroll svg{display:block;max-width:100%;height:auto;}
+  .svg-scroll svg{display:block;max-width:100%;height:auto;margin-inline:auto;}
   .svg-scroll svg text{font-family:"IBM Plex Mono",monospace;}
 
   /* --- Kartu sorotan: tambahkan meter kecil di bawah angka --- */
@@ -455,7 +452,6 @@
     .article-layout{grid-template-columns:1fr;}
     .quicknav{position:relative;top:0;order:-1;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;}
     .highlight-grid{grid-template-columns:1fr;}
-    .nsec{grid-template-columns:1fr;gap:12px;}
     nav.menu{position:fixed;inset:57px 0 auto 0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:none;align-items:stretch;}
     nav.menu.open{display:flex;}
     nav.menu button{text-align:left;}
