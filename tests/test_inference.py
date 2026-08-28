@@ -384,14 +384,19 @@ def test_predict_classifies_the_ringworm_photo(app, tinea_photo):
 
     Foto ini adalah ringworm, anggota kelompok dermatophytosis. Bila pemetaan
     0=dermatitis / 1=dermatophytosis tertukar, uji ini akan gagal.
-
-    Catatan: pasangannya, app/static/img/eczema.jpg, SENGAJA tidak diuji di
-    sini — model versi ini salah menilainya sebagai dermatophytosis dengan
-    keyakinan tinggi. Foto itu bukan bagian dari data uji notebook, jadi
-    kesalahannya tidak mengubah metrik mana pun, tetapi memakainya sebagai uji
-    kewarasan akan mengunci kegagalan yang tidak relevan.
     """
     assert inference.predict(tinea_photo)["verdict"] == "Dermatophytosis"
+
+
+def test_predict_classifies_the_eczema_photo(app, eczema_photo):
+    """Sisi dermatitis dari uji kewarasan di atas.
+
+    Kedua sisi perlu diuji: bila hanya satu kelas yang diperiksa, model yang
+    selalu menjawab kelas itu tetap lolos. Foto eczema versi sebelumnya tidak
+    bisa dipakai di sini karena salah dinilai sebagai dermatophytosis; foto
+    pengganti pada halaman edukasi dinilai dengan benar.
+    """
+    assert inference.predict(eczema_photo)["verdict"] == "Dermatitis"
 
 
 # --------------------------------------------------------------------------

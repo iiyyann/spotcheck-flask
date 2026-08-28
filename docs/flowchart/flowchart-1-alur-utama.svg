@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 1358" width="980" height="1358">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9.2" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0.5,0.8 L10,5 L0.5,9.2 z" fill="#000000"/></marker></defs>
+<rect width="980" height="1358" fill="#FFFFFF"/>
+<polyline points="470,86 470,124" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="470,172 470,210" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="470,258 470,296" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="470,488 470,526" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="470,804 470,842" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="470,904 470,942" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="470,1004 470,1042" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="470,1234 470,1272" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="470,388 470,426" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="470,718 470,756" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="470,1134 470,1172" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="576.355,342 805,342 805,302" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="805,382 805,1295 545,1295" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="370.027,672 175,672 175,856" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="338.115,1088 175,1088 175,904" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<polyline points="55.65,880 40,880 40,457 326.5,457" fill="none" stroke="#000000" stroke-width="1.6" stroke-linejoin="miter" stroke-linecap="butt" marker-end="url(#ah)"/>
+<rect x="479.2" y="395" width="23.6" height="16" fill="#FFFFFF"/>
+<text x="491" y="407" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#000000" text-anchor="middle">Ya</text>
+<rect x="479.2" y="725" width="23.6" height="16" fill="#FFFFFF"/>
+<text x="491" y="737" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#000000" text-anchor="middle">Ya</text>
+<rect x="479.2" y="1141" width="23.6" height="16" fill="#FFFFFF"/>
+<text x="491" y="1153" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#000000" text-anchor="middle">Ya</text>
+<rect x="588.355" y="321" width="44" height="16" fill="#FFFFFF"/>
+<text x="610.355" y="333" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#000000" text-anchor="middle">Tidak</text>
+<rect x="312.027" y="651" width="44" height="16" fill="#FFFFFF"/>
+<text x="334.027" y="663" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#000000" text-anchor="middle">Tidak</text>
+<rect x="280.115" y="1067" width="44" height="16" fill="#FFFFFF"/>
+<text x="302.115" y="1079" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#000000" text-anchor="middle">Tidak</text>
+<rect x="395" y="40" width="150" height="46" rx="23" ry="23" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="67.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Mulai</text>
+<rect x="358.3" y="124" width="223.4" height="48" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="152.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Membuka aplikasi SpotCheck</text>
+<polygon points="327.25,210 630.75,210 612.75,258 309.25,258" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="238.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Halaman utama SpotCheck ditampilkan</text>
+<polygon points="470,296 576.355,342 470,388 363.645,342" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="346.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Memindai foto?</text>
+<polygon points="344.5,426 613.5,426 595.5,488 326.5,488" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="452.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Mengunggah foto kulit:</text><text x="470" y="470.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">klik, seret-lepas, atau kamera</text>
+<rect x="292.75" y="526" width="354.5" height="62" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="552.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Validasi berkas di peramban:</text><text x="470" y="570.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">format JPG / JPEG / PNG / WebP, maksimal 8 MB</text>
+<polygon points="470,626 569.972,672 470,718 370.027,672" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="676.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Berkas valid?</text>
+<rect x="292.75" y="756" width="354.5" height="48" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="784.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Mengirim foto ke server melalui POST /predict</text>
+<rect x="354.85" y="842" width="230.3" height="62" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/><line x1="365.85" y1="842" x2="365.85" y2="904" stroke="#000000" stroke-width="1.6"/><line x1="574.15" y1="842" x2="574.15" y2="904" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="868.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Validasi unggahan di server</text><text x="470" y="886.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">(Gambar 2)</text>
+<rect x="316.9" y="942" width="306.2" height="62" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/><line x1="327.9" y1="942" x2="327.9" y2="1004" stroke="#000000" stroke-width="1.6"/><line x1="612.1" y1="942" x2="612.1" y2="1004" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="968.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Prapemrosesan citra dan prediksi model</text><text x="470" y="986.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">(Gambar 3)</text>
+<polygon points="470,1042 601.885,1088 470,1134 338.115,1088" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="1092.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Prediksi berhasil?</text>
+<polygon points="289.3,1172 668.7,1172 650.7,1234 271.3,1234" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="1198.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Menampilkan hasil klasifikasi:</text><text x="470" y="1216.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">verdict, tingkat keyakinan, dan diagram batang</text>
+<rect x="395" y="1272" width="150" height="46" rx="23" ry="23" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="470" y="1299.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Selesai</text>
+<rect x="686.4" y="302" width="237.2" height="80" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="805" y="328.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Membaca halaman edukasi:</text><text x="805" y="346.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Dermatitis, Dermatophytosis,</text><text x="805" y="364.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">dan About Model</text>
+<polygon points="73.65,856 294.35,856 276.35,904 55.65,904" fill="#FFFFFF" stroke="#000000" stroke-width="1.6"/>
+<text x="175" y="884.5" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#000000" text-anchor="middle">Menampilkan pesan galat</text>
+</svg>

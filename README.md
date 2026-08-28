@@ -154,7 +154,8 @@ mengekspor model — oleh `test_constants_match_exported_notebook_config`.
 
 ### `POST /predict`
 
-Menerima `multipart/form-data` dengan field `image` (satu berkas JPG atau PNG).
+Menerima `multipart/form-data` dengan field `image` (satu berkas JPG, JPEG, PNG,
+atau WebP).
 
 **Berhasil — `200`**
 
@@ -171,7 +172,7 @@ Menerima `multipart/form-data` dengan field `image` (satu berkas JPG atau PNG).
 **Gagal — `400` / `413` / `500`**
 
 ```json
-{ "error": "Berkas ini bukan citra yang valid." }
+{ "error": "That file is not a valid image." }
 ```
 
 Citra diproses di memori untuk prediksi dan **tidak disimpan** ke disk.
@@ -245,7 +246,7 @@ berjalan — dua hal yang sering tertukar saat memilih hosting.
 
    ```bash
    source /home/spotchec/virtualenv/spotcheck/3.12/bin/activate && cd ~/spotcheck
-   python -c "from app.ml import inference; inference.load_model('app/ml/model_final_best.keras'); print(inference.predict('app/static/img/tinea.jpg'))"
+   python -c "from app.ml import inference; inference.load_model('app/ml/model_final_best.keras'); print(inference.predict('app/static/img/dermatophytosis.jpg'))"
    ```
 
 ### SSL / HTTPS

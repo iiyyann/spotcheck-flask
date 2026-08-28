@@ -49,6 +49,12 @@ class Config:
     # lewat form web. Berkas HEIC yang lolos akan ditolak dengan pesan jelas.
     ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "webp"}
 
+    # Nama format untuk teks yang dilihat pengguna. Ditulis terpisah karena
+    # ALLOWED_EXTENSIONS berupa himpunan: urutannya tidak terjamin dan
+    # kapitalisasinya tidak sesuai untuk ditampilkan. Jaga tetap selaras dengan
+    # teks dropzone di index.html dan pesan validasi di main.js.
+    ALLOWED_EXTENSIONS_LABEL = "JPG, JPEG, PNG or WebP"
+
     # Muat model saat startup (bukan saat request pertama).
     #
     # WAJIB dimatikan (EAGER_LOAD_MODEL=0) pada server yang memuat aplikasi di

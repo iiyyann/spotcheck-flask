@@ -13,11 +13,12 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from app import create_app  # noqa: E402
 
 # Dua foto milik halaman edukasi dipakai sebagai citra uji yang realistis:
-# keduanya foto klinis asli dengan label yang sudah diketahui. eczema.jpg
-# menampilkan eczema (kelompok dermatitis), tinea.jpg menampilkan ringworm
-# (kelompok dermatophytosis).
-ECZEMA_PHOTO = PROJECT_ROOT / "app" / "static" / "img" / "eczema.jpg"
-TINEA_PHOTO = PROJECT_ROOT / "app" / "static" / "img" / "tinea.jpg"
+# keduanya foto klinis asli dengan label yang sudah diketahui. Nama berkasnya
+# mengikuti KELOMPOK penyakit (sesuai halaman tempat foto itu tampil),
+# sedangkan nama fixture mengikuti ANGGOTA kelompok yang benar-benar terlihat:
+# dermatitis.jpg menampilkan eczema, dermatophytosis.jpg menampilkan ringworm.
+ECZEMA_PHOTO = PROJECT_ROOT / "app" / "static" / "img" / "dermatitis.jpg"
+TINEA_PHOTO = PROJECT_ROOT / "app" / "static" / "img" / "dermatophytosis.jpg"
 
 
 @pytest.fixture(scope="session")

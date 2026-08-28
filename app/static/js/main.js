@@ -149,7 +149,7 @@
   // Validasi di sisi klien; server tetap memvalidasi ulang.
   function validate(file){
     if(!ALLOWED_TYPES.includes(file.type)){
-      return 'Please choose a JPG, PNG or WebP image.';
+      return 'Please choose a JPG, JPEG, PNG or WebP image.';
     }
     if(file.size > MAX_BYTES){
       return 'That image is larger than 8 MB. Please choose a smaller one.';

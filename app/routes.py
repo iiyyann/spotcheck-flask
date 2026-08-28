@@ -47,23 +47,23 @@ def predict():
     Response 400: {error} bila berkas tidak ada / tipe salah / bukan citra valid.
     """
     if "image" not in request.files:
-        return jsonify(error="Tidak ada berkas yang diunggah."), 400
+        return jsonify(error="No file was uploaded."), 400
 
     file = request.files["image"]
     if not file.filename:
-        return jsonify(error="Tidak ada berkas yang dipilih."), 400
+        return jsonify(error="No file was selected."), 400
 
     if not _is_allowed(file.filename):
-        allowed = ", ".join(sorted(current_app.config["ALLOWED_EXTENSIONS"])).upper()
-        return jsonify(error=f"Format tidak didukung. Gunakan {allowed}."), 400
+        allowed = current_app.config["ALLOWED_EXTENSIONS_LABEL"]
+        return jsonify(error=f"Unsupported format. Please use {allowed}."), 400
 
     try:
         result = inference.predict(file.stream)
     except UnidentifiedImageError:
-        return jsonify(error="Berkas ini bukan citra yang valid."), 400
+        return jsonify(error="That file is not a valid image."), 400
     except Exception:  # noqa: BLE001 - jangan bocorkan detail internal ke klien
         current_app.logger.exception("Prediksi gagal")
-        return jsonify(error="Gagal menganalisis citra. Coba lagi."), 500
+        return jsonify(error="Could not analyze that image. Please try again."), 500
 
     return jsonify(result)
 
@@ -72,7 +72,7 @@ def predict():
 def handle_too_large(_error):
     """Ubah error bawaan Flask untuk upload kebesaran menjadi JSON yang jelas."""
     limit_mb = current_app.config["MAX_CONTENT_LENGTH"] / (1024 * 1024)
-    return jsonify(error=f"Berkas terlalu besar. Maksimal {limit_mb:.0f} MB."), 413
+    return jsonify(error=f"That file is too large. The maximum is {limit_mb:.0f} MB."), 413
 
 
 def _is_allowed(filename):

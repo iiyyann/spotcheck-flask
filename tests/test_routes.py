@@ -207,8 +207,8 @@ def test_index_warns_that_out_of_scope_photos_still_get_an_answer(client):
 def test_index_serves_photos_as_static_files(client):
     html = client.get("/").get_data(as_text=True)
     assert "base64," not in html
-    assert "/static/img/eczema.jpg" in html
-    assert "/static/img/tinea.jpg" in html
+    assert "/static/img/dermatitis.jpg" in html
+    assert "/static/img/dermatophytosis.jpg" in html
 
 
 # --------------------------------------------------------------------------
@@ -219,7 +219,7 @@ def test_predict_returns_result_for_valid_photo(client, eczema_photo):
     with open(eczema_photo, "rb") as f:
         res = client.post(
             "/predict",
-            data={"image": (io.BytesIO(f.read()), "eczema.jpg")},
+            data={"image": (io.BytesIO(f.read()), "dermatitis.jpg")},
             content_type="multipart/form-data",
         )
 

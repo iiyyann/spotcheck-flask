@@ -167,12 +167,18 @@ re-theme, or "improve" the layout, colors, fonts, spacing, or components.
   variables were renamed from `--eczema`/`--tinea` when the classes changed;
   the colour values are unchanged.
 - The two condition photos (eczema and ringworm — the example disease of each
-  group) are **embedded as base64** inside the
-  prototype HTML. They have been **decoded losslessly** into
-  `app/static/img/eczema.jpg` and `app/static/img/tinea.jpg` and are referenced
-  with `url_for`. The image bytes are identical to the prototype's (verified by
-  sha256), so the visual result is unchanged; this only keeps `index.html`
-  readable (~42 KB instead of ~246 KB) and lets the browser cache the photos.
+  group) were originally **embedded as base64** inside the prototype HTML and
+  were decoded losslessly into `eczema.jpg` and `tinea.jpg`. They have since
+  been **replaced** by `app/static/img/dermatitis.jpg` and
+  `app/static/img/dermatophytosis.jpg` — clearer clinical photos, chosen by the
+  developer, that the model also classifies correctly (the old `eczema.jpg` was
+  read as dermatophytosis at high confidence). This is a deliberate departure
+  from the prototype's exact pixels; everything else about the two figures —
+  placement, `.med-figure` markup, caption voice — is unchanged. Both are
+  referenced with `url_for`, which keeps `index.html` readable (~42 KB instead
+  of ~246 KB) and lets the browser cache the photos. The file names follow the
+  disease **group** (matching the page each photo sits on) while the photos
+  themselves show the example member of that group.
 - Preserve the existing client-side page navigation (`go()`), the accordions,
   the quick-nav, and the scroll-spy behavior. The four "pages" (Home & Scan,
   Dermatitis, Dermatophytosis, About Model) should behave exactly as in the
@@ -251,8 +257,8 @@ SpotCheck-Flask/
 │   │   ├── js/
 │   │   │   └── main.js       # extracted <script> + the real upload/predict logic
 │   │   └── img/
-│   │       ├── eczema.jpg    # decoded from the prototype's base64
-│   │       ├── tinea.jpg     # decoded from the prototype's base64
+│   │       ├── dermatitis.jpg        # eczema photo for the Dermatitis guide
+│   │       ├── dermatophytosis.jpg   # ringworm photo for the Dermatophytosis guide
 │   │       ├── favicon*.png / favicon.svg / apple-touch-icon.png
 │   │       └── model/        # figures exported from the training notebook
 │   └── templates/
@@ -296,6 +302,15 @@ approach. Only split into more templates if the visual result stays identical.
   errors rather than crashing.
 - Comments and docstrings: concise, and it's fine to write them in Indonesian to
   match the thesis, as long as identifiers stay in English.
+- **Everything the user can see is English** — template copy, JS messages, and
+  the `error` strings in `/predict` JSON responses alike. The Indonesian
+  allowance above covers comments and docstrings only. A user must never meet
+  two languages in one screen, which is what happened while the server returned
+  Indonesian errors into an English interface.
+- The accepted upload formats appear in three places that must agree:
+  `ALLOWED_EXTENSIONS` / `ALLOWED_EXTENSIONS_LABEL` in `config.py`,
+  `ALLOWED_TYPES` in `main.js`, and the dropzone line in `index.html`. All three
+  currently read **JPG, JPEG, PNG or WebP**.
 - Do **not** write or include any malicious, tracking, or data-collection code.
   Uploaded images are processed in memory for prediction and not stored
   permanently unless explicitly requested.
